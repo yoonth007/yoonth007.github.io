@@ -10,34 +10,31 @@
 <text x="25" y="20" font-size="3.60" fill="#242425" textLength="150.00" lengthAdjust="spacing" font-family="'EB Garamond', serif">The dawn city bus</text>
 <text x="29.62" y="26" font-size="3.52" fill="#272828" textLength="140.77" lengthAdjust="spacing" font-family="'EB Garamond', serif">runs with its windows decked in some dazzling finery.</text>
 <text x="34.23" y="31.82" font-size="3.45" fill="#2b2b2c" textLength="131.54" lengthAdjust="spacing" font-family="'EB Garamond', serif">The harsher the dead of winter,</text>
-<text x="38.85" y="37.45" font-size="3.37" fill="#2e2e2f" textLength="122.31" lengthAdjust="spacing" font-family="'EB Garamond', serif">the more vividly the frost <tspan font-family="'Bodoni Moda', serif" font-style="italic" font-size="6.40">flowers</tspan> bloom.</text>
-<text x="43.46" y="42.89" font-size="3.29" fill="#313233" textLength="113.08" lengthAdjust="spacing" font-family="'EB Garamond', serif">Those who rode this bus yesterday</text>
-<text x="48.08" y="48.15" font-size="3.22" fill="#343536" textLength="103.85" lengthAdjust="spacing" font-family="'EB Garamond', serif">maidens and bachelors, children and grown-ups,</text>
-<text x="52.69" y="53.23" font-size="3.14" fill="#373839" textLength="94.62" lengthAdjust="spacing" font-family="'EB Garamond', serif">hairdressers, salesmen, housemaids, the jobless</text>
-<text x="57.31" y="58.12" font-size="3.06" fill="#3a3b3d" textLength="85.38" lengthAdjust="spacing" font-family="'EB Garamond', serif">their breath and their <tspan font-family="'Bodoni Moda', serif" font-style="italic" font-size="5.82">sighs</tspan></text>
-<text x="61.92" y="62.83" font-size="2.98" fill="#3d3f40" textLength="76.15" lengthAdjust="spacing" font-family="'EB Garamond', serif">met in secret overnight and brought forth</text>
-<text x="66.54" y="67.35" font-size="2.91" fill="#414244" textLength="66.92" lengthAdjust="spacing" font-family="'EB Garamond', serif">this flashing, breathtaking beauty.</text>
-<text x="71.15" y="71.69" font-size="2.83" fill="#444547" textLength="57.69" lengthAdjust="spacing" font-family="'EB Garamond', serif">As if I had wandered into some exhibition,</text>
-<text x="75.77" y="75.85" font-size="2.75" fill="#47484b" textLength="48.46" lengthAdjust="spacing" font-family="'EB Garamond', serif">I move from seat to seat to look,</text>
-<text x="80.38" y="79.82" font-size="2.68" fill="#4a4c4e" textLength="39.23" lengthAdjust="spacingAndGlyphs" font-family="'EB Garamond', serif">and once again I am drunk on a single <tspan font-family="'Bodoni Moda', serif" font-style="italic" font-size="5.09">petal,</tspan></text>
-<text x="85" y="83.6" font-size="2.60" fill="#4d4f51" textLength="30.00" lengthAdjust="spacingAndGlyphs" font-family="'EB Garamond', serif">on its delicate and cold beauty.</text>
+<text x="38.85" y="41.83" font-size="3.37" fill="#2e2e2f" textLength="122.31" lengthAdjust="spacing" font-family="'EB Garamond', serif">the more vividly the frost <tspan font-family="'PlayfairBlack', 'Playfair Display'" font-style="italic" font-weight="900" font-size="8.76" fill="#141516">flowers</tspan> bloom.</text>
+<text x="43.46" y="50.3" font-size="3.29" fill="#313233" textLength="113.08" lengthAdjust="spacing" font-family="'EB Garamond', serif">Those who rode this bus yesterday</text>
+<text x="48.08" y="55.57" font-size="3.22" fill="#343536" textLength="103.85" lengthAdjust="spacing" font-family="'EB Garamond', serif">maidens and bachelors, children and grown-ups,</text>
+<text x="52.69" y="60.64" font-size="3.14" fill="#373839" textLength="94.62" lengthAdjust="spacing" font-family="'EB Garamond', serif">hairdressers, salesmen, housemaids, the jobless</text>
+<text x="57.31" y="69.52" font-size="3.06" fill="#3a3b3d" textLength="85.38" lengthAdjust="spacing" font-family="'EB Garamond', serif">their breath and their <tspan font-family="'PlayfairBlack', 'Playfair Display'" font-style="italic" font-weight="900" font-size="7.96" fill="#141516">sighs</tspan></text>
+<text x="61.92" y="76.98" font-size="2.98" fill="#3d3f40" textLength="76.15" lengthAdjust="spacing" font-family="'EB Garamond', serif">met in secret overnight and brought forth</text>
+<text x="66.54" y="81.5" font-size="2.91" fill="#414244" textLength="66.92" lengthAdjust="spacing" font-family="'EB Garamond', serif">this flashing, breathtaking beauty.</text>
+<text x="71.15" y="85.84" font-size="2.83" fill="#444547" textLength="57.69" lengthAdjust="spacing" font-family="'EB Garamond', serif">As if I had wandered into some exhibition,</text>
+<text x="75.77" y="89.99" font-size="2.75" fill="#47484b" textLength="48.46" lengthAdjust="spacing" font-family="'EB Garamond', serif">I move from seat to seat to look,</text>
+<text x="80.38" y="97.44" font-size="2.68" fill="#4a4c4e" textLength="39.23" lengthAdjust="spacingAndGlyphs" font-family="'EB Garamond', serif">and once again I am drunk on a single <tspan font-family="'PlayfairBlack', 'Playfair Display'" font-style="italic" font-weight="900" font-size="6.96" fill="#141516">petal,</tspan></text>
+<text x="85" y="103.64" font-size="2.60" fill="#4d4f51" textLength="30.00" lengthAdjust="spacingAndGlyphs" font-family="'EB Garamond', serif">on its delicate and cold beauty.</text>
 </g>
 <g id="Drip" >
-<text x="100" y="91.2" font-size="2.8" fill="#494b4d" font-family="'EB Garamond', serif" font-style="italic" text-anchor="middle">Whose</text>
-<text x="101.45" y="94.4" font-size="2.8" fill="#4c4d50" font-family="'EB Garamond', serif" font-style="italic" text-anchor="middle">desolate</text>
-<text x="100.77" y="97.95" font-size="2.8" fill="#4e5052" font-family="'EB Garamond', serif" font-style="italic" text-anchor="middle">sigh</text>
-<text x="98.97" y="101.89" font-size="2.8" fill="#505255" font-family="'EB Garamond', serif" font-style="italic" text-anchor="middle">was</text>
-<text x="98.67" y="106.27" font-size="2.8" fill="#535558" font-family="'EB Garamond', serif" font-style="italic" text-anchor="middle">this?</text>
-<text x="100.32" y="111.13" font-size="2.8" fill="#55585a" font-family="'EB Garamond', serif" font-style="italic" text-anchor="middle">For</text>
-<text x="101.5" y="116.52" font-size="2.8" fill="#585a5d" font-family="'EB Garamond', serif" font-style="italic" text-anchor="middle">no</text>
-<text x="100.48" y="122.51" font-size="2.8" fill="#5a5d60" font-family="'EB Garamond', serif" font-style="italic" text-anchor="middle">reason</text>
-<text x="98.76" y="129.15" font-size="2.8" fill="#5d5f62" font-family="'EB Garamond', serif" font-style="italic" text-anchor="middle">carefully</text>
-<text x="98.86" y="136.52" font-size="2.8" fill="#5f6265" font-family="'EB Garamond', serif" font-style="italic" text-anchor="middle">with</text>
-<text x="100.63" y="144.71" font-size="2.8" fill="#626468" font-family="'EB Garamond', serif" font-style="italic" text-anchor="middle">my</text>
-<text x="101.48" y="153.8" font-size="2.8" fill="#64676a" font-family="'EB Garamond', serif" font-style="italic" text-anchor="middle">breath</text>
+<text x="100" y="111.24" font-size="2.8" fill="#494b4d" font-family="'EB Garamond', serif" font-style="italic" text-anchor="middle">Whose</text>
+<text x="101.45" y="114.44" font-size="2.8" fill="#4c4d50" font-family="'EB Garamond', serif" font-style="italic" text-anchor="middle">desolate</text>
+<text x="100.77" y="117.99" font-size="2.8" fill="#4e5052" font-family="'EB Garamond', serif" font-style="italic" text-anchor="middle">sigh</text>
+<text x="98.97" y="121.93" font-size="2.8" fill="#505255" font-family="'EB Garamond', serif" font-style="italic" text-anchor="middle">was</text>
+<text x="98.67" y="126.31" font-size="2.8" fill="#535558" font-family="'EB Garamond', serif" font-style="italic" text-anchor="middle">this?</text>
+<text x="100.32" y="131.17" font-size="2.8" fill="#55585a" font-family="'EB Garamond', serif" font-style="italic" text-anchor="middle">For</text>
+<text x="101.5" y="136.56" font-size="2.8" fill="#585a5d" font-family="'EB Garamond', serif" font-style="italic" text-anchor="middle">no</text>
+<text x="100.48" y="142.54" font-size="2.8" fill="#5a5d60" font-family="'EB Garamond', serif" font-style="italic" text-anchor="middle">reason</text>
+<text x="98.76" y="149.19" font-size="2.8" fill="#5d5f62" font-family="'EB Garamond', serif" font-style="italic" text-anchor="middle">carefully</text>
 </g>
 <g id="Sunk_you" >
-<text x="100" y="222" font-size="112" fill="#1e2022" font-family="'Bodoni Moda', serif" font-style="italic" text-anchor="middle">you</text>
+<text x="100" y="214" font-size="120" fill="#161718" font-family="'PlayfairBlack', 'Playfair Display'" font-style="italic" font-weight="900" text-anchor="middle">you</text>
 </g>
 <g id="Title" >
 <text x="14" y="11" font-size="3" fill="#1a1a1a" font-family="'EB Garamond', serif" font-style="italic">frost flowers</text><text x="0" y="0" font-size="2.5" fill="#3a3c3f" font-family="'EB Garamond', serif" transform="translate(190 120) rotate(-90)">friend, you walked the road beside me for so long, and now I am not even allowed to visit you.</text>

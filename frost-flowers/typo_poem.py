@@ -392,12 +392,20 @@ def tilt(x, y, deg):
 BODONI_I = "font-family=\"'Bodoni Moda', serif\" font-style=\"italic\""
 
 
-def emph(line, size, keys=()):
-    """Line markup with just the given key words enlarged in Bodoni italic."""
+HEAVY_I = "font-family=\"'PlayfairBlack', 'Playfair Display'\" font-style=\"italic\" font-weight=\"900\""
+EMPH_SCALE = 2.6
+
+
+def emph(line, size, keys=(), used=None):
+    """Line markup with just the given key words stepped up: heavy, large, dark.
+    Each key word is stepped up only the first time it appears (`used`)."""
     out = []
     for w in line.split(" "):
-        if w.strip(",.?—").lower() in keys:
-            out.append(f'<tspan {BODONI_I} font-size="{size * 1.9:.2f}">{w}</tspan>')
+        core = w.strip(",.?—").lower()
+        if core in keys and (used is None or core not in used):
+            if used is not None:
+                used.add(core)
+            out.append(f'<tspan {HEAVY_I} font-size="{size * EMPH_SCALE:.2f}" fill="#141516">{w}</tspan>')
         else:
             out.append(w)
     return " ".join(out)
@@ -417,22 +425,24 @@ def icicles(final=False):
     doc = Doc("frost flowers — final" if final else "frost flowers — sketch 2")
     doc.layer("Paper", dusk(doc))
     S, top, x0, step = 2.9, 10, 16, 8.0
-    hang, drops = [], []
+    hang, drops, used = [], [], set()
     for k, line in enumerate(POEM):
         words = line.rstrip(",.").split()
         body, last = " ".join(words[:-1]), words[-1]
         x = x0 + k * step
         ink = fade(0.15 + 0.6 * (k / 21))
+        before = len(used)
+        markup = emph(body, S, ICICLE_KEYS, used)
         hang.append(f'<text x="0" y="0" font-size="{S}" fill="{ink}" {SERIF} '
-                    f'transform="translate({f(x)} {top}) rotate(90)">{emph(body, S, ICICLE_KEYS)}</text>')
-        n_keys = sum(1 for w in body.split() if w.strip(",.?—").lower() in ICICLE_KEYS)
-        tip = top + w_r(body, S) + n_keys * S * 1.6
+                    f'transform="translate({f(x)} {top}) rotate(90)">{markup}</text>')
+        tip = top + w_r(body, S) + (len(used) - before) * S * 2.6
         gap = 5 + 9 * abs(math.sin(k * 1.7))  # each piece fell a different distance
         drops.append(T2(x - 0.6, tip + gap, S + 0.3, last, SERIF_I, fill=fade(0.45 + 0.4 * (k / 21)),
                         extra=tilt(x - 0.6, tip + gap, 90 - 25 * math.sin(k * 0.9))))
+    doc.layer("Eave", f'<line x1="10" y1="{top - 2.5}" x2="190" y2="{top - 2.5}" stroke="{INK}" stroke-width="0.35"/>')
     doc.layer("Hanging_lines", "\n".join(hang))
     doc.layer("Fallen_words", "\n".join(drops))
-    doc.layer("Sunk", T2(-2, 208, 70, "flowers", BODONI_I, fill="#232527"))
+    doc.layer("Sunk", T2(-4, 204, 66, "flowers", HEAVY_I, fill="#161718"))
     if final:
         doc.layer("Title", T2(186, 192, 3.0, "frost flowers", SERIF_I, anchor="end", fill="#eeeeec"))
     return doc
@@ -448,26 +458,31 @@ def funnel(final=False):
     doc = Doc("frost flowers — final" if final else "frost flowers — sketch 3")
     doc.layer("Paper", dusk(doc))
     cx, n, y = 100, 14, 20
-    g = []
+    g, used = [], set()
     for k, line in enumerate(POEM[:n]):
         t = k / (n - 1)
         size = 3.6 - 1.0 * t
         width = 150 * (1 - t) + 30 * t  # every line held to the funnel's width
         adjust = "spacing" if width >= w_r(line, size) else "spacingAndGlyphs"  # widen, or squeeze
+        before = len(used)
+        markup = emph(line, size, FUNNEL_KEYS, used)
+        big = len(used) > before
+        if big:
+            y += size * 1.3  # room above a stepped-up word
         g.append(f'<text x="{f(cx - width / 2)}" y="{f(y)}" font-size="{size:.2f}" fill="{fade(0.1 + 0.5 * t)}" '
-                 f'textLength="{width:.2f}" lengthAdjust="{adjust}" {SERIF}>{emph(line, size, FUNNEL_KEYS)}</text>')
-        y += 6.0 - 2.4 * t
+                 f'textLength="{width:.2f}" lengthAdjust="{adjust}" {SERIF}>{markup}</text>')
+        y += 6.0 - 2.4 * t + (size * 0.9 if big else 0)
     doc.layer("Funnel", "\n".join(g))
 
     drip = []
     words = (POEM[14] + " " + POEM[16] + " " + POEM[17]).replace(",", "").split()
     for k, (wd, yy) in enumerate(zip(words, falling(len(words), y + 4, 3.2, 1.11))):
-        if yy > 156:
+        if yy > 150:
             break
         drip.append(T2(cx + 1.5 * math.sin(k * 1.3), yy, 2.8, wd, SERIF_I, anchor="middle",
                        fill=fade(0.55 + 0.03 * k)))
     doc.layer("Drip", "\n".join(drip))
-    doc.layer("Sunk_you", T2(cx, 222, 112, "you", BODONI_I, anchor="middle", fill="#1e2022"))
+    doc.layer("Sunk_you", T2(cx, 214, 120, "you", HEAVY_I, anchor="middle", fill="#161718"))
     if final:
         doc.layer("Title", T2(14, 11, 3.0, "frost flowers", SERIF_I) +
                   vertical(190, 120, 2.5, POEM[20] + " " + POEM[21], SERIF, "#3a3c3f"))
