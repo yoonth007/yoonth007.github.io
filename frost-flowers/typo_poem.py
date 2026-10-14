@@ -284,8 +284,19 @@ def sample(pts, n=120):
     return out
 
 
+# the poem's dark mood: a cold near-black ground, type that surfaces from it
+NIGHT, DIM, MIST, FROST = "#111418", "#3d434a", "#7b828a", "#e9ecee"
+
+
+def mix(c0, c1, t):
+    a = [int(c0[i:i + 2], 16) for i in (1, 3, 5)]
+    b = [int(c1[i:i + 2], 16) for i in (1, 3, 5)]
+    return "#" + "".join(f"{round(x + (y - x) * t):02x}" for x, y in zip(a, b))
+
+
 def gradient_on_path(doc, pts, text, s0, s1):
-    """Type on a path whose letters grow in size, weight and width as they go."""
+    """Type on a path whose letters grow in size, weight and width as they go,
+    rising out of the dark from dim grey to frost white."""
     pid = doc.uid("grad")
     doc.defs.append(f'<path id="{pid}" d="{smooth(pts)}"/>')
     spans, n = [], len(text)
@@ -294,20 +305,21 @@ def gradient_on_path(doc, pts, text, s0, s1):
         k = min(STEPS - 1, int(t * STEPS))
         size = s0 * (s1 / s0) ** t
         ch = "&#160;" if ch == " " else ch
-        spans.append(f'<tspan font-family="ArchivoStep{k}" font-size="{size:.2f}">{ch}</tspan>')
-    return f'<text fill="{INK}"><textPath href="#{pid}">{"".join(spans)}</textPath></text>'
+        spans.append(f'<tspan font-family="ArchivoStep{k}" font-size="{size:.2f}" '
+                     f'fill="{mix(DIM, FROST, t ** 0.8)}">{ch}</tspan>')
+    return f'<text><textPath href="#{pid}">{"".join(spans)}</textPath></text>'
 
 
 # ---------------------------------------------------------------------------
 # SKETCH 2 / FINAL — weight & width gradient on an S curve
 # One line of the poem travels an S curve and changes as it goes: from tiny,
-# hairline and condensed to huge, black and wide, until the page crops it.
-# The rest of the poem follows the same curve as a thin ribbon of small lines
-# whose ends stay ragged.
+# hairline, condensed and nearly lost in the dark, to huge, heavy, wide and
+# frost-white, until the page crops it. The rest of the poem follows the same
+# curve as a dim ribbon; in the final only its last two lines come into light.
 # ---------------------------------------------------------------------------
 def gradient(final=False):
     doc = Doc("frost flowers — final" if final else "frost flowers — sketch 2")
-    doc.layer("Paper", f'<rect width="200" height="200" fill="{PAPER}"/>')
+    doc.layer("Ground", f'<rect width="200" height="200" fill="{NIGHT}"/>')
     spine = sample([(8, 46), (52, 30), (100, 58), (140, 104), (176, 128), (214, 136), (260, 140)], 180)
     big_line = POEM[0] + " " + POEM[1]
     doc.layer("Gradient_on_path", gradient_on_path(doc, spine, big_line, 2.6, 46 if final else 40))
@@ -320,46 +332,24 @@ def gradient(final=False):
         pts = [(x, y + dy) for x, y in spine]
         pid = doc.uid("rib")
         doc.defs.append(f'<path id="{pid}" d="M' + "L".join(f"{f(x)} {f(y)}" for x, y in pts) + '"/>')
-        rib.append(f'<text font-size="2.35"><textPath href="#{pid}" startOffset="{k * 4.5:.1f}">{line}</textPath></text>')
-    doc.layer("Ribbon_on_paths", "\n".join(rib), f'{GARAMOND} fill="{INK}"')
+        lit = final and k >= len(POEM) - 4  # the last two lines of the poem
+        rib.append(f'<text font-size="2.35" fill="{FROST if lit else MIST}"><textPath href="#{pid}" '
+                   f'startOffset="{k * 4.5:.1f}">{line}</textPath></text>')
+    doc.layer("Ribbon_on_paths", "\n".join(rib), GARAMOND)
     if final:
         doc.layer("Title", f'<text x="{200 - M}" y="{M + 4}" font-size="4" text-anchor="end" '
-                           f'font-family="ArchivoStep7">frost flowers</text>'
+                           f'font-family="ArchivoStep7" fill="{FROST}">frost flowers</text>'
                            f'<text x="{200 - M}" y="{M + 8.5}" font-size="2.2" text-anchor="end" '
-                           f'font-family="ArchivoStep1">weight · width · size</text>')
+                           f'font-family="ArchivoStep1" fill="{MIST}">weight · width · size</text>')
     return doc
 
 
 # ---------------------------------------------------------------------------
 # SKETCH 3 — case & typeface contrast: F / f
-# A huge condensed uppercase F, solid and cropped, against a huge Bodoni
-# italic f drawn only as a hairline outline. The poem traces the f's spine on
-# parallel paths.
+# A huge condensed uppercase F, a dark shadow barely above the ground, against
+# a huge Bodoni italic f that exists only as the poem, set in pale grey on the
+# letter's own contour.
 # ---------------------------------------------------------------------------
-def spine_of(ch, x, y, size, font_file):
-    """Centre line of a glyph's main stroke (top to bottom), in mm."""
-    PXM = 4
-    im = Image.new("L", (320 * PXM, 320 * PXM), 0)
-    fo = ImageFont.truetype(font_file, int(size * PXM))
-    ImageDraw.Draw(im).text(((x + 60) * PXM, (y + 60) * PXM), ch, font=fo, fill=255, anchor="ls")
-    m = np.array(im) > 127
-    pts, prev = [], None
-    for r in range(0, m.shape[0], 8):
-        cols = np.nonzero(m[r])[0]
-        if not len(cols):
-            continue
-        runs = np.split(cols, np.nonzero(np.diff(cols) > 1)[0] + 1)
-        mids = [(run[0] + run[-1]) / 2 for run in runs if (run[-1] - run[0]) < 30 * PXM]
-        if not mids:
-            continue
-        c = min(mids, key=lambda v: abs(v - prev)) if prev is not None else mids[0]
-        if prev is not None and abs(c - prev) > 12 * PXM:
-            continue
-        prev = c
-        pts.append((c / PXM - 60, r / PXM - 60))
-    return pts
-
-
 def glyph_contour_d(ch, x, y, size, font_file):
     """Outer contour of a glyph as SVG path data in mm, clockwise on screen
     (so type set on it stands upright outside the letter)."""
@@ -392,16 +382,16 @@ def glyph_contour_d(ch, x, y, size, font_file):
 
 def case_contrast():
     doc = Doc("frost flowers — sketch 3")
-    doc.layer("Paper", f'<rect width="200" height="200" fill="{PAPER}"/>')
-    doc.layer("Upper_F", big(-26, 232, 250, "F", INK), FACES["archivo"][0])
+    doc.layer("Ground", f'<rect width="200" height="200" fill="{NIGHT}"/>')
+    doc.layer("Upper_F", big(-26, 232, 250, "F", "#23282e"), FACES["archivo"][0])
     # the italic f is drawn only by the poem, set on the letter's own contour
     d = glyph_contour_d("f", 34, 232, 290, FONTDIR + "/BodoniModa-DisplayItalic.ttf")
     doc.defs.append(f'<path id="fcontour" d="{d}"/>')
     text = "   ".join(POEM)
     doc.layer("f_written_by_the_poem",
-              f'<text font-size="2.6" fill="{INK}"><textPath href="#fcontour">{text}</textPath></text>',
+              f'<text font-size="2.6" fill="#c9ced3"><textPath href="#fcontour">{text}</textPath></text>',
               GARAMOND)
-    doc.layer("Title", f'<text x="{200 - M}" y="{200 - M}" font-size="4" text-anchor="end" {GARAMOND}>frost flowers</text>')
+    doc.layer("Title", f'<text x="{200 - M}" y="{200 - M}" font-size="4" text-anchor="end" fill="{MIST}" {GARAMOND}>frost flowers</text>')
     return doc
 
 
