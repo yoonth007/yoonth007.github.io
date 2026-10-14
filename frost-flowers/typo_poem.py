@@ -5,10 +5,10 @@ typographic factors taught in the course (case, typeface, size,
 weight, width, outline), in compositions of our own:
 
   sketch 1   the student's own reference artwork, kept as is (text runs re-set)
-  sketch 2   descent: lines falling with widening gaps, loose words, a
-             large line sliding downhill, a big F sinking below the edge
-  sketch 3   descent: lines sliding down a heavy y that plunges off the page
-  final      sketch 2 refined
+  sketch 2   icicles: lines hang from the top edge, last words broken off
+  sketch 3   funnel: lines narrow and squeeze downward, words drip out,
+             a big "you" sinks into the bottom edge
+  final      sketch 3 refined
 
 usage: python3 typo_poem.py <font_dir> <reference.svg> <out_dir>
   reference.svg = the reference .ai converted with `pdftocairo -svg`
@@ -386,83 +386,74 @@ def tilt(x, y, deg):
 
 
 # ---------------------------------------------------------------------------
-# SKETCH 2 / FINAL — "F f sinking"
+# SKETCH 2 — "icicles"
+# Every line of the poem hangs straight down from the top edge. Their lengths
+# make a ragged fringe of tips; the last word of each line has broken off and
+# fallen below its tip. "flowers" lies sunk at the bottom of the page.
 # ---------------------------------------------------------------------------
-def descent(final=False):
+def icicles(final=False):
     doc = Doc("frost flowers — final" if final else "frost flowers — sketch 2")
     doc.layer("Paper", dusk(doc))
-    S = 3.3
-
-    # 1 · the opening lines fall along a curve: gaps widen, drift right, tilt
-    g1 = []
-    for k, (line, y) in enumerate(zip(POEM[:10], falling(10, 20, 4.4))):
-        x = 18 + 1.9 * k ** 1.55
-        g1.append(T2(x, y, S, line, fill=fade(k / 9), extra=tilt(x, y, 0.9 * k)))
-    doc.layer("Falling_lines", "\n".join(g1))
-
-    # 2 · one line comes apart word by word down the right side
-    g2 = []
-    for k, (wd, y) in enumerate(zip(POEM[17].split(), falling(7, 26, 5.0, 1.2))):
-        x = 176 + 1.2 * k
-        g2.append(T2(x, y, S + 0.4, wd, SERIF_I, fill=fade(k / 6), anchor="end", extra=tilt(x, y, 4 * k)))
-    doc.layer("Loose_words", "\n".join(g2))
-
-    # 3 · one large line sliding downhill
-    lx0, ly0, lx1, ly1 = 22, 124, 150, 138
-    doc.defs.append(f'<path id="slope" d="M{lx0} {ly0}L{lx1} {ly1}"/>')
-    doc.layer("Large_line", f'<text font-size="6.6" fill="{INK}" {SERIF}><textPath href="#slope">{POEM[14]}</textPath></text>')
-
-    # 4 · the big F sinks below the edge; the small italic f topples after it
-    Fx, Fs = 64, 150
-    doc.layer("Sinking_F", T2(Fx, 236, Fs, "F") +
-              T2(26, 182, 46, "f", FACES["bodoni"][0], extra=tilt(26, 182, 24)))
-
-    # 5 · caption reading downward along the left edge
-    cap = POEM[20] + " " + POEM[21]
-    doc.layer("Caption", f'<text x="0" y="0" font-size="2.5" fill="#555" {SERIF} '
-                         f'transform="translate(9 22) rotate(90)">{cap}</text>')
+    S, top, x0, step = 2.9, 10, 16, 8.0
+    hang, drops = [], []
+    for k, line in enumerate(POEM):
+        words = line.rstrip(",.").split()
+        body, last = " ".join(words[:-1]), words[-1]
+        x = x0 + k * step
+        ink = fade(0.15 + 0.6 * (k / 21))
+        hang.append(f'<text x="0" y="0" font-size="{S}" fill="{ink}" {SERIF} '
+                    f'transform="translate({f(x)} {top}) rotate(90)">{body}</text>')
+        tip = top + w_r(body, S)
+        gap = 5 + 9 * abs(math.sin(k * 1.7))  # each piece fell a different distance
+        drops.append(T2(x - 0.6, tip + gap, S + 0.3, last, SERIF_I, fill=fade(0.45 + 0.4 * (k / 21)),
+                        extra=tilt(x - 0.6, tip + gap, 90 - 25 * math.sin(k * 0.9))))
+    doc.layer("Hanging_lines", "\n".join(hang))
+    doc.layer("Fallen_words", "\n".join(drops))
+    doc.layer("Sunk", T2(-4, 208, 74, "flowers", SERIF_I, fill="#232527"))
     if final:
-        x, y = 150, 168
-        doc.layer("Last", T2(x, y, 3.0, POEM[19], SERIF_I, fill="#2e3033", anchor="middle", extra=tilt(x, y, 6)) +
-                  T2(186, 194, 3.0, "frost flowers", SERIF_I, anchor="end"))
+        doc.layer("Title", T2(186, 192, 3.0, "frost flowers", SERIF_I, anchor="end", fill="#eeeeec"))
     return doc
 
 
 # ---------------------------------------------------------------------------
-# SKETCH 3 — "y plunging"
+# SKETCH 3 / FINAL — "funnel"
+# The lines narrow downward into an inverted triangle, their letters squeezed
+# tighter the lower they sit. Below the tip, words drip out one at a time,
+# farther and farther apart, and a big "you" sinks into the bottom edge.
 # ---------------------------------------------------------------------------
-def plunge():
-    doc = Doc("frost flowers — sketch 3")
+def funnel(final=False):
+    doc = Doc("frost flowers — final" if final else "frost flowers — sketch 3")
     doc.layer("Paper", dusk(doc))
-    yx, yy, ys = 80, 150, 205
-    doc.layer("Big_y", f'<text x="{yx}" y="{yy}" font-size="{ys}" fill="{INK}" font-family="ArchivoStep7">y</text>')
+    cx, n, y = 100, 14, 20
+    g = []
+    for k, line in enumerate(POEM[:n]):
+        t = k / (n - 1)
+        size = 3.6 - 1.0 * t
+        width = 172 * (1 - t) + 26 * t  # every line held to the funnel's width
+        adjust = "spacing" if width >= w_r(line, size) else "spacingAndGlyphs"  # widen, or squeeze
+        g.append(f'<text x="{f(cx - width / 2)}" y="{f(y)}" font-size="{size:.2f}" fill="{fade(0.1 + 0.5 * t)}" '
+                 f'textLength="{width:.2f}" lengthAdjust="{adjust}" {SERIF}>{line}</text>')
+        y += 6.0 - 2.4 * t
+    doc.layer("Funnel", "\n".join(g))
 
-    # 1 · lines slide down the y's arm: flush to its contour, gaps widening
-    mask, px = heavy_mask("y", yx, yy, ys)
-    S, g1 = 3.1, []
-    for k, (line, by) in enumerate(zip(POEM[:9], falling(9, 52, 5.0, 1.09))):
-        band = mask[int((by - S * 0.8) * px):int((by + 0.6) * px)].any(axis=0)
-        cols = np.nonzero(band)[0]
-        edge = (cols.min() / px if len(cols) else 186) - 3
-        g1.append(T2(edge, by, S, line, fill=fade(k / 8), anchor="end"))
-    doc.layer("Down_the_arm", "\n".join(g1))
-
-    # 2 · letters dropping one by one, further apart, turning as they fall
-    g2 = []
-    for k, (ch, y) in enumerate(zip("sighs", falling(5, 112, 8, 1.3))):
-        x = 34 + 2.5 * k
-        g2.append(T2(x, y, 6.5, ch, SERIF_I, fill=fade(0.3 + k / 6), extra=tilt(x, y, 14 * k)))
-    doc.layer("Dropping_letters", "\n".join(g2))
-
-    # 3 · two lines at the very top, still level — before the fall
-    doc.layer("Before", T2(14, 16, 3.0, POEM[14], SERIF_I) + T2(14, 21, 3.0, POEM[15], SERIF_I, fill="#555"))
-    doc.layer("Title", T2(14, 192, 3.0, "frost flowers", SERIF_I))
+    drip = []
+    words = (POEM[14] + " " + POEM[16] + " " + POEM[17]).replace(",", "").split()
+    for k, (wd, yy) in enumerate(zip(words, falling(len(words), y + 4, 3.2, 1.11))):
+        if yy > 156:
+            break
+        drip.append(T2(cx + 1.5 * math.sin(k * 1.3), yy, 2.6, wd, SERIF_I, anchor="middle",
+                       fill=fade(0.55 + 0.03 * k)))
+    doc.layer("Drip", "\n".join(drip))
+    doc.layer("Sunk_you", T2(cx, 224, 120, "you", SERIF_I, anchor="middle", fill="#1e2022"))
+    if final:
+        doc.layer("Title", T2(14, 11, 3.0, "frost flowers", SERIF_I) +
+                  vertical(190, 120, 2.5, POEM[20] + " " + POEM[21], SERIF, "#3a3c3f"))
     return doc
 
 
 if __name__ == "__main__":
     reference()  # sketch 1: the student's own work, as is
-    descent().save("frost-flowers_1_sketch-2.svg")
-    plunge().save("frost-flowers_1_sketch-3.svg")
-    descent(final=True).save("frost-flowers_2_final.svg")
+    icicles().save("frost-flowers_1_sketch-2.svg")
+    funnel().save("frost-flowers_1_sketch-3.svg")
+    funnel(final=True).save("frost-flowers_2_final.svg")
     print("ok")
