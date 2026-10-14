@@ -5,9 +5,9 @@ typographic factors taught in the course (case, typeface, size,
 weight, width, outline), in compositions of our own:
 
   sketch 1   the student's own reference artwork, kept as is (text runs re-set)
-  sketch 2   one line grows in size, weight and width along an S curve
-  sketch 3   case & typeface contrast: solid condensed F, outline italic f
-  final      sketch 2 refined
+  sketch 2   "flow / ers" and "you": huge heavy words cropped into one mass
+  sketch 3   a huge bright "you" against a dark vertical "flowers"
+  final      sketch 2 refined; the poem's last two lines lit
 
 usage: python3 typo_poem.py <font_dir> <reference.svg> <out_dir>
   reference.svg = the reference .ai converted with `pdftocairo -svg`
@@ -311,93 +311,93 @@ def gradient_on_path(doc, pts, text, s0, s1):
 
 
 # ---------------------------------------------------------------------------
-# SKETCH 2 / FINAL — weight & width gradient on an S curve
-# One line of the poem travels an S curve and changes as it goes: from tiny,
-# hairline, condensed and nearly lost in the dark, to huge, heavy, wide and
-# frost-white, until the page crops it. The rest of the poem follows the same
-# curve as a dim ribbon; in the final only its last two lines come into light.
+# MASS — the key words of the poem, "flowers" and "you", set huge in a heavy
+# face, cropped by the page and overlapping into one dark block; the poem runs
+# across them on waves in a stronger, larger text face.
 # ---------------------------------------------------------------------------
-def gradient(final=False):
+BLACK = "font-family=\"'PlayfairBlack', 'Playfair Display'\" font-style=\"italic\" font-weight=\"900\""
+TEXT = "font-family=\"'CaslonBold', 'Libre Caslon Text'\" font-style=\"italic\" font-weight=\"700\""
+_black = ImageFont.truetype(FONTDIR + "/PlayfairDisplay-BlackItalic.ttf", 1000)
+_text = ImageFont.truetype(FONTDIR + "/LibreCaslonText-BoldItalic.ttf", 1000)
+SHADE1, SHADE2, LINE = "#2a3036", "#363d45", "#aeb5bc"
+
+
+def tw_t(s, size):
+    return _text.getlength(s) * size / 1000
+
+
+def word(x, y, size, txt, fill, ls=0, extra=""):
+    return (f'<text x="{f(x)}" y="{f(y)}" font-size="{size}" fill="{fill}" letter-spacing="{ls}" '
+            f'{BLACK}{extra}>{txt}</text>')
+
+
+def wave_line(doc, x0, y, x1, line, size, fill, amp=1.0, phase=0.0, center=False, shift=0.0):
+    pts = wave(x0, y + 0.8, x1, y - 0.8, amp, 1.2, phase, 16)
+    pid = doc.uid("wl")
+    doc.defs.append(f'<path id="{pid}" d="{smooth(pts)}"/>')
+    L = plen(pts)
+    s = min(size, size * L * 0.98 / tw_t(line, size))
+    off = (L - tw_t(line, s)) / 2 if center else min(shift, max(0.0, L - tw_t(line, s)))
+    return (f'<text font-size="{s:.2f}" fill="{fill}"><textPath href="#{pid}" '
+            f'startOffset="{off:.2f}">{line}</textPath></text>')
+
+
+# ---------------------------------------------------------------------------
+# SKETCH 2 / FINAL — "flow / ers" + "you"
+# "flow" and "ers" in Playfair Black Italic, 150 mm, overlapping and cropped
+# on three sides: two dark tones fused into one mass. A bright "you" breaks
+# in from the lower right corner. The poem waves across the mass.
+# ---------------------------------------------------------------------------
+def mass_flowers(final=False):
     doc = Doc("frost flowers — final" if final else "frost flowers — sketch 2")
     doc.layer("Ground", f'<rect width="200" height="200" fill="{NIGHT}"/>')
-    spine = sample([(8, 46), (52, 30), (100, 58), (140, 104), (176, 128), (214, 136), (260, 140)], 180)
-    big_line = POEM[0] + " " + POEM[1]
-    doc.layer("Gradient_on_path", gradient_on_path(doc, spine, big_line, 2.6, 46 if final else 40))
+    m = [word(-14, 112, 150, "flow", SHADE1, -4),
+         word(46, 214, 150, "ers", SHADE2, -4),
+         word(98, 204, 92, "you", FROST, -2)]
+    doc.layer("Mass", "\n".join(m))
 
-    rib = []
-    for k, line in enumerate(POEM[2:]):
-        # shifted copies of the curve (never fold); spacing opens up and each
-        # line starts further along, so the ribbon tapers into a wedge
-        dy = 8 + 3.4 * k ** 1.12
-        pts = [(x, y + dy) for x, y in spine]
-        pid = doc.uid("rib")
-        doc.defs.append(f'<path id="{pid}" d="M' + "L".join(f"{f(x)} {f(y)}" for x, y in pts) + '"/>')
-        lit = final and k >= len(POEM) - 4  # the last two lines of the poem
-        rib.append(f'<text font-size="2.35" fill="{FROST if lit else MIST}"><textPath href="#{pid}" '
-                   f'startOffset="{k * 4.5:.1f}">{line}</textPath></text>')
-    doc.layer("Ribbon_on_paths", "\n".join(rib), GARAMOND)
+    p = []
+    for i, line in enumerate(POEM[:16]):
+        y = 16 + i * 6.6
+        p.append(wave_line(doc, 10, y, 192, line, 3.4, LINE, 1.0, i * 0.8, center=bool(i % 2)))
+    for k, line in enumerate(POEM[16:20]):
+        y = 130 + k * 6.6
+        p.append(wave_line(doc, 10, y, 96, line, 3.2, LINE, 0.9, k * 0.9))
+    lit = FROST if final else LINE
+    for k, line in enumerate(POEM[20:]):
+        y = 162 + k * 6.6
+        p.append(wave_line(doc, 10, y, 96, line, 3.2, lit, 0.9, k * 0.9 + 2))
+    doc.layer("Poem_on_paths", "\n".join(p), TEXT)
     if final:
-        doc.layer("Title", f'<text x="{200 - M}" y="{M + 4}" font-size="4" text-anchor="end" '
-                           f'font-family="ArchivoStep7" fill="{FROST}">frost flowers</text>'
-                           f'<text x="{200 - M}" y="{M + 8.5}" font-size="2.2" text-anchor="end" '
-                           f'font-family="ArchivoStep1" fill="{MIST}">weight · width · size</text>')
+        doc.layer("Title", f'<text x="10" y="196" font-size="3.4" fill="{MIST}" {TEXT}>frost flowers</text>')
     return doc
 
 
 # ---------------------------------------------------------------------------
-# SKETCH 3 — case & typeface contrast: F / f
-# A huge condensed uppercase F, a dark shadow barely above the ground, against
-# a huge Bodoni italic f that exists only as the poem, set in pale grey on the
-# letter's own contour.
+# SKETCH 3 — "you" against "flowers"
+# A huge bright "you" sunk into the bottom edge; behind it "flowers" runs up
+# the right edge in a dark tone, cropped top and bottom. The poem waves over
+# the upper half.
 # ---------------------------------------------------------------------------
-def glyph_contour_d(ch, x, y, size, font_file):
-    """Outer contour of a glyph as SVG path data in mm, clockwise on screen
-    (so type set on it stands upright outside the letter)."""
-    from fontTools.ttLib import TTFont
-    from fontTools.pens.recordingPen import RecordingPen
-    from fontTools.pens.reverseContourPen import ReverseContourPen
-    from fontTools.pens.svgPathPen import SVGPathPen
-    from fontTools.pens.transformPen import TransformPen
-    font = TTFont(font_file)
-    gs = font.getGlyphSet()
-    name = font.getBestCmap()[ord(ch)]
-    k = size / font["head"].unitsPerEm
-    rec = RecordingPen()
-    gs[name].draw(TransformPen(rec, (k, 0, 0, -k, x, y)))
-    # split into contours, keep the longest one (the outer outline)
-    contours, cur = [], []
-    for op, args in rec.value:
-        cur.append((op, args))
-        if op in ("closePath", "endPath"):
-            contours.append(cur); cur = []
-    def length(c):
-        pts = [a[-1] for op, a in c if a]
-        return sum(math.dist(pts[i], pts[i + 1]) for i in range(len(pts) - 1))
-    outer = max(contours, key=length)
-    one = RecordingPen(); one.value = outer
-    svg = SVGPathPen(None)
-    one.replay(ReverseContourPen(svg))  # the y-flip reversed it; reverse back
-    return svg.getCommands()
-
-
-def case_contrast():
+def mass_you():
     doc = Doc("frost flowers — sketch 3")
     doc.layer("Ground", f'<rect width="200" height="200" fill="{NIGHT}"/>')
-    doc.layer("Upper_F", big(-26, 232, 250, "F", "#23282e"), FACES["archivo"][0])
-    # the italic f is drawn only by the poem, set on the letter's own contour
-    d = glyph_contour_d("f", 34, 232, 290, FONTDIR + "/BodoniModa-DisplayItalic.ttf")
-    doc.defs.append(f'<path id="fcontour" d="{d}"/>')
-    text = "   ".join(POEM)
-    doc.layer("f_written_by_the_poem",
-              f'<text font-size="2.6" fill="#c9ced3"><textPath href="#fcontour">{text}</textPath></text>',
-              GARAMOND)
-    doc.layer("Title", f'<text x="{200 - M}" y="{200 - M}" font-size="4" text-anchor="end" fill="{MIST}" {GARAMOND}>frost flowers</text>')
+    m = [f'<text x="0" y="0" font-size="118" fill="{SHADE2}" letter-spacing="-4" {BLACK} '
+         f'transform="translate(206 214) rotate(-90)">flowers</text>',
+         word(-10, 226, 200, "you", "#dfe3e6", -6)]
+    doc.layer("Mass", "\n".join(m))
+    p = []
+    for i, line in enumerate(POEM):  # starts ripple along a wave: no flush left edge
+        y = 11 + i * 4.85
+        p.append(wave_line(doc, 8, y, 156, line, 3.1, LINE, 0.8, i * 0.7,
+                           shift=22 + 20 * math.sin(i * 0.5)))
+    doc.layer("Poem_on_paths", "\n".join(p), TEXT)
     return doc
 
 
 if __name__ == "__main__":
     reference()  # sketch 1: the student's own work, as is
-    gradient().save("frost-flowers_1_sketch-2.svg")
-    case_contrast().save("frost-flowers_1_sketch-3.svg")
-    gradient(final=True).save("frost-flowers_2_final.svg")
+    mass_flowers().save("frost-flowers_1_sketch-2.svg")
+    mass_you().save("frost-flowers_1_sketch-3.svg")
+    mass_flowers(final=True).save("frost-flowers_2_final.svg")
     print("ok")
