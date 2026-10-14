@@ -1,0 +1,317 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200mm" height="200mm" viewBox="0 0 200 200">
+<title>frost flowers — sketch 2</title>
+<defs>
+<path id="w1" d="M4 46Q75.37 70.51 132 66"/>
+<path id="w2" d="M6 96Q86.71 107.55 132 66"/>
+<path id="w3" d="M76 196Q118.39 156.34 132 66"/>
+<path id="w4" d="M110 196Q92.74 128.94 132 66"/>
+<path id="w5" d="M196 132Q190.6 107.94 132 66"/>
+<path id="w6" d="M196 104Q188.05 61.79 132 66"/>
+<path id="w7" d="M156 196Q142.14 115.79 132 66"/>
+<path id="w8" d="M196 176Q166.63 125.44 132 66"/>
+<path id="w9" d="M54 4Q63.79 18 132 66"/>
+<path id="w10" d="M196 8Q150.77 61.98 132 66"/>
+</defs>
+<g id="Background" >
+<rect width="200" height="200" fill="#f3f2ee"/>
+</g>
+<g id="Ghost_Word" >
+<text x="-6" y="214" font-size="92" fill="#dcdedf" font-family="'EB Garamond', 'Adobe Garamond Pro', Garamond, serif" font-style="italic">breath</text>
+</g>
+<g id="Routes" fill="none" stroke="#151515" stroke-width="0.12" opacity="0.45">
+<use href="#w1"/>
+<use href="#w2"/>
+<use href="#w3"/>
+<use href="#w4"/>
+<use href="#w5"/>
+<use href="#w6"/>
+<use href="#w7"/>
+<use href="#w8"/>
+<use href="#w9"/>
+<use href="#w10"/>
+</g>
+<g id="Passengers" >
+<text font-size="5.2" fill="#151515" font-family="'EB Garamond', 'Adobe Garamond Pro', Garamond, serif" font-style="italic"><textPath href="#w1" startOffset="2">maidens</textPath></text>
+<text font-size="4.2" fill="#151515" font-family="'EB Garamond', 'Adobe Garamond Pro', Garamond, serif"><textPath href="#w2" startOffset="2">bachelors</textPath></text>
+<text font-size="5.6" fill="#151515" font-family="'EB Garamond', 'Adobe Garamond Pro', Garamond, serif" font-style="italic"><textPath href="#w3" startOffset="2">children</textPath></text>
+<text font-size="3.8" fill="#151515" font-family="'EB Garamond', 'Adobe Garamond Pro', Garamond, serif"><textPath href="#w4" startOffset="2">grown-ups</textPath></text>
+<text font-size="3.4" fill="#151515" font-family="'EB Garamond', 'Adobe Garamond Pro', Garamond, serif" font-style="italic"><textPath href="#w5" startOffset="2">hairdressers</textPath></text>
+<text font-size="4.6" fill="#151515" font-family="'EB Garamond', 'Adobe Garamond Pro', Garamond, serif"><textPath href="#w6" startOffset="2">salesmen</textPath></text>
+<text font-size="3.6" fill="#151515" font-family="'EB Garamond', 'Adobe Garamond Pro', Garamond, serif" font-style="italic"><textPath href="#w7" startOffset="2">housemaids</textPath></text>
+<text font-size="3.2" fill="#151515" font-family="'EB Garamond', 'Adobe Garamond Pro', Garamond, serif"><textPath href="#w8" startOffset="2">the jobless</textPath></text>
+<text font-size="3.0" fill="#151515" font-family="'EB Garamond', 'Adobe Garamond Pro', Garamond, serif" font-style="italic"><textPath href="#w9" startOffset="2">their breath</textPath></text>
+<text font-size="2.8" fill="#151515" font-family="'EB Garamond', 'Adobe Garamond Pro', Garamond, serif" font-style="italic"><textPath href="#w10" startOffset="2">and their sighs</textPath></text>
+</g>
+<g id="Bloom" font-family="'EB Garamond', 'Adobe Garamond Pro', Garamond, serif">
+<text x="138.33" y="77.43" font-size="3.01" fill="#151515" transform="rotate(-73 138.33 77.43)">b</text>
+<text x="133.93" y="72.34" font-size="3.72" fill="#151515" transform="rotate(140 133.93 72.34)">r</text>
+<text x="141.63" y="67.98" font-size="2.75" fill="#151515" transform="rotate(-96 141.63 67.98)">e</text>
+<text x="124.33" y="58.95" font-size="3.10" fill="#151515" transform="rotate(-147 124.33 58.95)">a</text>
+<text x="122.06" y="65.1" font-size="2.37" fill="#151515" transform="rotate(-169 122.06 65.1)">t</text>
+<text x="120.22" y="69.62" font-size="3.05" fill="#151515" transform="rotate(51 120.22 69.62)">h</text>
+<text x="132.33" y="56.85" font-size="3.52" fill="#151515" transform="rotate(-4 132.33 56.85)">s</text>
+<text x="132.47" y="70.49" font-size="3.34" fill="#151515" transform="rotate(-29 132.47 70.49)">i</text>
+<text x="157.07" y="82.66" font-size="0.90" fill="#151515" transform="rotate(179 157.07 82.66)">g</text>
+<text x="125.65" y="83.15" font-size="2.22" fill="#151515" transform="rotate(67 125.65 83.15)">h</text>
+<text x="137.03" y="63.9" font-size="3.51" fill="#151515" transform="rotate(-52 137.03 63.9)">f</text>
+<text x="138.59" y="68.41" font-size="2.67" fill="#151515" transform="rotate(72 138.59 68.41)">r</text>
+<text x="136.22" y="70.65" font-size="3.21" fill="#151515" transform="rotate(-94 136.22 70.65)">o</text>
+<text x="127.98" y="57.98" font-size="3.44" fill="#151515" transform="rotate(87 127.98 57.98)">s</text>
+<text x="135.41" y="51.74" font-size="1.96" fill="#151515" transform="rotate(13 135.41 51.74)">t</text>
+<text x="137.72" y="78.03" font-size="2.98" fill="#151515" transform="rotate(-88 137.72 78.03)">f</text>
+<text x="125.61" y="73.6" font-size="3.24" fill="#151515" transform="rotate(175 125.61 73.6)">l</text>
+<text x="131.49" y="73.14" font-size="2.93" fill="#151515" transform="rotate(173 131.49 73.14)">o</text>
+<text x="124.39" y="85.25" font-size="2.05" fill="#151515" transform="rotate(-14 124.39 85.25)">w</text>
+<text x="136.02" y="54.15" font-size="2.80" fill="#151515" transform="rotate(29 136.02 54.15)">e</text>
+<text x="140.09" y="56.84" font-size="2.68" fill="#151515" transform="rotate(91 140.09 56.84)">r</text>
+<text x="127.72" y="71.04" font-size="3.01" fill="#151515" transform="rotate(-140 127.72 71.04)">s</text>
+<text x="126.65" y="63.59" font-size="3.26" fill="#151515" transform="rotate(139 126.65 63.59)">b</text>
+<text x="149.72" y="81.25" font-size="1.58" fill="#151515" transform="rotate(-88 149.72 81.25)">r</text>
+<text x="126.3" y="65.35" font-size="2.83" fill="#151515" transform="rotate(-112 126.3 65.35)">e</text>
+<text x="107.36" y="66.44" font-size="1.48" fill="#151515" transform="rotate(-144 107.36 66.44)">a</text>
+<text x="123.15" y="68.98" font-size="2.86" fill="#151515" transform="rotate(-122 123.15 68.98)">t</text>
+<text x="131.8" y="73.69" font-size="3.17" fill="#151515" transform="rotate(117 131.8 73.69)">h</text>
+<text x="129.27" y="61.52" font-size="3.38" fill="#151515" transform="rotate(-100 129.27 61.52)">s</text>
+<text x="120.96" y="57.11" font-size="2.91" fill="#151515" transform="rotate(-180 120.96 57.11)">i</text>
+<text x="127.57" y="74.63" font-size="3.01" fill="#151515" transform="rotate(39 127.57 74.63)">g</text>
+<text x="129.65" y="74.8" font-size="2.85" fill="#151515" transform="rotate(-99 129.65 74.8)">h</text>
+<text x="122.99" y="69.11" font-size="3.53" fill="#151515" transform="rotate(71 122.99 69.11)">f</text>
+<text x="153.1" y="59.95" font-size="1.03" fill="#151515" transform="rotate(-111 153.1 59.95)">r</text>
+<text x="135.06" y="64.68" font-size="3.33" fill="#151515" transform="rotate(-43 135.06 64.68)">o</text>
+<text x="129.68" y="69.37" font-size="3.99" fill="#151515" transform="rotate(-120 129.68 69.37)">s</text>
+<text x="131.52" y="76.63" font-size="2.26" fill="#151515" transform="rotate(-1 131.52 76.63)">t</text>
+<text x="122.12" y="55.84" font-size="2.94" fill="#151515" transform="rotate(171 122.12 55.84)">f</text>
+<text x="132.66" y="51.39" font-size="2.55" fill="#151515" transform="rotate(66 132.66 51.39)">l</text>
+<text x="122.14" y="69.3" font-size="2.81" fill="#151515" transform="rotate(-147 122.14 69.3)">o</text>
+<text x="136.8" y="40.83" font-size="0.95" fill="#151515" transform="rotate(-96 136.8 40.83)">w</text>
+<text x="119.59" y="67.38" font-size="3.00" fill="#151515" transform="rotate(-145 119.59 67.38)">e</text>
+<text x="140.52" y="77.74" font-size="2.32" fill="#151515" transform="rotate(-145 140.52 77.74)">r</text>
+<text x="137.74" y="67.82" font-size="3.00" fill="#151515" transform="rotate(150 137.74 67.82)">s</text>
+<text x="128.22" y="62.87" font-size="3.08" fill="#151515" transform="rotate(-86 128.22 62.87)">b</text>
+<text x="137.24" y="72.17" font-size="2.60" fill="#151515" transform="rotate(-151 137.24 72.17)">r</text>
+<text x="139.16" y="63.84" font-size="3.40" fill="#151515" transform="rotate(70 139.16 63.84)">e</text>
+<text x="112.64" y="45.18" font-size="1.03" fill="#151515" transform="rotate(78 112.64 45.18)">a</text>
+<text x="134.68" y="74.66" font-size="3.40" fill="#151515" transform="rotate(-35 134.68 74.66)">t</text>
+<text x="134.2" y="57.93" font-size="3.34" fill="#151515" transform="rotate(155 134.2 57.93)">h</text>
+<text x="105.46" y="68.71" font-size="0.93" fill="#151515" transform="rotate(56 105.46 68.71)">s</text>
+<text x="135.56" y="54.39" font-size="2.24" fill="#151515" transform="rotate(39 135.56 54.39)">i</text>
+<text x="120.07" y="45.81" font-size="0.99" fill="#151515" transform="rotate(139 120.07 45.81)">g</text>
+<text x="129.63" y="75.3" font-size="3.19" fill="#151515" transform="rotate(17 129.63 75.3)">h</text>
+<text x="121.69" y="54.83" font-size="2.16" fill="#151515" transform="rotate(-162 121.69 54.83)">f</text>
+<text x="136.54" y="52.01" font-size="2.02" fill="#151515" transform="rotate(-160 136.54 52.01)">r</text>
+<text x="128.59" y="63.67" font-size="4.07" fill="#151515" transform="rotate(39 128.59 63.67)">o</text>
+<text x="134.29" y="72.21" font-size="3.71" fill="#151515" transform="rotate(60 134.29 72.21)">s</text>
+<text x="129.03" y="77.72" font-size="2.65" fill="#151515" transform="rotate(-164 129.03 77.72)">t</text>
+<text x="127.15" y="75.13" font-size="3.28" fill="#151515" transform="rotate(-101 127.15 75.13)">f</text>
+<text x="127.21" y="83.54" font-size="1.64" fill="#151515" transform="rotate(-168 127.21 83.54)">l</text>
+<text x="125.34" y="59.93" font-size="3.26" fill="#151515" transform="rotate(168 125.34 59.93)">o</text>
+<text x="135.5" y="59.73" font-size="2.90" fill="#151515" transform="rotate(164 135.5 59.73)">w</text>
+<text x="130.82" y="69.13" font-size="3.58" fill="#151515" transform="rotate(168 130.82 69.13)">e</text>
+<text x="126.79" y="67.08" font-size="2.93" fill="#151515" transform="rotate(-144 126.79 67.08)">r</text>
+<text x="124.74" y="51.99" font-size="2.26" fill="#151515" transform="rotate(-150 124.74 51.99)">s</text>
+<text x="147.84" y="50.18" font-size="1.17" fill="#151515" transform="rotate(176 147.84 50.18)">b</text>
+<text x="123.67" y="68.43" font-size="3.10" fill="#151515" transform="rotate(-98 123.67 68.43)">r</text>
+<text x="131.76" y="73.34" font-size="3.28" fill="#151515" transform="rotate(12 131.76 73.34)">e</text>
+<text x="137.61" y="66.44" font-size="3.61" fill="#151515" transform="rotate(-66 137.61 66.44)">a</text>
+<text x="130.06" y="73.93" font-size="2.66" fill="#151515" transform="rotate(94 130.06 73.93)">t</text>
+<text x="118.34" y="50.29" font-size="1.18" fill="#151515" transform="rotate(178 118.34 50.29)">h</text>
+<text x="134.57" y="66.59" font-size="4.03" fill="#151515" transform="rotate(14 134.57 66.59)">s</text>
+<text x="131.72" y="63.31" font-size="3.63" fill="#151515" transform="rotate(172 131.72 63.31)">i</text>
+<text x="130.02" y="83.71" font-size="1.90" fill="#151515" transform="rotate(-114 130.02 83.71)">g</text>
+<text x="149.79" y="83.82" font-size="1.28" fill="#151515" transform="rotate(105 149.79 83.82)">h</text>
+<text x="144.32" y="63.61" font-size="2.54" fill="#151515" transform="rotate(-48 144.32 63.61)">f</text>
+<text x="128.48" y="82.5" font-size="1.56" fill="#151515" transform="rotate(119 128.48 82.5)">r</text>
+<text x="126.47" y="61.22" font-size="2.77" fill="#151515" transform="rotate(42 126.47 61.22)">o</text>
+<text x="128.25" y="67.48" font-size="3.49" fill="#151515" transform="rotate(162 128.25 67.48)">s</text>
+<text x="143.93" y="75.08" font-size="2.25" fill="#151515" transform="rotate(-154 143.93 75.08)">t</text>
+<text x="139.44" y="63.69" font-size="3.10" fill="#151515" transform="rotate(-77 139.44 63.69)">f</text>
+<text x="123.4" y="57.09" font-size="2.46" fill="#151515" transform="rotate(-53 123.4 57.09)">l</text>
+<text x="141.75" y="61.63" font-size="2.40" fill="#151515" transform="rotate(-58 141.75 61.63)">o</text>
+<text x="134.23" y="67.78" font-size="3.32" fill="#151515" transform="rotate(-15 134.23 67.78)">w</text>
+<text x="106.79" y="70.62" font-size="0.90" fill="#151515" transform="rotate(129 106.79 70.62)">e</text>
+<text x="113.68" y="68.13" font-size="1.83" fill="#151515" transform="rotate(63 113.68 68.13)">r</text>
+<text x="128.09" y="67.28" font-size="3.64" fill="#151515" transform="rotate(174 128.09 67.28)">s</text>
+<text x="137.92" y="64.33" font-size="3.65" fill="#151515" transform="rotate(-75 137.92 64.33)">b</text>
+<text x="120" y="59.36" font-size="2.75" fill="#151515" transform="rotate(-23 120 59.36)">r</text>
+<text x="138.75" y="64.97" font-size="3.80" fill="#151515" transform="rotate(-27 138.75 64.97)">e</text>
+<text x="132.48" y="62.42" font-size="3.62" fill="#151515" transform="rotate(-119 132.48 62.42)">a</text>
+<text x="124.67" y="66.19" font-size="2.81" fill="#151515" transform="rotate(154 124.67 66.19)">t</text>
+<text x="129.68" y="64.6" font-size="4.17" fill="#151515" transform="rotate(172 129.68 64.6)">h</text>
+<text x="152.55" y="60" font-size="1.79" fill="#151515" transform="rotate(-95 152.55 60)">s</text>
+<text x="149.58" y="78.58" font-size="1.79" fill="#151515" transform="rotate(99 149.58 78.58)">i</text>
+<text x="122.98" y="66.93" font-size="2.74" fill="#151515" transform="rotate(129 122.98 66.93)">g</text>
+<text x="124.64" y="68.46" font-size="3.22" fill="#151515" transform="rotate(42 124.64 68.46)">h</text>
+<text x="120.84" y="54.64" font-size="2.23" fill="#151515" transform="rotate(85 120.84 54.64)">f</text>
+<text x="134.65" y="60.19" font-size="3.53" fill="#151515" transform="rotate(64 134.65 60.19)">r</text>
+<text x="127.34" y="62.18" font-size="3.65" fill="#151515" transform="rotate(114 127.34 62.18)">o</text>
+<text x="136.67" y="55.45" font-size="2.99" fill="#151515" transform="rotate(101 136.67 55.45)">s</text>
+<text x="144.77" y="77.74" font-size="1.74" fill="#151515" transform="rotate(11 144.77 77.74)">t</text>
+<text x="132.35" y="79.28" font-size="2.50" fill="#151515" transform="rotate(-178 132.35 79.28)">f</text>
+<text x="132.82" y="102.14" font-size="0.90" fill="#151515" transform="rotate(-144 132.82 102.14)">l</text>
+<text x="134.04" y="63.41" font-size="3.94" fill="#151515" transform="rotate(-80 134.04 63.41)">o</text>
+<text x="123.39" y="105.8" font-size="0.90" fill="#151515" transform="rotate(-29 123.39 105.8)">w</text>
+<text x="145.27" y="82.06" font-size="1.43" fill="#151515" transform="rotate(-143 145.27 82.06)">e</text>
+<text x="110.83" y="39.3" font-size="0.90" fill="#151515" transform="rotate(-55 110.83 39.3)">r</text>
+<text x="141.13" y="35.39" font-size="0.90" fill="#151515" transform="rotate(-52 141.13 35.39)">s</text>
+<text x="136.91" y="54.12" font-size="2.95" fill="#151515" transform="rotate(-174 136.91 54.12)">b</text>
+<text x="131.31" y="69.72" font-size="3.81" fill="#151515" transform="rotate(80 131.31 69.72)">r</text>
+<text x="137.7" y="59.12" font-size="3.21" fill="#151515" transform="rotate(136 137.7 59.12)">e</text>
+<text x="135.38" y="66.51" font-size="3.52" fill="#151515" transform="rotate(41 135.38 66.51)">a</text>
+<text x="143.09" y="62.13" font-size="3.04" fill="#151515" transform="rotate(36 143.09 62.13)">t</text>
+<text x="135.57" y="69.09" font-size="3.32" fill="#151515" transform="rotate(-179 135.57 69.09)">h</text>
+<text x="136.1" y="69.4" font-size="3.89" fill="#151515" transform="rotate(-104 136.1 69.4)">s</text>
+<text x="129.9" y="63.59" font-size="3.33" fill="#151515" transform="rotate(6 129.9 63.59)">i</text>
+<text x="131.47" y="71.03" font-size="3.29" fill="#151515" transform="rotate(-71 131.47 71.03)">g</text>
+<text x="135.53" y="65.54" font-size="3.78" fill="#151515" transform="rotate(11 135.53 65.54)">h</text>
+<text x="130.26" y="60.93" font-size="2.98" fill="#151515" transform="rotate(-172 130.26 60.93)">f</text>
+<text x="148.19" y="82.57" font-size="1.78" fill="#151515" transform="rotate(34 148.19 82.57)">r</text>
+<text x="130.69" y="69.62" font-size="3.81" fill="#151515" transform="rotate(-3 130.69 69.62)">o</text>
+<text x="121.86" y="65.43" font-size="2.97" fill="#151515" transform="rotate(-39 121.86 65.43)">s</text>
+<text x="150.3" y="60.01" font-size="1.64" fill="#151515" transform="rotate(-95 150.3 60.01)">t</text>
+<text x="129.56" y="82.34" font-size="1.70" fill="#151515" transform="rotate(82 129.56 82.34)">f</text>
+<text x="128.46" y="71.74" font-size="3.34" fill="#151515" transform="rotate(-74 128.46 71.74)">l</text>
+<text x="137.25" y="64.52" font-size="3.21" fill="#151515" transform="rotate(-39 137.25 64.52)">o</text>
+<text x="140.37" y="64.01" font-size="2.65" fill="#151515" transform="rotate(-55 140.37 64.01)">w</text>
+<text x="131.93" y="59.13" font-size="3.32" fill="#151515" transform="rotate(1 131.93 59.13)">e</text>
+<text x="112.2" y="66.7" font-size="1.27" fill="#151515" transform="rotate(121 112.2 66.7)">r</text>
+<text x="129.4" y="67.64" font-size="3.90" fill="#151515" transform="rotate(-148 129.4 67.64)">s</text>
+<text x="140.38" y="63.15" font-size="3.08" fill="#151515" transform="rotate(-145 140.38 63.15)">b</text>
+<text x="128.74" y="80.8" font-size="2.09" fill="#151515" transform="rotate(-15 128.74 80.8)">r</text>
+<text x="118.46" y="68.99" font-size="3.01" fill="#151515" transform="rotate(-75 118.46 68.99)">e</text>
+<text x="141.8" y="61.2" font-size="2.67" fill="#151515" transform="rotate(-80 141.8 61.2)">a</text>
+<text x="124.95" y="63.25" font-size="2.74" fill="#151515" transform="rotate(-43 124.95 63.25)">t</text>
+<text x="144.9" y="62.86" font-size="2.60" fill="#151515" transform="rotate(-52 144.9 62.86)">h</text>
+<text x="139.87" y="70.68" font-size="2.71" fill="#151515" transform="rotate(142 139.87 70.68)">s</text>
+<text x="138.62" y="46.58" font-size="2.19" fill="#151515" transform="rotate(-35 138.62 46.58)">i</text>
+<text x="137.39" y="67.74" font-size="3.24" fill="#151515" transform="rotate(145 137.39 67.74)">g</text>
+<text x="160.26" y="64.39" font-size="0.90" fill="#151515" transform="rotate(-8 160.26 64.39)">h</text>
+<text x="145.13" y="93.98" font-size="0.95" fill="#151515" transform="rotate(79 145.13 93.98)">f</text>
+<text x="139.78" y="78.04" font-size="2.60" fill="#151515" transform="rotate(168 139.78 78.04)">r</text>
+<text x="139.6" y="66.39" font-size="2.70" fill="#151515" transform="rotate(95 139.6 66.39)">o</text>
+<text x="114.47" y="44.58" font-size="0.90" fill="#151515" transform="rotate(39 114.47 44.58)">s</text>
+<text x="156.23" y="58.71" font-size="0.90" fill="#151515" transform="rotate(90 156.23 58.71)">t</text>
+<text x="135.75" y="48.45" font-size="2.38" fill="#151515" transform="rotate(145 135.75 48.45)">f</text>
+<text x="132.14" y="50.41" font-size="2.41" fill="#151515" transform="rotate(-112 132.14 50.41)">l</text>
+<text x="137.63" y="64.18" font-size="3.28" fill="#151515" transform="rotate(-61 137.63 64.18)">o</text>
+<text x="118.62" y="53.49" font-size="1.58" fill="#151515" transform="rotate(177 118.62 53.49)">w</text>
+<text x="139.04" y="63.56" font-size="3.25" fill="#151515" transform="rotate(-75 139.04 63.56)">e</text>
+<text x="118.17" y="58.95" font-size="2.80" fill="#151515" transform="rotate(-36 118.17 58.95)">r</text>
+<text x="131.16" y="70" font-size="3.88" fill="#151515" transform="rotate(-32 131.16 70)">s</text>
+<text x="137.19" y="54.44" font-size="3.03" fill="#151515" transform="rotate(158 137.19 54.44)">b</text>
+<text x="129.13" y="60.96" font-size="3.16" fill="#151515" transform="rotate(172 129.13 60.96)">r</text>
+<text x="135.77" y="74.56" font-size="3.30" fill="#151515" transform="rotate(11 135.77 74.56)">e</text>
+<text x="117.03" y="67.72" font-size="2.77" fill="#151515" transform="rotate(-59 117.03 67.72)">a</text>
+<text x="150.79" y="90.61" font-size="1.10" fill="#151515" transform="rotate(-76 150.79 90.61)">t</text>
+<text x="134.12" y="51.67" font-size="2.69" fill="#151515" transform="rotate(10 134.12 51.67)">h</text>
+<text x="134.11" y="60.12" font-size="3.59" fill="#151515" transform="rotate(-47 134.11 60.12)">s</text>
+<text x="134.29" y="68.35" font-size="3.25" fill="#151515" transform="rotate(44 134.29 68.35)">i</text>
+<text x="133.98" y="53.69" font-size="2.76" fill="#151515" transform="rotate(58 133.98 53.69)">g</text>
+<text x="123.41" y="60.47" font-size="3.34" fill="#151515" transform="rotate(77 123.41 60.47)">h</text>
+<text x="130.63" y="69.47" font-size="3.25" fill="#151515" transform="rotate(-179 130.63 69.47)">f</text>
+<text x="127.17" y="69.92" font-size="2.85" fill="#151515" transform="rotate(16 127.17 69.92)">r</text>
+<text x="128.85" y="66.98" font-size="3.58" fill="#151515" transform="rotate(-77 128.85 66.98)">o</text>
+<text x="130.41" y="62.46" font-size="4.02" fill="#151515" transform="rotate(36 130.41 62.46)">s</text>
+<text x="136.9" y="63.4" font-size="3.32" fill="#151515" transform="rotate(-83 136.9 63.4)">t</text>
+<text x="138.48" y="67.93" font-size="3.82" fill="#151515" transform="rotate(-98 138.48 67.93)">f</text>
+<text x="121.6" y="53.33" font-size="1.61" fill="#151515" transform="rotate(-104 121.6 53.33)">l</text>
+<text x="131.18" y="56.41" font-size="3.42" fill="#151515" transform="rotate(-140 131.18 56.41)">o</text>
+<text x="137.74" y="62.35" font-size="2.97" fill="#151515" transform="rotate(112 137.74 62.35)">w</text>
+<text x="119.7" y="51.21" font-size="1.81" fill="#151515" transform="rotate(-172 119.7 51.21)">e</text>
+<text x="133.98" y="53.47" font-size="2.80" fill="#151515" transform="rotate(124 133.98 53.47)">r</text>
+<text x="131.95" y="70.28" font-size="2.98" fill="#151515" transform="rotate(142 131.95 70.28)">s</text>
+<text x="116.15" y="73.91" font-size="2.21" fill="#151515" transform="rotate(-160 116.15 73.91)">b</text>
+<text x="129.8" y="87.33" font-size="1.73" fill="#151515" transform="rotate(165 129.8 87.33)">r</text>
+<text x="136.14" y="57.47" font-size="2.85" fill="#151515" transform="rotate(-99 136.14 57.47)">e</text>
+<text x="136.56" y="71.6" font-size="3.16" fill="#151515" transform="rotate(-130 136.56 71.6)">a</text>
+<text x="150.14" y="70.11" font-size="2.19" fill="#151515" transform="rotate(-151 150.14 70.11)">t</text>
+<text x="151.78" y="57.33" font-size="1.64" fill="#151515" transform="rotate(-133 151.78 57.33)">h</text>
+<text x="123.25" y="60.04" font-size="2.75" fill="#151515" transform="rotate(-113 123.25 60.04)">s</text>
+<text x="108.35" y="78.8" font-size="0.90" fill="#151515" transform="rotate(-176 108.35 78.8)">i</text>
+<text x="138.1" y="64.58" font-size="2.79" fill="#151515" transform="rotate(-139 138.1 64.58)">g</text>
+<text x="107.2" y="74.95" font-size="1.33" fill="#151515" transform="rotate(90 107.2 74.95)">h</text>
+<text x="135.78" y="61.03" font-size="3.46" fill="#151515" transform="rotate(-161 135.78 61.03)">f</text>
+<text x="138.12" y="71.15" font-size="2.96" fill="#151515" transform="rotate(-6 138.12 71.15)">r</text>
+<text x="121.43" y="74.72" font-size="3.09" fill="#151515" transform="rotate(-114 121.43 74.72)">o</text>
+<text x="138.14" y="79.29" font-size="1.80" fill="#151515" transform="rotate(169 138.14 79.29)">s</text>
+<text x="117.89" y="54.72" font-size="1.76" fill="#151515" transform="rotate(-162 117.89 54.72)">t</text>
+<text x="121.58" y="66.46" font-size="2.28" fill="#151515" transform="rotate(-122 121.58 66.46)">f</text>
+<text x="125.45" y="78.41" font-size="1.91" fill="#151515" transform="rotate(75 125.45 78.41)">l</text>
+<text x="142.09" y="100.63" font-size="0.90" fill="#151515" transform="rotate(-11 142.09 100.63)">o</text>
+<text x="135.53" y="68.53" font-size="4.10" fill="#151515" transform="rotate(-21 135.53 68.53)">w</text>
+<text x="151.7" y="65.42" font-size="2.34" fill="#151515" transform="rotate(-1 151.7 65.42)">e</text>
+<text x="135.48" y="68.39" font-size="3.80" fill="#151515" transform="rotate(71 135.48 68.39)">r</text>
+<text x="142.62" y="72.4" font-size="2.94" fill="#151515" transform="rotate(105 142.62 72.4)">s</text>
+<text x="122.92" y="51" font-size="1.65" fill="#151515" transform="rotate(-139 122.92 51)">b</text>
+<text x="142.52" y="62.51" font-size="2.18" fill="#151515" transform="rotate(-16 142.52 62.51)">r</text>
+<text x="135.21" y="53.74" font-size="2.55" fill="#151515" transform="rotate(171 135.21 53.74)">e</text>
+<text x="127.12" y="82.34" font-size="1.77" fill="#151515" transform="rotate(160 127.12 82.34)">a</text>
+<text x="133.1" y="58.92" font-size="3.34" fill="#151515" transform="rotate(134 133.1 58.92)">t</text>
+<text x="125.29" y="62.66" font-size="2.67" fill="#151515" transform="rotate(-85 125.29 62.66)">h</text>
+<text x="116.82" y="54.26" font-size="2.42" fill="#151515" transform="rotate(-173 116.82 54.26)">s</text>
+<text x="128.33" y="72" font-size="3.19" fill="#151515" transform="rotate(127 128.33 72)">i</text>
+<text x="124.04" y="59.37" font-size="2.99" fill="#151515" transform="rotate(-170 124.04 59.37)">g</text>
+<text x="133.76" y="57.74" font-size="3.46" fill="#151515" transform="rotate(-42 133.76 57.74)">h</text>
+<text x="143.34" y="64.13" font-size="2.47" fill="#151515" transform="rotate(13 143.34 64.13)">f</text>
+<text x="138.85" y="73.87" font-size="3.12" fill="#151515" transform="rotate(64 138.85 73.87)">r</text>
+<text x="127.59" y="61.72" font-size="3.65" fill="#151515" transform="rotate(-48 127.59 61.72)">o</text>
+<text x="126.75" y="56.76" font-size="3.34" fill="#151515" transform="rotate(180 126.75 56.76)">s</text>
+<text x="128.88" y="80.79" font-size="2.24" fill="#151515" transform="rotate(65 128.88 80.79)">t</text>
+<text x="136.19" y="57.99" font-size="3.09" fill="#151515" transform="rotate(-59 136.19 57.99)">f</text>
+<text x="138.79" y="64.7" font-size="3.29" fill="#151515" transform="rotate(-175 138.79 64.7)">l</text>
+<text x="114.97" y="72.54" font-size="2.36" fill="#151515" transform="rotate(-147 114.97 72.54)">o</text>
+<text x="146.97" y="90.63" font-size="0.90" fill="#151515" transform="rotate(161 146.97 90.63)">w</text>
+<text x="129.9" y="70.53" font-size="3.87" fill="#151515" transform="rotate(107 129.9 70.53)">e</text>
+<text x="123.61" y="55.05" font-size="2.54" fill="#151515" transform="rotate(-51 123.61 55.05)">r</text>
+<text x="132.27" y="63" font-size="4.14" fill="#151515" transform="rotate(64 132.27 63)">s</text>
+<text x="129.59" y="80.69" font-size="2.05" fill="#151515" transform="rotate(-34 129.59 80.69)">b</text>
+<text x="127.49" y="85.89" font-size="1.73" fill="#151515" transform="rotate(-120 127.49 85.89)">r</text>
+<text x="149.08" y="62.57" font-size="1.84" fill="#151515" transform="rotate(-106 149.08 62.57)">e</text>
+<text x="129.41" y="71.76" font-size="2.76" fill="#151515" transform="rotate(153 129.41 71.76)">a</text>
+<text x="132.93" y="62.87" font-size="4.01" fill="#151515" transform="rotate(-177 132.93 62.87)">t</text>
+<text x="128.03" y="59.03" font-size="3.67" fill="#151515" transform="rotate(-25 128.03 59.03)">h</text>
+<text x="127.44" y="65.87" font-size="4.09" fill="#151515" transform="rotate(-130 127.44 65.87)">s</text>
+<text x="135.97" y="74.37" font-size="3.58" fill="#151515" transform="rotate(138 135.97 74.37)">i</text>
+<text x="124.08" y="67.25" font-size="3.37" fill="#151515" transform="rotate(-168 124.08 67.25)">g</text>
+<text x="122.99" y="89.02" font-size="1.06" fill="#151515" transform="rotate(72 122.99 89.02)">h</text>
+<text x="130.62" y="68.59" font-size="4.24" fill="#151515" transform="rotate(100 130.62 68.59)">f</text>
+<text x="155.61" y="65.17" font-size="0.90" fill="#151515" transform="rotate(37 155.61 65.17)">r</text>
+<text x="122.38" y="43.35" font-size="1.21" fill="#151515" transform="rotate(-66 122.38 43.35)">o</text>
+<text x="136.82" y="64.94" font-size="3.99" fill="#151515" transform="rotate(5 136.82 64.94)">s</text>
+<text x="129.58" y="73.91" font-size="2.88" fill="#151515" transform="rotate(4 129.58 73.91)">t</text>
+<text x="132.69" y="81.85" font-size="2.74" fill="#151515" transform="rotate(168 132.69 81.85)">f</text>
+<text x="137.07" y="46.12" font-size="1.64" fill="#151515" transform="rotate(129 137.07 46.12)">l</text>
+<text x="132.04" y="62.29" font-size="3.03" fill="#151515" transform="rotate(-158 132.04 62.29)">o</text>
+<text x="130.53" y="43.92" font-size="1.70" fill="#151515" transform="rotate(63 130.53 43.92)">w</text>
+<text x="127.26" y="67.75" font-size="3.30" fill="#151515" transform="rotate(-19 127.26 67.75)">e</text>
+<text x="134.74" y="54.12" font-size="2.26" fill="#151515" transform="rotate(-157 134.74 54.12)">r</text>
+<text x="145.8" y="60.28" font-size="1.93" fill="#151515" transform="rotate(-12 145.8 60.28)">s</text>
+<text x="146.75" y="62.25" font-size="2.68" fill="#151515" transform="rotate(149 146.75 62.25)">b</text>
+<text x="142.5" y="73.82" font-size="2.15" fill="#151515" transform="rotate(-170 142.5 73.82)">r</text>
+<text x="135.63" y="60.84" font-size="3.38" fill="#151515" transform="rotate(43 135.63 60.84)">e</text>
+<text x="144.85" y="76.12" font-size="2.43" fill="#151515" transform="rotate(149 144.85 76.12)">a</text>
+<text x="143.27" y="80.55" font-size="1.96" fill="#151515" transform="rotate(136 143.27 80.55)">t</text>
+<text x="138.06" y="52.05" font-size="2.20" fill="#151515" transform="rotate(131 138.06 52.05)">h</text>
+<text x="129.69" y="69.8" font-size="3.63" fill="#151515" transform="rotate(151 129.69 69.8)">s</text>
+<text x="142.65" y="61.15" font-size="2.56" fill="#151515" transform="rotate(156 142.65 61.15)">i</text>
+<text x="140.11" y="63.95" font-size="3.19" fill="#151515" transform="rotate(114 140.11 63.95)">g</text>
+<text x="147.67" y="61.34" font-size="2.31" fill="#151515" transform="rotate(-61 147.67 61.34)">h</text>
+<text x="143.92" y="78.97" font-size="1.72" fill="#151515" transform="rotate(162 143.92 78.97)">f</text>
+<text x="125.59" y="67.38" font-size="3.40" fill="#151515" transform="rotate(161 125.59 67.38)">r</text>
+<text x="128.9" y="69.8" font-size="3.52" fill="#151515" transform="rotate(131 128.9 69.8)">o</text>
+<text x="140.51" y="76.16" font-size="2.70" fill="#151515" transform="rotate(-112 140.51 76.16)">s</text>
+<text x="145.12" y="60.33" font-size="2.62" fill="#151515" transform="rotate(70 145.12 60.33)">t</text>
+<text x="141.56" y="53.83" font-size="1.84" fill="#151515" transform="rotate(-167 141.56 53.83)">f</text>
+<text x="121.74" y="57.88" font-size="2.50" fill="#151515" transform="rotate(-109 121.74 57.88)">l</text>
+<text x="120.75" y="52.07" font-size="1.84" fill="#151515" transform="rotate(19 120.75 52.07)">o</text>
+</g>
+<g id="Body" font-family="'EB Garamond', 'Adobe Garamond Pro', Garamond, serif" font-style="italic">
+<text x="10" y="128" font-size="2.35" fill="#151515">met in secret overnight and brought forth</text>
+<text x="10" y="132.1" font-size="2.35" fill="#151515">this flashing, breathtaking beauty.</text>
+<text x="10" y="136.2" font-size="2.35" fill="#151515"></text>
+<text x="10" y="140.3" font-size="2.35" fill="#151515">As if I had wandered into some exhibition,</text>
+<text x="10" y="144.4" font-size="2.35" fill="#151515">I move from seat to seat to look,</text>
+<text x="10" y="148.5" font-size="2.35" fill="#151515">and once again I am drunk on a single petal,</text>
+<text x="10" y="152.6" font-size="2.35" fill="#151515">on its delicate and cold beauty.</text>
+<text x="10" y="120" font-size="6.5" fill="#151515">frost flowers</text>
+</g>
+</svg>
