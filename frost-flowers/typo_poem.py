@@ -1,22 +1,29 @@
 """frost flowers — typo poem (20 x 20 cm)
 
-Generates three sketches and one final composition as SVG.
-Everything on the page is type, plus minimal points / lines / planes
-(no pictures or drawn objects), per the typo_poem brief.
+Three sketches and one final composition, written as SVG.
+Restrained on purpose: only three techniques are used —
+  * Type on a Path
+  * Text Wrap (body text flowing around a large letter / a frame)
+  * Crop (large letters cut off by the page edge or a frame)
+Black and white, one typeface (EB Garamond), no other effects.
 
 usage: python3 typo_poem.py <font_dir> <out_dir>
 """
-import math, random, sys
-from PIL import ImageFont
+import math, sys
+import numpy as np
+from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
 FONTDIR, OUTDIR = sys.argv[1], sys.argv[2]
-_ital = ImageFont.truetype(FONTDIR + "/EBGaramond-Italic.ttf", 1000)
-_reg = ImageFont.truetype(FONTDIR + "/EBGaramond-Regular.ttf", 1000)
+ITAL_TTF = FONTDIR + "/EBGaramond-Italic.ttf"
+_ital = ImageFont.truetype(ITAL_TTF, 1000)
+
+PX = 4  # mask resolution, pixels per mm
+INK, PAPER = "#161616", "#ffffff"
 
 
-def tw(s, size, italic=True):
-    """Advance width of a string in mm at a font size in mm."""
-    return (_ital if italic else _reg).getlength(s) * size / 1000
+def tw(s, size):
+    """Advance width (mm) of an italic string at a font size in mm."""
+    return _ital.getlength(s) * size / 1000
 
 
 def f(v):
@@ -46,225 +53,238 @@ A haggard face glimmers in the rattling window
 friend, you walked the road beside me for so long,
 and now I am not even allowed to visit you.""".split("\n")
 
-ROMAN = "font-family=\"'EB Garamond', 'Adobe Garamond Pro', Garamond, serif\""
-ITAL = ROMAN + ' font-style="italic"'
+FONT = "font-family=\"'EB Garamond', 'Adobe Garamond Pro', Garamond, serif\" font-style=\"italic\""
 
 
 class Doc:
-    """Tiny SVG builder: defs + layered groups, units in mm."""
-
     def __init__(self, name):
-        self.name, self.defs, self.layers, self.n = name, [], [], 0
-
-    def uid(self, p="p"):
-        self.n += 1
-        return f"{p}{self.n}"
+        self.name, self.defs, self.layers = name, [], []
 
     def layer(self, lid, body, attrs=""):
         self.layers.append(f'<g id="{lid}" {attrs}>\n{body}\n</g>')
 
-    def svg(self):
-        return (
-            '<svg xmlns="http://www.w3.org/2000/svg" width="200mm" height="200mm" viewBox="0 0 200 200">\n'
-            f"<title>{self.name}</title>\n<defs>\n" + "\n".join(self.defs) + "\n</defs>\n"
-            + "\n".join(self.layers) + "\n</svg>\n"
-        )
-
     def save(self, fn):
-        open(f"{OUTDIR}/{fn}", "w").write(self.svg())
+        svg = ('<svg xmlns="http://www.w3.org/2000/svg" width="200mm" height="200mm" viewBox="0 0 200 200">\n'
+               f"<title>{self.name}</title>\n<defs>\n" + "\n".join(self.defs) + "\n</defs>\n"
+               f'<rect id="Paper" width="200" height="200" fill="{PAPER}"/>\n'
+               + "\n".join(self.layers) + "\n</svg>\n")
+        open(f"{OUTDIR}/{fn}", "w").write(svg)
 
 
-class Words:
-    """Endless stream of poem text used to 'grow' frost out of type."""
-
-    def __init__(self, lines, seed):
-        self.src = " · ".join(lines) + " · "
-        self.i = random.Random(seed).randrange(len(self.src))
-
-    def take(self, length, size, italic=False):
-        out, w = "", 0.0
-        while True:
-            ch = self.src[self.i % len(self.src)]
-            cw = tw(ch, size, italic)
-            if w + cw > length:
-                return out.strip() or ch
-            out += ch; w += cw; self.i += 1
+def T(x, y, size, txt, anchor=None, fill=INK):
+    a = f' text-anchor="{anchor}"' if anchor else ""
+    return f'<text x="{f(x)}" y="{f(y)}" font-size="{f(size)}" fill="{fill}"{a}>{txt}</text>'
 
 
-def clip_rect_minus(doc, cid, ell, holes=(), rect=(0, 0, 200, 200)):
-    """Clip to the page minus an ellipse (the wiped petal) and clear rectangles."""
-    x, y, w, h = rect
-    cx, cy, rx, ry = ell
-    d = (f"M{x} {y}H{x+w}V{y+h}H{x}Z"
-         f"M{f(cx-rx)} {f(cy)}A{f(rx)} {f(ry)} 0 1 0 {f(cx+rx)} {f(cy)}A{f(rx)} {f(ry)} 0 1 0 {f(cx-rx)} {f(cy)}Z")
-    for hx, hy, hw, hh in holes:
-        d += f"M{hx} {hy}H{hx+hw}V{hy+hh}H{hx}Z"
-    doc.defs.append(f'<clipPath id="{cid}"><path d="{d}" clip-rule="evenodd"/></clipPath>')
+# ---------------------------------------------------------------- Text Wrap --
+def glyph_mask(ch, x, y, size, canvas=200):
+    """Boolean mask (PX per mm) of a big italic glyph whose baseline-left is x, y.
+    `canvas` can exceed the page so a cropped glyph is still measured whole."""
+    im = Image.new("L", (canvas * PX, canvas * PX), 0)
+    ImageDraw.Draw(im).text((x * PX, y * PX), ch, fill=255, anchor="ls",
+                            font=ImageFont.truetype(ITAL_TTF, int(size * PX)))
+    return np.array(im) > 127
 
 
-# ---------------------------------------------------------------------------
-# SKETCH 1 / FINAL — "a single frost petal": the dawn window, frosted in type,
-# with one oval wiped clear by breath and finger.
-# ---------------------------------------------------------------------------
-def window(final=False):
-    name = "frost flowers — final" if final else "frost flowers — sketch 1"
-    doc = Doc(name)
-    rnd = random.Random(11)
-    BG, FROST, INK, WARM = "#11171e", "#e4ecf2", "#f4f7f9", "#e9a27c"
-    WIPE = (104, 112, 50, 31) if final else (100, 104, 52, 34)
+def rect_mask(x, y, w, h):
+    m = np.zeros((200 * PX, 200 * PX), bool)
+    m[int(y * PX):int((y + h) * PX), int(x * PX):int((x + w) * PX)] = True
+    return m
 
-    doc.layer("Background", f'<rect width="200" height="200" fill="{BG}"/>')
 
-    # frosted glass: yesterday's passengers' breath (lines 1-16) set as plain,
-    # faint rows of type — denser toward the top and bottom of the window
-    words = Words(POEM[:16], 3)
-    out, size, lead = [], 1.45, 3.1
-    y = 4.0
-    while y < 199:
-        edge = abs(y - 100) / 100
-        op = 0.06 + 0.32 * edge ** 1.6
-        out.append(f'<text x="4" y="{f(y)}" font-size="{size}" fill="{FROST}" opacity="{op:.2f}">'
-                   f'{words.take(192, size)}</text>')
+def dilate(mask, mm):
+    k = int(mm * PX) * 2 + 1
+    im = Image.fromarray(mask.astype(np.uint8) * 255).filter(ImageFilter.MaxFilter(k))
+    return np.array(im) > 127
+
+
+def free_spans(mask, y, size, x0, x1, min_w):
+    """Horizontal spans on a text row that the wrap object does not cover."""
+    r0, r1 = int((y - size * 0.75) * PX), int((y + size * 0.25) * PX) + 1
+    band = mask[max(r0, 0):min(r1, 200 * PX), :].any(axis=0)
+    spans, start = [], None
+    for c in range(int(x0 * PX), int(x1 * PX)):
+        if not band[c] and start is None:
+            start = c
+        if (band[c] or c == int(x1 * PX) - 1) and start is not None:
+            if (c - start) / PX >= min_w:
+                spans.append((start / PX, c / PX))
+            start = None
+    return spans
+
+
+def as_paragraph(lines):
+    """The poem run in as one paragraph, line breaks marked with a slash."""
+    return [" / ".join(lines)]
+
+
+def wrap_flow(lines, mask, x0, x1, y0, y1, size, lead, min_w=12, stanza_gap=()):
+    """Set poem lines left-aligned in the free spans around `mask`
+    (what Illustrator's Text Wrap does to area type). Each poem line
+    starts on a new row; long lines wrap into the next free span."""
+    out, y, li = [], y0, 0
+    queue = lines[0].split() if lines else []
+    while y <= y1 and li < len(lines):
+        for sx, ex in free_spans(mask, y, size, x0, x1, min_w):
+            seg = []
+            while queue and tw(" ".join(seg + [queue[0]]), size) <= ex - sx:
+                seg.append(queue.pop(0))
+            if seg:
+                out.append(T(sx, y, size, " ".join(seg)))
+            if not queue:
+                break
+        if not queue:
+            li += 1
+            if li < len(lines):
+                queue = lines[li].split()
+                if li in stanza_gap:
+                    y += lead * 0.6
         y += lead
-    holes = [(7, 5, 42, 17), (110, 178, 86, 21)] if final else [(7, 5, 38, 12), (114, 180, 82, 15)]
-    clip_rect_minus(doc, "wipe", WIPE, holes)
-    doc.layer("Frosted_Glass", "\n".join(out), f'{ROMAN} clip-path="url(#wipe)"')
+    return out, li
 
-    cx, cy, rx, ry = WIPE
-    # the edge of the wiped petal: a single hairline (line element)
-    doc.layer("Wiped_Petal",
-              f'<ellipse cx="{cx}" cy="{cy}" rx="{rx}" ry="{ry}" fill="none" stroke="{FROST}" '
-              f'stroke-width="0.12" opacity="0.35"/>')
 
-    t = []
-    L = lambda x, y, s, txt, op=1, fill=INK, extra="": t.append(
-        f'<text x="{f(x)}" y="{f(y)}" font-size="{s}" fill="{fill}" opacity="{op}" {extra}>{txt}</text>')
-    top = cy - ry
-    L(cx - 38, top + 13, 2.3, POEM[16], 0.75)                          # For no reason, carefully...
-    L(cx - 38, top + 24, 4.6, "I wipe away")
-    L(cx - 22, top + 37, 9.5, "a single frost petal")
-    L(cx + 6, top + 44.5, 2.6, "and press my forehead to the glass.", 0.85)
-    # rattling window: the same line, duplicated and shaken
-    for dx, dy, op in ((0, 0, 0.9), (0.45, -0.25, 0.35), (-0.5, 0.3, 0.22), (0.9, 0.15, 0.12)):
-        L(cx - 30 + dx, top + 52 + dy, 2.5, POEM[19], op)
-    # a warm breath inside the cold: the one coloured line
-    L(cx - 26, top + 59.5 if final else top + 61, 1.9, POEM[15], 0.9, WARM)
-    doc.layer("Wiped_Text", "\n".join(t), ITAL)
+# ------------------------------------------------------------- Type on Path --
+def ellipse_path(cx, cy, rx, ry, rot_deg, start_deg=200):
+    """Closed path around an ellipse, clockwise on screen, starting at start_deg."""
+    pts = []
+    for k in range(0, 361, 4):
+        t = math.radians(start_deg + k)
+        x, y = rx * math.cos(t), ry * math.sin(t)
+        r = math.radians(rot_deg)
+        pts.append((cx + x * math.cos(r) - y * math.sin(r), cy + x * math.sin(r) + y * math.cos(r)))
+    return "M" + "L".join(f"{f(x)} {f(y)}" for x, y in pts)
 
-    # outside the glass: the friend
-    e = []
+
+def counter_of(mask_glyph, seed_xy):
+    """Inner counter (hole) of a glyph: flood fill from seed, return coords in mm."""
+    h, w = mask_glyph.shape
+    sx, sy = int(seed_xy[0] * PX), int(seed_xy[1] * PX)
+    seen = np.zeros_like(mask_glyph)
+    stack = [(sy, sx)]
+    while stack:
+        y, x = stack.pop()
+        if 0 <= y < h and 0 <= x < w and not seen[y, x] and not mask_glyph[y, x]:
+            seen[y, x] = True
+            stack += [(y + 1, x), (y - 1, x), (y, x + 1), (y, x - 1)]
+    ys, xs = np.nonzero(seen)
+    return xs / PX, ys / PX
+
+
+def fit_ellipse(xs, ys):
+    """Centre, semi-axes and rotation of a pixel blob (second moments)."""
+    cx, cy = xs.mean(), ys.mean()
+    cov = np.cov(np.vstack([xs - cx, ys - cy]))
+    vals, vecs = np.linalg.eigh(cov)
+    a, b = 2 * math.sqrt(vals[1]), 2 * math.sqrt(vals[0])
+    rot = math.degrees(math.atan2(vecs[1, 1], vecs[0, 1]))
+    return cx, cy, a, b, rot
+
+
+# ---------------------------------------------------------------------------
+# SKETCH 1 / FINAL — "a single frost petal"
+# A giant italic o, cropped by the right edge, is the bus window. The poem
+# wraps around it; inside its counter — the spot wiped clear with breath and
+# finger — one line runs on a path.
+# ---------------------------------------------------------------------------
+def petal(final=False):
+    doc = Doc("frost flowers — final" if final else "frost flowers — sketch 1")
+    O_X, O_Y, O_S = (92, 196, 360) if final else (88, 194, 350)
+
+    whole = glyph_mask("o", O_X, O_Y, O_S, canvas=360)
+    doc.layer("Crop_Letter", f'<text x="{O_X}" y="{O_Y}" font-size="{O_S}" fill="{INK}">o</text>', FONT)
+
+    # Type on a Path: inside the wiped-clear counter
+    gy, gx = np.nonzero(whole)
+    xs, ys = counter_of(whole, ((gx.min() + gx.max()) / 2 / PX, (gy.min() + gy.max()) / 2 / PX))
+    cx, cy, a, b, rot = fit_ellipse(xs, ys)
+    if rot > 90: rot -= 180
+    if rot < -90: rot += 180
+    if abs(rot) > 45:  # keep the long axis horizontal-ish
+        a, b, rot = b, a, rot - 90 * (1 if rot > 0 else -1)
+    k = 0.80
+    doc.defs.append(f'<path id="petal" d="{ellipse_path(cx, cy, a * k, b * k, rot)}"/>')
+    ps = 3.4 if final else 3.2
+    doc.layer("Type_on_a_Path",
+              f'<text font-size="{ps}" fill="{INK}"><textPath href="#petal" startOffset="2%">'
+              f'I wipe away a single frost petal  —  and press my forehead to the glass.'
+              f'</textPath></text>', FONT)
+
+    # Text Wrap: the rest of the poem around the o
+    body = [l for i, l in enumerate(POEM) if i not in (17, 18)]
+    hole = np.zeros_like(whole)
+    hole[(ys * PX).astype(int), (xs * PX).astype(int)] = True
+    page = 200 * PX
+    wrap = dilate((whole | hole)[:page, :page], 3.2)  # text wraps around the whole o, counter included
+    x0, x1 = (14, 188) if final else (12, 188)
+    head = []
     if final:
-        e.append(f'<text x="10" y="13" font-size="5.2" fill="{INK}" {ITAL}>frost flowers</text>')
-        e.append(f'<line x1="10" y1="15.5" x2="44" y2="15.5" stroke="{INK}" stroke-width="0.15" opacity="0.6"/>')
-        e.append(f'<text x="10" y="19.5" font-size="1.7" fill="{INK}" opacity="0.7" {ROMAN} letter-spacing="0.3">THE DAWN CITY BUS</text>')
-        e.append(f'<text x="190" y="184" font-size="2.3" fill="{INK}" text-anchor="end" {ITAL}>{POEM[20]}</text>')
-        e.append(f'<text x="190" y="189" font-size="2.3" fill="{INK}" text-anchor="end" {ITAL}>'
-                 f'and now I am not even allowed to visit</text>')
-        e.append(f'<text x="191.5" y="196" font-size="6" fill="{WARM}" text-anchor="end" {ITAL}>you.</text>')
+        head = [T(14, 22, 7.2, "frost flowers"), T(14, 28.5, 2.3, "the dawn city bus, a poem in type")]
+        y0 = 40
     else:
-        e.append(f'<text x="10" y="13" font-size="4.6" fill="{INK}" {ITAL}>frost flowers</text>')
-        e.append(f'<text x="190" y="186" font-size="2.3" fill="{INK}" text-anchor="end" {ITAL}>{POEM[20]}</text>')
-        e.append(f'<text x="190" y="191" font-size="2.3" fill="{INK}" text-anchor="end" {ITAL}>{POEM[21]}</text>')
-    doc.layer("Title_and_Ending", "\n".join(e))
+        y0 = 20
+    lines, used = wrap_flow(as_paragraph(body), wrap, x0, x1, y0, 192, 3.9 if final else 3.8,
+                            6.4 if final else 6.3, min_w=8)
+    doc.layer("Text_Wrap", "\n".join(head + lines), FONT)
     return doc
 
 
 # ---------------------------------------------------------------------------
-# SKETCH 2 — "met in secret overnight": passengers' words drift in from the
-# edges and pile into one loose cluster of letters.
+# SKETCH 2 — "breath": the whole poem as one breath, a single line of type
+# on a path spiralling in toward the last word, "you".
 # ---------------------------------------------------------------------------
-def gathering():
+def breath():
     doc = Doc("frost flowers — sketch 2")
-    rnd = random.Random(5)
-    PAPER, INK, GHOST = "#f3f2ee", "#151515", "#dcdedf"
-    C = (132, 66)
-    doc.layer("Background", f'<rect width="200" height="200" fill="{PAPER}"/>')
+    text = "   ".join(POEM)
+    assert text.endswith(" you.")
+    text = text[:-5]
+    cx, cy, r_out, r_in = 100, 101, 88, 15
 
-    # huge cropped "breath" behind everything (plane)
-    doc.layer("Ghost_Word", f'<text x="-6" y="214" font-size="92" fill="{GHOST}" {ITAL}>breath</text>')
+    def spiral(turns):
+        pts, n = [], int(turns * 120)
+        for i in range(n + 1):
+            t = i / n
+            ang = -math.pi / 2 + t * turns * 2 * math.pi  # start at top, clockwise
+            r = r_out - (r_out - r_in) * t
+            pts.append((cx + r * math.cos(ang), cy + r * math.sin(ang)))
+        return pts
 
-    people = [("maidens", (4, 46), 5.2, True), ("bachelors", (6, 96), 4.2, False),
-              ("children", (76, 196), 5.6, True), ("grown-ups", (110, 196), 3.8, False),
-              ("hairdressers", (196, 132), 3.4, True), ("salesmen", (196, 104), 4.6, False),
-              ("housemaids", (156, 196), 3.6, True), ("the jobless", (196, 176), 3.2, False),
-              ("their breath", (54, 4), 3.0, True), ("and their sighs", (196, 8), 2.8, True)]
-    words = []
-    for w, (sx, sy), s, it in people:
-        # curved route to the meeting point
-        mx, my = (sx + C[0]) / 2 + rnd.uniform(-30, 30), (sy + C[1]) / 2 + rnd.uniform(-30, 30)
-        pid = doc.uid("w")
-        doc.defs.append(f'<path id="{pid}" d="M{f(sx)} {f(sy)}Q{f(mx)} {f(my)} {f(C[0])} {f(C[1])}"/>')
-        words.append(f'<text font-size="{s}" fill="{INK}" {ITAL if it else ROMAN}>'
-                     f'<textPath href="#{pid}" startOffset="2">{w}</textPath></text>')
-    doc.layer("Passengers", "\n".join(words))
-
-    # the bloom: letters of breath / sighs crowding the meeting point
-    bloom, letters = [], "breathsighfrostflowers"
-    for i in range(260):
-        r = 2.5 + abs(rnd.gauss(0, 11)) + (rnd.random() < 0.12) * rnd.uniform(6, 18)
-        a = rnd.uniform(0, 2 * math.pi)
-        x, y = C[0] + math.cos(a) * r, C[1] + math.sin(a) * r
-        s = max(0.9, 4.0 - r * 0.11 + rnd.uniform(-0.6, 0.6))
-        ch = letters[i % len(letters)]
-        bloom.append(f'<text x="{f(x)}" y="{f(y)}" font-size="{s:.2f}" fill="{INK}" '
-                     f'transform="rotate({rnd.randint(-180, 180)} {f(x)} {f(y)})">{ch}</text>')
-    doc.layer("Bloom", "\n".join(bloom), ROMAN)
-
-    # body: what they brought forth
-    body = [POEM[8], POEM[9], "", POEM[10], POEM[11], POEM[12], POEM[13]]
-    t = [f'<text x="10" y="{f(128 + i * 4.1)}" font-size="2.35" fill="{INK}">{l}</text>' for i, l in enumerate(body)]
-    t.append(f'<text x="10" y="120" font-size="6.5" fill="{INK}">frost flowers</text>')
-    doc.layer("Body", "\n".join(t), ITAL)
+    best = None
+    for turns in range(4, 16):
+        pts = spiral(turns)
+        L = sum(math.dist(pts[i], pts[i + 1]) for i in range(len(pts) - 1))
+        s = L * 0.985 / tw(text, 1)
+        gap = (r_out - r_in) / turns
+        if gap >= 1.55 * s and (best is None or abs(gap / s - 1.9) < abs(best[2] / best[1] - 1.9)):
+            best = (pts, s, gap)
+    pts, s, _ = best
+    doc.defs.append('<path id="breath" d="M' + "L".join(f"{f(x)} {f(y)}" for x, y in pts) + '"/>')
+    doc.layer("Type_on_a_Path", f'<text font-size="{s:.2f}" fill="{INK}"><textPath href="#breath">{text}</textPath></text>', FONT)
+    doc.layer("Center", T(cx, cy + 3, 10, "you.", "middle"), FONT)
+    doc.layer("Title", T(196, 196, 3, "frost flowers", "end"), FONT)
     return doc
 
 
 # ---------------------------------------------------------------------------
-# SKETCH 3 — "windows": four bus-window panes; big letters f / l·owers / y·o·u,
-# poem on wavy lines.
+# SKETCH 3 — "window": the word frost cropped inside a bus window; the poem
+# wraps around the window frame.
 # ---------------------------------------------------------------------------
-def panes():
+def window():
     doc = Doc("frost flowers — sketch 3")
-    INK, PAPER = "#1a1a1a", "#ffffff"
-    A, B, C, D = (0, 52), (52, 84), (84, 150), (150, 200)
-    for k, (a, b) in zip("ABCD", (A, B, C, D)):
-        doc.defs.append(f'<clipPath id="clip{k}"><rect x="{a}" y="0" width="{b-a}" height="200"/></clipPath>')
-    doc.layer("Background", f'<rect width="200" height="200" fill="{PAPER}"/>'
-              f'<rect x="{A[0]}" width="{A[1]-A[0]}" height="200" fill="{INK}"/>'
-              f'<rect x="{C[0]}" width="{C[1]-C[0]}" height="200" fill="{INK}"/>')
-
-    big = [f'<g clip-path="url(#clipA)"><text x="-30" y="168" font-size="235" fill="{PAPER}">f</text>'
-           f'<text x="4" y="40" font-size="6.2" fill="{PAPER}">frost</text></g>',
-           f'<g clip-path="url(#clipB)"><text x="44" y="236" font-size="215" fill="{INK}">l</text></g>']
-    for ch, x, y, s, r in (("o", 58, 44, 11, -14), ("w", 70, 58, 9.5, 12), ("e", 57, 72, 10, -8),
-                           ("r", 68, 86, 8.5, 18), ("s", 56, 99, 9, -20)):
-        big.append(f'<text x="{x}" y="{y}" font-size="{s}" fill="{INK}" transform="rotate({r} {x} {y})">{ch}</text>')
-    big.append(f'<g clip-path="url(#clipD)"><text x="138" y="88" font-size="128" fill="{INK}">y</text>'
-               f'<text x="166" y="128" font-size="44" fill="{INK}">o</text>'
-               f'<text x="149" y="190" font-size="104" fill="{INK}">u</text></g>')
-    doc.layer("Display_Type", "\n".join(big), ITAL)
-
-    poem = []
-    for i, line in enumerate(POEM):
-        y = 12.5 + i * 8.45
-        rise, amp, ph = (5.0 if i % 2 == 0 else 3.2), 1.1 + 0.5 * (i % 3), i * 1.3
-        x0, span = C[0] + 3.5, C[1] - C[0] - 7
-        pts = [(x0 + span * k / 12, y + rise / 2 - rise * k / 12 + amp * math.sin(ph + k / 12 * math.pi * 2.2))
-               for k in range(13)]
-        d = "M" + "L".join(f"{f(px)} {f(py)}" for px, py in pts)
-        pid = doc.uid("l")
-        doc.defs.append(f'<path id="{pid}" d="{d}"/>')
-        Lp = sum(math.dist(pts[k], pts[k + 1]) for k in range(12))
-        s = min(2.55, 2.55 * Lp * 0.97 / tw(line, 2.55))
-        poem.append(f'<text font-size="{s:.2f}"><textPath href="#{pid}" '
-                    f'startOffset="{(Lp - tw(line, s)) / 2 * (i % 2):.2f}">{line}</textPath></text>')
-    doc.layer("Poem", "\n".join(poem), f'{ITAL} fill="{PAPER}"')
-    doc.layer("Title", f'<text x="153.5" y="9" font-size="4" fill="{INK}" {ITAL}>frost flowers</text>')
+    WX, WY, WW, WH = 70, 40, 116, 88
+    doc.defs.append(f'<clipPath id="win"><rect x="{WX}" y="{WY}" width="{WW}" height="{WH}"/></clipPath>')
+    doc.layer("Crop_Window",
+              f'<g clip-path="url(#win)"><text x="{WX - 16}" y="{WY + WH + 18}" font-size="118" fill="{INK}">frost</text></g>'
+              f'<rect x="{WX}" y="{WY}" width="{WW}" height="{WH}" fill="none" stroke="{INK}" stroke-width="0.2"/>', FONT)
+    lines, _ = wrap_flow(as_paragraph(POEM), dilate(rect_mask(WX, WY, WW, WH), 5), 14, 186, 18, 192,
+                         3.4, 5.6, min_w=10)
+    doc.layer("Text_Wrap", "\n".join(lines), FONT)
+    doc.layer("Caption", T(WX + WW, WY - 2.5, 2.4, "flowers", "end"), FONT)
     return doc
 
 
 if __name__ == "__main__":
-    window().save("frost-flowers_1_sketch-1.svg")
-    gathering().save("frost-flowers_1_sketch-2.svg")
-    panes().save("frost-flowers_1_sketch-3.svg")
-    window(final=True).save("frost-flowers_2_final.svg")
+    petal().save("frost-flowers_1_sketch-1.svg")
+    breath().save("frost-flowers_1_sketch-2.svg")
+    window().save("frost-flowers_1_sketch-3.svg")
+    petal(final=True).save("frost-flowers_2_final.svg")
     print("ok")

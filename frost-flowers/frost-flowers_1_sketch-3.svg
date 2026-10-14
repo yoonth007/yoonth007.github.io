@@ -1,71 +1,32 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="200mm" height="200mm" viewBox="0 0 200 200">
 <title>frost flowers — sketch 3</title>
 <defs>
-<clipPath id="clipA"><rect x="0" y="0" width="52" height="200"/></clipPath>
-<clipPath id="clipB"><rect x="52" y="0" width="32" height="200"/></clipPath>
-<clipPath id="clipC"><rect x="84" y="0" width="66" height="200"/></clipPath>
-<clipPath id="clipD"><rect x="150" y="0" width="50" height="200"/></clipPath>
-<path id="l1" d="M87.5 15L92.42 15.18L97.33 15.17L102.25 14.84L107.17 14.15L112.08 13.2L117 12.16L121.92 11.23L126.83 10.57L131.75 10.27L136.67 10.28L141.58 10.47L146.5 10.65"/>
-<path id="l2" d="M87.5 24.09L92.42 23.81L97.33 23.03L102.25 21.93L107.17 20.77L112.08 19.84L117 19.35L121.92 19.38L126.83 19.83L131.75 20.47L136.67 21L141.58 21.18L146.5 20.85"/>
-<path id="l3" d="M87.5 32.98L92.42 31.41L97.33 29.86L102.25 28.7L107.17 28.17L112.08 28.31L117 28.93L121.92 29.7L126.83 30.24L131.75 30.24L136.67 29.57L141.58 28.3L146.5 26.72"/>
-<path id="l4" d="M87.5 38.69L92.42 38.11L97.33 37.88L102.25 37.98L107.17 38.3L112.08 38.64L117 38.82L121.92 38.68L126.83 38.19L131.75 37.42L136.67 36.53L141.58 35.72L146.5 35.17"/>
-<path id="l5" d="M87.5 47.39L92.42 47.61L97.33 48.08L102.25 48.51L107.17 48.64L112.08 48.28L117 47.41L121.92 46.19L126.83 44.87L131.75 43.74L136.67 43.03L141.58 42.84L146.5 43.1"/>
-<path id="l6" d="M87.5 56.8L92.42 57.58L97.33 57.87L102.25 57.5L107.17 56.51L112.08 55.11L117 53.69L121.92 52.61L126.83 52.13L131.75 52.33L136.67 53.05L141.58 53.98L146.5 54.72"/>
-<path id="l7" d="M87.5 66.8L92.42 66.24L97.33 65.37L102.25 64.34L107.17 63.34L112.08 62.57L117 62.14L121.92 62.05L126.83 62.19L131.75 62.4L136.67 62.45L141.58 62.22L146.5 61.62"/>
-<path id="l8" d="M87.5 73.76L92.42 72.59L97.33 71.54L102.25 70.87L107.17 70.71L112.08 71.03L117 71.63L121.92 72.24L126.83 72.57L131.75 72.43L136.67 71.78L141.58 70.75L146.5 69.57"/>
-<path id="l9" d="M87.5 80.86L92.42 80.08L97.33 79.98L102.25 80.46L107.17 81.22L112.08 81.89L117 82.12L121.92 81.69L126.83 80.62L131.75 79.11L136.67 77.52L141.58 76.22L146.5 75.5"/>
-<path id="l10" d="M87.5 89.31L92.42 89.57L97.33 89.93L102.25 90.18L107.17 90.17L112.08 89.81L117 89.13L121.92 88.26L126.83 87.4L131.75 86.73L136.67 86.4L141.58 86.42L146.5 86.69"/>
-<path id="l11" d="M87.5 100.17L92.42 100.44L97.33 100.27L102.25 99.58L107.17 98.46L112.08 97.14L117 95.91L121.92 95.03L126.83 94.65L131.75 94.76L136.67 95.19L141.58 95.66L146.5 95.9"/>
-<path id="l12" d="M87.5 109.12L92.42 108.34L97.33 107.05L102.25 105.59L107.17 104.34L112.08 103.63L117 103.58L121.92 104.14L126.83 105.04L131.75 105.89L136.67 106.35L141.58 106.17L146.5 105.33"/>
-<path id="l13" d="M87.5 116.52L92.42 115.49L97.33 114.62L102.25 114.05L107.17 113.84L112.08 113.92L117 114.13L121.92 114.26L126.83 114.14L131.75 113.68L136.67 112.88L141.58 111.88L146.5 110.85"/>
-<path id="l14" d="M87.5 122.46L92.42 122.11L97.33 122.27L102.25 122.8L107.17 123.44L112.08 123.9L117 123.95L121.92 123.48L126.83 122.56L131.75 121.4L136.67 120.29L141.58 119.5L146.5 119.2"/>
-<path id="l15" d="M87.5 132.03L92.42 132.73L97.33 133.48L102.25 133.9L107.17 133.73L112.08 132.88L117 131.49L121.92 129.88L126.83 128.44L131.75 127.48L136.67 127.2L141.58 127.54L146.5 128.26"/>
-<path id="l16" d="M87.5 141.52L92.42 141.62L97.33 141.39L102.25 140.81L107.17 139.99L112.08 139.1L117 138.35L121.92 137.88L126.83 137.78L131.75 137.97L136.67 138.32L141.58 138.63L146.5 138.7"/>
-<path id="l17" d="M87.5 151.69L92.42 150.71L97.33 149.43L102.25 148.13L107.17 147.1L112.08 146.53L117 146.47L121.92 146.81L126.83 147.3L131.75 147.65L136.67 147.62L141.58 147.07L146.5 146.05"/>
-<path id="l18" d="M87.5 157.52L92.42 156.16L97.33 155.22L102.25 154.92L107.17 155.28L112.08 156.1L117 157.01L121.92 157.65L126.83 157.72L131.75 157.11L136.67 155.93L141.58 154.48L146.5 153.14"/>
-<path id="l19" d="M87.5 166.01L92.42 165.68L97.33 165.66L102.25 165.84L107.17 166.03L112.08 166.02L117 165.69L121.92 165L126.83 164.06L131.75 163.02L136.67 162.08L141.58 161.42L146.5 161.12"/>
-<path id="l20" d="M87.5 173.98L92.42 174.61L97.33 175.17L102.25 175.39L107.17 175.11L112.08 174.34L117 173.24L121.92 172.08L126.83 171.14L131.75 170.65L136.67 170.68L141.58 171.12L146.5 171.76"/>
-<path id="l21" d="M87.5 185.6L92.42 185.67L97.33 185.06L102.25 183.84L107.17 182.27L112.08 180.72L117 179.56L121.92 179.02L126.83 179.15L131.75 179.77L136.67 180.54L141.58 181.09L146.5 181.09"/>
-<path id="l22" d="M87.5 192.46L92.42 191.71L97.33 190.82L102.25 190L107.17 189.42L112.08 189.18L117 189.28L121.92 189.59L126.83 189.94L131.75 190.11L136.67 189.98L141.58 189.49L146.5 188.72"/>
+<clipPath id="win"><rect x="70" y="40" width="116" height="88"/></clipPath>
 </defs>
-<g id="Background" >
-<rect width="200" height="200" fill="#ffffff"/><rect x="0" width="52" height="200" fill="#1a1a1a"/><rect x="84" width="66" height="200" fill="#1a1a1a"/>
+<rect id="Paper" width="200" height="200" fill="#ffffff"/>
+<g id="Crop_Window" font-family="'EB Garamond', 'Adobe Garamond Pro', Garamond, serif" font-style="italic">
+<g clip-path="url(#win)"><text x="54" y="146" font-size="118" fill="#161616">frost</text></g><rect x="70" y="40" width="116" height="88" fill="none" stroke="#161616" stroke-width="0.2"/>
 </g>
-<g id="Display_Type" font-family="'EB Garamond', 'Adobe Garamond Pro', Garamond, serif" font-style="italic">
-<g clip-path="url(#clipA)"><text x="-30" y="168" font-size="235" fill="#ffffff">f</text><text x="4" y="40" font-size="6.2" fill="#ffffff">frost</text></g>
-<g clip-path="url(#clipB)"><text x="44" y="236" font-size="215" fill="#1a1a1a">l</text></g>
-<text x="58" y="44" font-size="11" fill="#1a1a1a" transform="rotate(-14 58 44)">o</text>
-<text x="70" y="58" font-size="9.5" fill="#1a1a1a" transform="rotate(12 70 58)">w</text>
-<text x="57" y="72" font-size="10" fill="#1a1a1a" transform="rotate(-8 57 72)">e</text>
-<text x="68" y="86" font-size="8.5" fill="#1a1a1a" transform="rotate(18 68 86)">r</text>
-<text x="56" y="99" font-size="9" fill="#1a1a1a" transform="rotate(-20 56 99)">s</text>
-<g clip-path="url(#clipD)"><text x="138" y="88" font-size="128" fill="#1a1a1a">y</text><text x="166" y="128" font-size="44" fill="#1a1a1a">o</text><text x="149" y="190" font-size="104" fill="#1a1a1a">u</text></g>
+<g id="Text_Wrap" font-family="'EB Garamond', 'Adobe Garamond Pro', Garamond, serif" font-style="italic">
+<text x="14" y="18" font-size="3.4" fill="#161616">The dawn city bus / runs with its windows decked in some dazzling finery. / The harsher the dead of winter, / the more vividly the frost</text>
+<text x="14" y="23.6" font-size="3.4" fill="#161616">flowers bloom. / Those who rode this bus yesterday / maidens and bachelors, children and grown-ups, / hairdressers, salesmen, housemaids,</text>
+<text x="14" y="29.2" font-size="3.4" fill="#161616">the jobless / their breath and their sighs / met in secret overnight and brought forth / this flashing, breathtaking beauty. / As if I had</text>
+<text x="14" y="34.8" font-size="3.4" fill="#161616">wandered into some exhibition, / I move</text>
+<text x="14" y="40.4" font-size="3.4" fill="#161616">from seat to seat to look, / and once</text>
+<text x="14" y="46" font-size="3.4" fill="#161616">again I am drunk on a single petal, / on</text>
+<text x="14" y="51.6" font-size="3.4" fill="#161616">its delicate and cold beauty. / Whose</text>
+<text x="14" y="57.2" font-size="3.4" fill="#161616">desolate sigh was this? / What warm</text>
+<text x="14" y="62.8" font-size="3.4" fill="#161616">heart breathed out this breath of</text>
+<text x="14" y="68.4" font-size="3.4" fill="#161616">passion? / For no reason, carefully, with</text>
+<text x="14" y="74" font-size="3.4" fill="#161616">my breath and my finger, / I wipe away</text>
+<text x="14" y="79.6" font-size="3.4" fill="#161616">a single frost petal / and press my</text>
+<text x="14" y="85.2" font-size="3.4" fill="#161616">forehead to the glass. / A haggard face</text>
+<text x="14" y="90.8" font-size="3.4" fill="#161616">glimmers in the rattling window /</text>
+<text x="14" y="96.4" font-size="3.4" fill="#161616">friend, you walked the road beside me</text>
+<text x="14" y="102" font-size="3.4" fill="#161616">for so long, / and now I am not even</text>
+<text x="14" y="107.6" font-size="3.4" fill="#161616">allowed to visit you.</text>
 </g>
-<g id="Poem" font-family="'EB Garamond', 'Adobe Garamond Pro', Garamond, serif" font-style="italic" fill="#ffffff">
-<text font-size="2.55"><textPath href="#l1" startOffset="0.00">The dawn city bus</textPath></text>
-<text font-size="2.55"><textPath href="#l2" startOffset="4.51">runs with its windows decked in some dazzling finery.</textPath></text>
-<text font-size="2.55"><textPath href="#l3" startOffset="0.00">The harsher the dead of winter,</textPath></text>
-<text font-size="2.55"><textPath href="#l4" startOffset="11.07">the more vividly the frost flowers bloom.</textPath></text>
-<text font-size="2.55"><textPath href="#l5" startOffset="0.00">Those who rode this bus yesterday</textPath></text>
-<text font-size="2.55"><textPath href="#l6" startOffset="7.12">maidens and bachelors, children and grown-ups,</textPath></text>
-<text font-size="2.55"><textPath href="#l7" startOffset="0.00">hairdressers, salesmen, housemaids, the jobless</textPath></text>
-<text font-size="2.55"><textPath href="#l8" startOffset="17.12">their breath and their sighs</textPath></text>
-<text font-size="2.55"><textPath href="#l9" startOffset="0.00">met in secret overnight and brought forth</textPath></text>
-<text font-size="2.55"><textPath href="#l10" startOffset="13.41">this flashing, breathtaking beauty.</textPath></text>
-<text font-size="2.55"><textPath href="#l11" startOffset="0.00">As if I had wandered into some exhibition,</textPath></text>
-<text font-size="2.55"><textPath href="#l12" startOffset="15.44">I move from seat to seat to look,</textPath></text>
-<text font-size="2.55"><textPath href="#l13" startOffset="0.00">and once again I am drunk on a single petal,</textPath></text>
-<text font-size="2.55"><textPath href="#l14" startOffset="15.42">on its delicate and cold beauty.</textPath></text>
-<text font-size="2.55"><textPath href="#l15" startOffset="0.00">Whose desolate sigh was this?</textPath></text>
-<text font-size="2.55"><textPath href="#l16" startOffset="4.07">What warm heart breathed out this breath of passion?</textPath></text>
-<text font-size="2.55"><textPath href="#l17" startOffset="0.00">For no reason, carefully, with my breath and my finger,</textPath></text>
-<text font-size="2.55"><textPath href="#l18" startOffset="15.62">I wipe away a single frost petal</textPath></text>
-<text font-size="2.55"><textPath href="#l19" startOffset="0.00">and press my forehead to the glass.</textPath></text>
-<text font-size="2.55"><textPath href="#l20" startOffset="6.99">A haggard face glimmers in the rattling window</textPath></text>
-<text font-size="2.55"><textPath href="#l21" startOffset="0.00">friend, you walked the road beside me for so long,</textPath></text>
-<text font-size="2.55"><textPath href="#l22" startOffset="9.38">and now I am not even allowed to visit you.</textPath></text>
-</g>
-<g id="Title" >
-<text x="153.5" y="9" font-size="4" fill="#1a1a1a" font-family="'EB Garamond', 'Adobe Garamond Pro', Garamond, serif" font-style="italic">frost flowers</text>
+<g id="Caption" font-family="'EB Garamond', 'Adobe Garamond Pro', Garamond, serif" font-style="italic">
+<text x="186" y="37.5" font-size="2.4" fill="#161616" text-anchor="end">flowers</text>
 </g>
 </svg>
