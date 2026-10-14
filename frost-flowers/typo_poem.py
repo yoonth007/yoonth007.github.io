@@ -5,9 +5,9 @@ principles of visual grammar rather than from the poem's imagery:
 
   reference  the original reference artwork, kept as is (text runs re-set)
   sketch 1   asymmetrical balance · emphasis · contrast
-  sketch 2   rhythm · repetition · movement
-  sketch 3   radial balance · harmony (form synchronised with a big "o")
-  final      sketch 3 refined: golden-section centre, crop, grid caption
+  sketch 2   rhythm: dense block / pause / even block, one red line
+  sketch 3   radial balance · harmony: four rings, one size, red centre
+  final      sketch 1 refined: title aligned to the block's column
 
 usage: python3 typo_poem.py <font_dir> <reference.svg> <out_dir>
   reference.svg = the reference .ai converted with `pdftocairo -svg`
@@ -247,127 +247,84 @@ def circle_d(cx, cy, r):
 # 2.6 mm), of style (Didone vs monospace) and of value. One red point, isolated
 # in the white space at a third-line crossing, is the single focal point.
 # ---------------------------------------------------------------------------
-def balance():
+def balance(final=False):
     global TEXT_FACE
     TEXT_FACE = "plexmono"
-    doc = Doc("frost flowers — sketch 1 (balance · emphasis · contrast)")
+    doc = Doc("frost flowers — final (balance · emphasis · contrast)" if final
+              else "frost flowers — sketch 1 (balance · emphasis · contrast)")
     doc.layer("Paper", f'<rect width="200" height="200" fill="{PAPER}"/>')
+    # one heavy mass, cropped by the left and bottom edges
     doc.layer("Mass", big(-24, 156, SCALE[10], "g", INK), FACES["bodoni"][0])
 
-    # counterweight: the whole poem, dense, on identical gentle arcs (repetition)
+    # counterweight: the poem as one small, dense block on identical gentle arcs
     x0, x1, size, lead = colx(3), 200 - M, SCALE[0] * 0.98, 3.95
-    p = []
-    for i, line in enumerate(POEM):
-        y = 22 + i * lead
-        p.append(on_path(doc, arc_pts(x0, y, x1, y, 1.2), line, size, INK))
+    top = 34 if final else 22
+    p = [on_path(doc, arc_pts(x0, top + i * lead, x1, top + i * lead, 1.2), line, size, INK)
+         for i, line in enumerate(POEM)]
     doc.layer("Counterweight_on_paths", "\n".join(p), FACES["plexmono"][0])
 
-    # emphasis: one red point at the crossing of the lower and right third lines
+    # emphasis: a single red point, isolated at a third-line crossing
     doc.layer("Focal_Point", f'<circle cx="{f(200 * 2 / 3)}" cy="{f(200 * 2 / 3)}" r="{SCALE[3] / 2}" fill="{RED}"/>')
-    # small labels aligned to the same column edge as the block (alignment)
-    lab = [big(x0, 22 + 22 * lead + SCALE[2], SCALE[1], "frost flowers", INK)]
-    doc.layer("Labels", "\n".join(lab), FACES["bodoni"][0])
+    lab = []
+    if final:  # title sits on the same column edge as the block (alignment)
+        lab += [big(x0, M + SCALE[2], SCALE[2], "frost flowers", INK),
+                f'<line x1="{x0}" y1="{M + SCALE[2] + 3.5}" x2="{x1}" y2="{M + SCALE[2] + 3.5}" '
+                f'stroke="{INK}" stroke-width="0.2"/>']
+    else:
+        lab.append(big(x0, top + 22 * lead + SCALE[2], SCALE[1], "frost flowers", INK))
+    doc.layer("Title", "\n".join(lab), FACES["bodoni"][0])
     return doc
 
 
 # ---------------------------------------------------------------------------
-# SKETCH 2 — RHYTHM, REPETITION, MOVEMENT
-# Poem lines become vertical bars. Left: dense, varied sizes (fast tempo).
-# Middle: a wide pause of white space. Right: one size, one interval, repeated
-# — and one red bar breaks the rule (visual climax). The bars on the right
-# run past the page edge (crop). The eye moves left to right, slows, stops.
+# SKETCH 2 — RHYTHM: dense / pause / regular
+# Lines 1-14 in a tight block (fast tempo), a wide white pause, then lines
+# 15-22 larger and evenly spaced (slow tempo). One red line breaks the
+# pattern. Two sizes only, one typeface, all lines on the same left edge.
 # ---------------------------------------------------------------------------
 def rhythm():
     global TEXT_FACE
-    doc = Doc("frost flowers — sketch 2 (rhythm · repetition · movement)")
+    TEXT_FACE = "cormorant"
+    doc = Doc("frost flowers — sketch 2 (rhythm)")
     doc.layer("Paper", f'<rect width="200" height="200" fill="{PAPER}"/>')
-
-    def bar(x, y, size, txt, face, fill=INK):
-        return (f'<text x="0" y="0" font-size="{size}" fill="{fill}" {FACES[face][0]} '
-                f'transform="translate({f(x)} {f(y)}) rotate(-90)">{txt}</text>')
-
-    b, x = [], M
-    tempo = [SCALE[2], SCALE[0], SCALE[3], SCALE[0], SCALE[1], SCALE[4], SCALE[0],
-             SCALE[2], SCALE[1], SCALE[0], SCALE[3], SCALE[0], SCALE[1], SCALE[2]]
-    for i, size in enumerate(tempo):  # fast tempo: lines 1-14, mixed sizes, tight
-        face = "archivo" if size >= SCALE[2] else "cormorant"
-        x += size * 0.78
-        b.append(bar(x, 200 - M, size, POEM[i], face))
-        x += 0.9
-    dense_end = x
-
-    # regular tempo: lines 15-22, one size, one interval; one red bar
-    step = SCALE[3] * 0.95
-    xs = [200 - M - step * (7 - k) for k in range(8)]
+    x = colx(1)
+    t = [big(x, M + SCALE[3] * 0.8, SCALE[3], "frost flowers", INK)]
+    y = 40
+    for line in POEM[:14]:            # fast: small, tight
+        t.append(big(x, y, SCALE[1], line, INK)); y += SCALE[1] * 1.15
+    y = 200 - M - 7 * SCALE[2] * 1.5  # slow: larger, even, after a long pause
     for k, line in enumerate(POEM[14:]):
-        b.append(bar(xs[k], 196, SCALE[3], line, "archivo", RED if k == 5 else INK))
-    doc.layer("Bars", "\n".join(b))
-
-    # the pause holds only the title, small and isolated, on the baseline
-    mid = (dense_end + xs[0] - SCALE[3]) / 2
-    doc.layer("Title", big(mid, 200 - M, SCALE[1], "frost flowers", INK, extra=' text-anchor="middle"'),
-              FACES["cormorant"][0])
+        t.append(big(x, y, SCALE[2], line, RED if k == 5 else INK)); y += SCALE[2] * 1.5
+    doc.layer("Lines", "\n".join(t), FACES["cormorant"][0])
     return doc
 
 
 # ---------------------------------------------------------------------------
-# SKETCH 3 / FINAL — radial BALANCE, HARMONY, UNITY, PROPORTION
-# The poem runs on concentric circles whose radii grow by the 1.5 ratio;
-# text size grows with them. A big "o" repeats the circle (form harmony);
-# inside it the type inverts to white. One red point marks the centre.
-# Final: the centre moves off-axis to the golden section for tension, the
-# outer rings crop against the page, and a small caption block aligns to grid.
+# SKETCH 3 — RADIAL BALANCE & HARMONY
+# Four rings, radii in the 1.5 ratio, one text size; the outer ring crops
+# against the page. A red point at the centre. Nothing else.
 # ---------------------------------------------------------------------------
-def radial(final=False):
+def radial():
     global TEXT_FACE
     TEXT_FACE = "caslon"
-    name = "final (radial balance · harmony · unity)" if final else "sketch 3 (radial balance · harmony)"
-    doc = Doc("frost flowers — " + name)
+    doc = Doc("frost flowers — sketch 3 (radial balance · harmony)")
     doc.layer("Paper", f'<rect width="200" height="200" fill="{PAPER}"/>')
-    cx, cy = (123.6, 106) if final else (100, 100)  # golden section vs. centre
-
-    # rings: primary radii on the 1.5 scale, a secondary ring between each pair
-    prim = [10, 15, 22.5, 33.75, 50.6, 75.9, 113.9]
-    radii, sizes = [], []
-    for k, r in enumerate(prim):
-        radii.append(r); sizes.append(SCALE[min(k // 2, 4)] * (1.0 if k < 6 else 1.2))
-        if k < len(prim) - 1:
-            radii.append(r * 1.225); sizes.append(sizes[-1])
+    cx, cy, size = 100, 100, SCALE[1]
     text = "   ".join(POEM) + "   "
     rings, pos = [], 0
-    for r, s in zip(radii, sizes):
-        cap = 2 * math.pi * r * 0.985
-        chunk = ""
-        while tw(chunk + text[pos % len(text)], s) < cap:
-            chunk += text[pos % len(text)]; pos += 1
+    for r in (24, 36, 54, 81):
+        cap, chunk = 2 * math.pi * r * 0.985, ""
+        while pos < len(text) and tw(chunk + text[pos], size) < cap:
+            chunk += text[pos]; pos += 1
+        if pos < len(text) and text[pos] != " ":  # end the ring on a whole word
+            cut = chunk.rstrip().rfind(" ")
+            pos -= len(chunk) - cut; chunk = chunk[:cut]
         pid = doc.uid("ring")
         doc.defs.append(f'<path id="{pid}" d="{circle_d(cx, cy, r)}"/>')
-        rings.append((pid, s, chunk))
-
-    def ring_layer(fill):
-        return "\n".join(f'<text font-size="{s:.2f}" fill="{fill}"><textPath href="#{pid}">{c}</textPath></text>'
-                         for pid, s, c in rings)
-
-    O = SCALE[9] * (2.0 if final else 1.8)
-    ox, oy = cx - O * 0.24, cy + O * 0.21  # optical centring of the italic o
-    o_glyph = f'<text x="{f(ox)}" y="{f(oy)}" font-size="{f(O)}" {FACES["playfair"][0]}>o</text>'
-    doc.defs.append(f'<clipPath id="inO">{o_glyph}</clipPath>')
-    ring_clip = ""
-    if final:  # keep a grid-aligned box clear for the caption
-        bw, bh = colx(2) + COL - M + 4, SCALE[2] + SCALE[1] + 12
-        doc.clip("free", f'<path clip-rule="evenodd" d="M0 0H200V200H0Z M{M - 4} {M - 4}h{f(bw)}v{f(bh)}h{f(-bw)}Z"/>')
-        ring_clip = ' clip-path="url(#free)"'
-    doc.layer("Rings", ring_layer(INK), FACES["caslon"][0] + ring_clip)
-    doc.layer("Big_o", o_glyph.replace("<text ", f'<text fill="{INK}" ', 1))
-    doc.layer("Rings_inverted", ring_layer(PAPER), f'{FACES["caslon"][0]} clip-path="url(#inO)"')
-    doc.layer("Focal_Point", f'<circle cx="{f(cx)}" cy="{f(cy)}" r="{SCALE[1] / 2}" fill="{RED}"/>')
-
-    if final:
-        cap = [big(M, M + SCALE[2], SCALE[2], "frost flowers", INK),
-               f'<line x1="{M}" y1="{M + SCALE[2] + 3}" x2="{colx(1) + COL}" y2="{M + SCALE[2] + 3}" '
-               f'stroke="{RED}" stroke-width="0.35"/>',
-               big(M, M + SCALE[2] + 3 + SCALE[1] + 1, SCALE[0], "a typo poem in concentric lines", INK)]
-        doc.layer("Caption", "\n".join(cap), FACES["playfair"][0])
+        rings.append(f'<text font-size="{size}" fill="{INK}"><textPath href="#{pid}">{chunk}</textPath></text>')
+    doc.layer("Rings", "\n".join(rings), FACES["caslon"][0])
+    doc.layer("Focal_Point", f'<circle cx="{cx}" cy="{cy}" r="{SCALE[2] / 2}" fill="{RED}"/>')
+    doc.layer("Title", big(M, 200 - M, SCALE[1], "frost flowers", INK), FACES["playfair"][0])
     return doc
 
 
@@ -376,5 +333,5 @@ if __name__ == "__main__":
     balance().save("frost-flowers_1_sketch-1.svg")
     rhythm().save("frost-flowers_1_sketch-2.svg")
     radial().save("frost-flowers_1_sketch-3.svg")
-    radial(final=True).save("frost-flowers_2_final.svg")
+    balance(final=True).save("frost-flowers_2_final.svg")
     print("ok")

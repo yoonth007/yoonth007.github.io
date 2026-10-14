@@ -1,58 +1,24 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="200mm" height="200mm" viewBox="0 0 200 200">
 <title>frost flowers — sketch 3 (radial balance · harmony)</title>
 <defs>
-<path id="ring1" d="M90 100A10 10 0 1 1 110 100A10 10 0 1 1 90 100"/>
-<path id="ring2" d="M87.75 100A12.25 12.25 0 1 1 112.25 100A12.25 12.25 0 1 1 87.75 100"/>
-<path id="ring3" d="M85 100A15 15 0 1 1 115 100A15 15 0 1 1 85 100"/>
-<path id="ring4" d="M81.62 100A18.38 18.38 0 1 1 118.38 100A18.38 18.38 0 1 1 81.62 100"/>
-<path id="ring5" d="M77.5 100A22.5 22.5 0 1 1 122.5 100A22.5 22.5 0 1 1 77.5 100"/>
-<path id="ring6" d="M72.44 100A27.56 27.56 0 1 1 127.56 100A27.56 27.56 0 1 1 72.44 100"/>
-<path id="ring7" d="M66.25 100A33.75 33.75 0 1 1 133.75 100A33.75 33.75 0 1 1 66.25 100"/>
-<path id="ring8" d="M58.66 100A41.34 41.34 0 1 1 141.34 100A41.34 41.34 0 1 1 58.66 100"/>
-<path id="ring9" d="M49.4 100A50.6 50.6 0 1 1 150.6 100A50.6 50.6 0 1 1 49.4 100"/>
-<path id="ring10" d="M38.01 100A61.99 61.99 0 1 1 161.99 100A61.99 61.99 0 1 1 38.01 100"/>
-<path id="ring11" d="M24.1 100A75.9 75.9 0 1 1 175.9 100A75.9 75.9 0 1 1 24.1 100"/>
-<path id="ring12" d="M7.02 100A92.98 92.98 0 1 1 192.98 100A92.98 92.98 0 1 1 7.02 100"/>
-<path id="ring13" d="M-13.9 100A113.9 113.9 0 1 1 213.9 100A113.9 113.9 0 1 1 -13.9 100"/>
-<clipPath id="inO"><text x="56.82" y="137.78" font-size="179.91" font-family="'Playfair Display', serif" font-style="italic" font-weight="700">o</text></clipPath>
+<path id="ring1" d="M76 100A24 24 0 1 1 124 100A24 24 0 1 1 76 100"/>
+<path id="ring2" d="M64 100A36 36 0 1 1 136 100A36 36 0 1 1 64 100"/>
+<path id="ring3" d="M46 100A54 54 0 1 1 154 100A54 54 0 1 1 46 100"/>
+<path id="ring4" d="M19 100A81 81 0 1 1 181 100A81 81 0 1 1 19 100"/>
 </defs>
 <g id="Paper" >
 <rect width="200" height="200" fill="#ffffff"/>
 </g>
 <g id="Rings" font-family="'Libre Caslon Text', serif" font-style="italic">
-<text font-size="2.60" fill="#1a1a1a"><textPath href="#ring1">The dawn city bus   runs with its windows decked i</textPath></text>
-<text font-size="2.60" fill="#1a1a1a"><textPath href="#ring2">n some dazzling finery.   The harsher the dead of winter,   the m</textPath></text>
-<text font-size="2.60" fill="#1a1a1a"><textPath href="#ring3">ore vividly the frost flowers bloom.   Those who rode this bus yesterday   maid</textPath></text>
-<text font-size="2.60" fill="#1a1a1a"><textPath href="#ring4">ens and bachelors, children and grown-ups,   hairdressers, salesmen, housemaids, the jobless   t</textPath></text>
-<text font-size="3.90" fill="#1a1a1a"><textPath href="#ring5">heir breath and their sighs   met in secret overnight and brought forth   this fla</textPath></text>
-<text font-size="3.90" fill="#1a1a1a"><textPath href="#ring6">shing, breathtaking beauty.   As if I had wandered into some exhibition,   I move from seat to sea</textPath></text>
-<text font-size="3.90" fill="#1a1a1a"><textPath href="#ring7">t to look,   and once again I am drunk on a single petal,   on its delicate and cold beauty.   Whose desolate sigh was th</textPath></text>
-<text font-size="3.90" fill="#1a1a1a"><textPath href="#ring8">is?   What warm heart breathed out this breath of passion?   For no reason, carefully, with my breath and my finger,   I wipe away a single frost </textPath></text>
-<text font-size="5.85" fill="#1a1a1a"><textPath href="#ring9">petal   and press my forehead to the glass.   A haggard face glimmers in the rattling window   friend, you walked the r</textPath></text>
-<text font-size="5.85" fill="#1a1a1a"><textPath href="#ring10">oad beside me for so long,   and now I am not even allowed to visit you.   The dawn city bus   runs with its windows decked in some dazzling fi</textPath></text>
-<text font-size="5.85" fill="#1a1a1a"><textPath href="#ring11">nery.   The harsher the dead of winter,   the more vividly the frost flowers bloom.   Those who rode this bus yesterday   maidens and bachelors, children and grown-ups,   hairdr</textPath></text>
-<text font-size="5.85" fill="#1a1a1a"><textPath href="#ring12">essers, salesmen, housemaids, the jobless   their breath and their sighs   met in secret overnight and brought forth   this flashing, breathtaking beauty.   As if I had wandered into some exhibition,   I move from seat to se</textPath></text>
-<text font-size="10.54" fill="#1a1a1a"><textPath href="#ring13">at to look,   and once again I am drunk on a single petal,   on its delicate and cold beauty.   Whose desolate sigh was this?   What warm heart brea</textPath></text>
-</g>
-<g id="Big_o" >
-<text fill="#1a1a1a" x="56.82" y="137.78" font-size="179.91" font-family="'Playfair Display', serif" font-style="italic" font-weight="700">o</text>
-</g>
-<g id="Rings_inverted" font-family="'Libre Caslon Text', serif" font-style="italic" clip-path="url(#inO)">
-<text font-size="2.60" fill="#ffffff"><textPath href="#ring1">The dawn city bus   runs with its windows decked i</textPath></text>
-<text font-size="2.60" fill="#ffffff"><textPath href="#ring2">n some dazzling finery.   The harsher the dead of winter,   the m</textPath></text>
-<text font-size="2.60" fill="#ffffff"><textPath href="#ring3">ore vividly the frost flowers bloom.   Those who rode this bus yesterday   maid</textPath></text>
-<text font-size="2.60" fill="#ffffff"><textPath href="#ring4">ens and bachelors, children and grown-ups,   hairdressers, salesmen, housemaids, the jobless   t</textPath></text>
-<text font-size="3.90" fill="#ffffff"><textPath href="#ring5">heir breath and their sighs   met in secret overnight and brought forth   this fla</textPath></text>
-<text font-size="3.90" fill="#ffffff"><textPath href="#ring6">shing, breathtaking beauty.   As if I had wandered into some exhibition,   I move from seat to sea</textPath></text>
-<text font-size="3.90" fill="#ffffff"><textPath href="#ring7">t to look,   and once again I am drunk on a single petal,   on its delicate and cold beauty.   Whose desolate sigh was th</textPath></text>
-<text font-size="3.90" fill="#ffffff"><textPath href="#ring8">is?   What warm heart breathed out this breath of passion?   For no reason, carefully, with my breath and my finger,   I wipe away a single frost </textPath></text>
-<text font-size="5.85" fill="#ffffff"><textPath href="#ring9">petal   and press my forehead to the glass.   A haggard face glimmers in the rattling window   friend, you walked the r</textPath></text>
-<text font-size="5.85" fill="#ffffff"><textPath href="#ring10">oad beside me for so long,   and now I am not even allowed to visit you.   The dawn city bus   runs with its windows decked in some dazzling fi</textPath></text>
-<text font-size="5.85" fill="#ffffff"><textPath href="#ring11">nery.   The harsher the dead of winter,   the more vividly the frost flowers bloom.   Those who rode this bus yesterday   maidens and bachelors, children and grown-ups,   hairdr</textPath></text>
-<text font-size="5.85" fill="#ffffff"><textPath href="#ring12">essers, salesmen, housemaids, the jobless   their breath and their sighs   met in secret overnight and brought forth   this flashing, breathtaking beauty.   As if I had wandered into some exhibition,   I move from seat to se</textPath></text>
-<text font-size="10.54" fill="#ffffff"><textPath href="#ring13">at to look,   and once again I am drunk on a single petal,   on its delicate and cold beauty.   Whose desolate sigh was this?   What warm heart brea</textPath></text>
+<text font-size="3.9" fill="#1a1a1a"><textPath href="#ring1">The dawn city bus   runs with its windows decked in some dazzling finery.   The</textPath></text>
+<text font-size="3.9" fill="#1a1a1a"><textPath href="#ring2"> harsher the dead of winter,   the more vividly the frost flowers bloom.   Those who rode this bus yesterday   maidens and</textPath></text>
+<text font-size="3.9" fill="#1a1a1a"><textPath href="#ring3"> bachelors, children and grown-ups,   hairdressers, salesmen, housemaids, the jobless   their breath and their sighs   met in secret overnight and brought forth   this flashing, breathtaking</textPath></text>
+<text font-size="3.9" fill="#1a1a1a"><textPath href="#ring4"> beauty.   As if I had wandered into some exhibition,   I move from seat to seat to look,   and once again I am drunk on a single petal,   on its delicate and cold beauty.   Whose desolate sigh was this?   What warm heart breathed out this breath of passion?   For no reason, carefully,</textPath></text>
 </g>
 <g id="Focal_Point" >
-<circle cx="100" cy="100" r="1.95" fill="#e0322b"/>
+<circle cx="100" cy="100" r="2.925" fill="#e0322b"/>
+</g>
+<g id="Title" font-family="'Playfair Display', serif" font-style="italic" font-weight="700">
+<text x="12" y="188" font-size="3.9" fill="#1a1a1a">frost flowers</text>
 </g>
 </svg>
