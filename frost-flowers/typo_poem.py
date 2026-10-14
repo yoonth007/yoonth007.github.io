@@ -1,13 +1,12 @@
 """frost flowers — typo poem (20 x 20 cm)
 
 Three sketches and one final composition, written as SVG, built from the
-principles of visual grammar rather than from the poem's imagery:
+experimental typography examples in the course deck:
 
-  reference  the original reference artwork, kept as is (text runs re-set)
-  sketch 1   balance · emphasis · contrast: a crescent of type around a big g
-  sketch 2   movement · rhythm: the lines travel a Z over a black triangle
-  sketch 3   harmony · rhythm: arcs rippling out from a big cropped o
-  final      sketch 1 refined
+  sketch 1   the student's own reference artwork, kept as is (text runs re-set)
+  sketch 2   staircase of lines landing on the dot of a big i
+  sketch 3   f r o s t tumbling on a dark ground, lines broken around letters
+  final      sketch 2 completed: a line from the i's stem, a mirrored line
 
 usage: python3 typo_poem.py <font_dir> <reference.svg> <out_dir>
   reference.svg = the reference .ai converted with `pdftocairo -svg`
@@ -201,7 +200,7 @@ def reference():
     layer = f'<g id="Poem_on_paths" {FONT}>\n' + "\n".join(texts) + "\n</g>\n"
     s = s.replace("</svg>", layer + "</svg>")
     s = re.sub(r'<svg ([^>]*?)width="[^"]*" height="[^"]*"', r'<svg \1width="200mm" height="200mm"', s, count=1)
-    open(f"{OUTDIR}/frost-flowers_0_reference.svg", "w").write(s)
+    open(f"{OUTDIR}/frost-flowers_1_sketch-1.svg", "w").write(s)
 
 
 # ---------------------------------------------------------------------------
@@ -241,157 +240,140 @@ def circle_d(cx, cy, r):
 
 
 # ---------------------------------------------------------------------------
-# No rectangular text blocks: every composition lets the lines of the poem
-# form a shape — a crescent, a Z, a ripple — around one large cropped letter.
+# Experimental typography, after the typo-poem examples in the course deck:
+# generous white space, small classic text, one or two big letters, and a few
+# deliberate plays — a staircase of lines landing on a letter, a mirrored
+# line, words broken around letters, scale pairs, a vertical edge caption and
+# a small crossed-word marker in the corner.
 # ---------------------------------------------------------------------------
-def arc_d(cx, cy, r, a0, a1, n=48):
-    """Arc (degrees, clockwise on screen) as a smooth path."""
-    pts = [(cx + r * math.cos(math.radians(a0 + (a1 - a0) * k / (n - 1))),
-            cy + r * math.sin(math.radians(a0 + (a1 - a0) * k / (n - 1)))) for k in range(n)]
-    return smooth(pts), pts
+GARAMOND = "font-family=\"'EB Garamond', serif\""
+GREY = "#8c8c8c"
 
 
-def visible_span(cx, cy, r, a0, a1, box=(8, 8, 192, 192), step=0.5):
-    """Longest run of angles in [a0, a1] whose arc points lie inside box."""
-    best, cur = None, None
-    a = a0
-    while a <= a1 + 1e-9:
-        x, y = cx + r * math.cos(math.radians(a)), cy + r * math.sin(math.radians(a))
-        inside = box[0] <= x <= box[2] and box[1] <= y <= box[3]
-        if inside:
-            cur = (cur[0], a) if cur else (a, a)
-            if best is None or cur[1] - cur[0] > best[1] - best[0]:
-                best = cur
-        else:
-            cur = None
-        a += step
-    return best
+def tw_g(s, size):
+    return _garamond.getlength(s) * size / 1000
 
 
-def arc_line(doc, cx, cy, r, a0, a1, text, size, fill, offset_frac=0.0):
-    """One poem line on an arc; slides along the arc by offset_frac of the slack."""
-    span = visible_span(cx, cy, r, a0, a1)
-    if not span or span[1] - span[0] < 4:
-        return ""
-    d, pts = arc_d(cx, cy, r, *span)
-    L = plen(pts)
-    s = min(size, size * L * 0.97 / tw(text, size))
-    pid = doc.uid("arc")
-    doc.defs.append(f'<path id="{pid}" d="{d}"/>')
-    off = max(0.0, L - tw(text, s)) * offset_frac
-    return (f'<text font-size="{s:.2f}" fill="{fill}"><textPath href="#{pid}" '
-            f'startOffset="{off:.2f}">{text}</textPath></text>')
+_garamond = ImageFont.truetype(FONTDIR + "/EBGaramond-Regular.ttf", 1000)
+
+
+def edge_caption(lines, fill=INK):
+    """Small vertical caption running up the right edge, as in the examples."""
+    out = []
+    for k, line in enumerate(lines):
+        x = 200 - M + 1.5 - (len(lines) - 1 - k) * 3.2
+        out.append(f'<text x="0" y="0" font-size="2.2" fill="{fill}" {GARAMOND} '
+                   f'transform="translate({f(x)} {200 - M}) rotate(-90)">{line}</text>')
+    return "\n".join(out)
+
+
+def cross_marker(fill=INK, at=(22, 178)):
+    """Two tiny words crossing at one point (bottom left by default)."""
+    cx, cy, s, ls = at[0], at[1], 2.6, 0.5
+    out = []
+    for word, rot in (("frost", -28), ("flowers", 62)):
+        # both words share their "o": shift each so that letter sits on the crossing
+        pre = tw_g(word[:2], s) + 2 * ls + tw_g("o", s) / 2
+        out.append(f'<text x="{f(cx - pre)}" y="{f(cy + s * 0.25)}" font-size="{s}" fill="{fill}" {GARAMOND} '
+                   f'letter-spacing="{ls}" transform="rotate({rot} {cx} {cy})">{word}</text>')
+    return "\n".join(out)
 
 
 # ---------------------------------------------------------------------------
-# SKETCH 1 / FINAL — asymmetrical BALANCE, EMPHASIS, CONTRAST
-# A huge "g" cropped at the lower left is the heavy mass. The poem hugs its
-# bowl on concentric arcs (a crescent of type, never a box) and balances it
-# toward the upper right. The single red point sits in the g's counter — the
-# focal point at the centre of every arc.
+# SKETCH 2 / FINAL — "staircase to i"
+# Lines 1-14 step down and to the right; the last one ends exactly on the dot
+# of a big Bodoni "i" (the line's full stop becomes the letter's dot).
+# Final adds: a hairline sentence running out from the i's stem (the "H t"
+# page), and one line set twice — upright and mirrored — like a reflection.
 # ---------------------------------------------------------------------------
-def crescent(final=False):
-    global TEXT_FACE
-    TEXT_FACE = "cormorant"
-    doc = Doc("frost flowers — final (balance · emphasis · contrast)" if final
-              else "frost flowers — sketch 1 (balance · emphasis · contrast)")
+def staircase(final=False):
+    doc = Doc("frost flowers — final" if final else "frost flowers — sketch 2")
     doc.layer("Paper", f'<rect width="200" height="200" fill="{PAPER}"/>')
-    gx, gy, gs = -24, 156, SCALE[10]
-    doc.layer("Mass", big(gx, gy, gs, "g", INK), FACES["bodoni"][0])
-    cx, cy = 27, 113  # centre of the g's bowl
-    lines = []
-    for i, line in enumerate(POEM):
-        r = 54 + i * 4.6
-        # each line starts a little further along its arc: the starts form one curve
-        frac = 0.08 + 0.85 * (i / 21) ** 1.4
-        lines.append(arc_line(doc, cx, cy, r, -96, 8, line, SCALE[1], INK, frac))
-    doc.layer("Crescent_on_paths", "\n".join(lines), FACES["cormorant"][0])
-    doc.layer("Focal_Point", f'<circle cx="{cx + 2}" cy="{cy + 6}" r="{SCALE[2] / 2}" fill="{RED}"/>')
-    t = [big(200 - M, 200 - M, SCALE[2] if final else SCALE[1], "frost flowers", INK, extra=' text-anchor="end"')]
+    size, x0, y0, dx, dy = 2.9, 22, 30, 4.6, 5.0
+    t, last = [], None
+    for i, line in enumerate(POEM[:14]):
+        x, y = x0 + i * dx, y0 + i * dy + (6 if i == 13 else 0)  # a pause before the landing
+        txt = line.rstrip(".,")
+        t.append(f'<text x="{f(x)}" y="{f(y)}" font-size="{size}">{txt}</text>')
+        last = (x + tw_g(txt, size), y)
+    doc.layer("Staircase", "\n".join(t), f'{GARAMOND} fill="{INK}"')
+
+    # the big i: place it so its dot sits just after the last line, on its x-height
+    S = 56  # the dot becomes the last line's full stop, sitting on its baseline
+    dot_cx, dot_cy = last[0] + 0.067 * S + 0.8, last[1] - 0.067 * S
+    ix, iy = dot_cx - 0.237 * S, dot_cy + 0.6885 * S
+    doc.layer("Big_i", big(ix, iy, S, "i", INK), FACES["bodoni"][0])
+
+    e = []
     if final:
-        t.append(f'<line x1="{colx(4)}" y1="{200 - M - SCALE[2] - 2.5}" x2="{200 - M}" '
-                 f'y2="{200 - M - SCALE[2] - 2.5}" stroke="{INK}" stroke-width="0.2"/>')
-    doc.layer("Title", "\n".join(t), FACES["bodoni"][0])
+        # a single thin sentence leaves the foot of the stem and runs to the margin
+        run = POEM[14]
+        sx = ix + 0.30 * S + 3
+        rs = min(2.6, (200 - M - 10 - sx) / tw_g(run, 1))
+        e.append(f'<text x="{f(sx)}" y="{f(iy - 0.6)}" font-size="{rs:.2f}" {GARAMOND} fill="{INK}">{run}</text>')
+        # mirrored line: upright, then flipped about its baseline
+        my, ms, mx = 172, 6.2, 22
+        for k, line in enumerate(POEM[15:17]):
+            e.append(f'<text x="{mx}" y="{my - 16 + k * 3.6}" font-size="2.3" {GARAMOND} fill="{INK}">{line}</text>')
+        e.append(f'<text x="{mx}" y="{my}" font-size="{ms}" {GARAMOND} fill="{INK}">{POEM[17]}</text>')
+        e.append(f'<text x="{mx + 9}" y="{my}" font-size="{ms}" {GARAMOND} fill="{INK}" '
+                 f'transform="translate(0 {2 * my}) scale(1 -1)">{POEM[18]}</text>')
+        e.append(f'<text x="{mx}" y="{my + 14}" font-size="2.2" {GARAMOND} fill="{INK}">{POEM[19]}</text>')
+    doc.layer("Plays", "\n".join(e))
+    doc.layer("Edge_Caption", edge_caption(POEM[20:] if final else POEM[14:22:2]))
+    doc.layer("Marker", cross_marker(at=(22, 20) if final else (22, 178)))
     return doc
 
 
 # ---------------------------------------------------------------------------
-# SKETCH 2 — MOVEMENT (Z path) and RHYTHM
-# The eye enters top left, runs along the top line, falls down a diagonal
-# edge where each line ends exactly on the diagonal (spacing tight, then a
-# pause, then loose), and leaves along the bottom over a black triangle.
-# The red point is the end of the path.
+# SKETCH 3 — "f r o s t" on a dark ground
+# A huge white f cropped at the top right. The letters r, o, s, t tumble
+# diagonally, shrinking; beside each, a few small grey lines of the poem are
+# broken open around the letter. Along the bottom, "flowers" is scattered in
+# lower/upper-case pairs (fF lL oO ...), as on the "w o r d" page.
 # ---------------------------------------------------------------------------
-def zpath():
-    global TEXT_FACE
-    TEXT_FACE = "caslon"
-    doc = Doc("frost flowers — sketch 2 (movement · rhythm)")
-    A, B = (190, 40), (10, 168)  # the diagonal
-    tri = f"M{A[0]} {A[1]}L{B[0]} {B[1]}V200H200V{A[1]}Z"
-    doc.layer("Planes", f'<rect width="200" height="200" fill="{PAPER}"/><path d="{tri}" fill="{PANE}"/>')
+def scatter():
+    doc = Doc("frost flowers — sketch 3")
+    BG = "#1b1b1b"
+    doc.layer("Ground", f'<rect width="200" height="200" fill="{BG}"/>')
+    doc.layer("Big_f", big(118, 150, 210, "f", PAPER), FACES["playfair"][0])
 
-    def diag_x(y):
-        return A[0] + (B[0] - A[0]) * (y - A[1]) / (B[1] - A[1])
+    letters = [("r", 34, 52, 15), ("o", 70, 92, 12), ("s", 52, 128, 10), ("t", 96, 150, 8)]
+    blocks = [POEM[0:4], POEM[4:8], POEM[8:12], POEM[12:16]]
+    t, g = [], []
+    for (ch, x, y, s), lines in zip(letters, blocks):
+        t.append(big(x, y, s, ch, PAPER))
+        gap = tw(ch, s, "playfair") + 3
+        for k, line in enumerate(lines):
+            ly = y - s * 0.55 + k * 3.4
+            words = line.split()
+            cut = max(1, len(words) // 2)
+            left, right = " ".join(words[:cut]), " ".join(words[cut:])
+            g.append(f'<text x="{f(x - 1.5)}" y="{f(ly)}" font-size="2.3" text-anchor="end">{left}</text>')
+            g.append(f'<text x="{f(x + gap)}" y="{f(ly)}" font-size="2.3">{right}</text>')
+    doc.layer("Tumbling_letters", "\n".join(t), FACES["playfair"][0])
+    doc.layer("Broken_lines", "\n".join(g), f'{GARAMOND} fill="{GREY}"')
 
-    t = []
-    # top run (entry), on a gentle wave
-    p = [on_path(doc, wave(M, 22, 200 - M, 18, 1.2, 1.0, 0.3), POEM[0] + "  /  " + POEM[1], SCALE[1], INK)]
-    # the fall: lines 3-14 end on the diagonal; tight, pause, loose
-    ys, y = [], 44
-    for k in range(12):
-        ys.append(y)
-        y += 4.4 if k < 6 else (13 if k == 6 else 7.2)
-    for k, yy in enumerate(ys):
-        line = POEM[2 + k]
-        size = SCALE[1] if k < 7 else SCALE[2] * 0.85
-        size = min(size, (diag_x(yy) - 3 - M) / tw(line, 1))  # never past the margin
-        t.append(big(diag_x(yy) - 3, yy, f"{size:.2f}", line, INK, extra=' text-anchor="end"'))
-    # exit: lines 15-22 along the bottom, white on black, stepping right
-    for k in range(4):
-        y0 = 171 + k * 7.4
-        p.append(on_path(doc, wave(30 + k * 14, y0 + 1.5, 200 - M, y0 - 1.5, 0.9, 1.0, k),
-                         POEM[14 + 2 * k] + "  /  " + POEM[15 + 2 * k], SCALE[1] * 0.85, PAPER))
-    doc.layer("Movement_on_paths", "\n".join(p), FACES["caslon"][0])
-    doc.layer("Fall", "\n".join(t), FACES["caslon"][0])
-    big_t = [big(200 - M, 120, SCALE[6], "frost", PAPER, extra=' text-anchor="end"'),
-             big(200 - M, 148, SCALE[6], "flowers", PAPER, extra=' text-anchor="end"')]
-    doc.layer("Display", "\n".join(big_t), FACES["archivo"][0])
-    doc.layer("Focal_Point", f'<circle cx="{200 - M - 2}" cy="{160}" r="{SCALE[2] / 2}" fill="{RED}"/>')
-    return doc
-
-
-# ---------------------------------------------------------------------------
-# SKETCH 3 — HARMONY and RHYTHM: ripples
-# A big "o" cropped at the lower-left corner; the lines of the poem run on
-# quarter-circle arcs sharing its centre (form harmony). Each line starts at
-# a different point along its arc, so together they draw a wave (rhythm).
-# One line is red.
-# ---------------------------------------------------------------------------
-def ripples():
-    global TEXT_FACE
-    TEXT_FACE = "caslon"
-    doc = Doc("frost flowers — sketch 3 (harmony · rhythm)")
-    doc.layer("Paper", f'<rect width="200" height="200" fill="{PAPER}"/>')
-    cx, cy, osz = 4, 196, SCALE[9] * 1.1
-    fo = ImageFont.truetype(FONTDIR + "/" + FACES["playfair"][1], 1000)
-    l, t_, r_, b_ = fo.getbbox("o", anchor="ls")  # centre the o on the arcs' centre
-    ox, oy = cx - (l + r_) / 2 * osz / 1000, cy - (t_ + b_) / 2 * osz / 1000
-    doc.layer("Mass", big(ox, oy, f"{osz:.2f}", "o", INK), FACES["playfair"][0])
-    lines = []
-    for i, line in enumerate(POEM):
-        r = osz * 0.36 + 10 + i * 5.6
-        frac = 0.5 + 0.5 * math.sin(i * 0.42 - 0.6)
-        lines.append(arc_line(doc, cx, cy, r, -92, 2, line, SCALE[1], RED if i == 15 else INK, frac))
-    doc.layer("Ripples_on_paths", "\n".join(lines), FACES["caslon"][0])
-    doc.layer("Title", big(200 - M, M + SCALE[2], SCALE[2], "frost flowers", INK, extra=' text-anchor="end"'),
-              FACES["playfair"][0])
+    # "flowers" in case pairs, drifting along the bottom
+    pairs, x = [], 14
+    for k, ch in enumerate("flowers"):
+        y = 186 - 3 * math.sin(k * 0.9)
+        pairs.append(big(x, y, 3.2, ch, GREY, extra=f' {GARAMOND}'))
+        pairs.append(big(x + 2.4, y + 1.2, 6.5, ch.upper(), PAPER, extra=f' {GARAMOND}'))
+        x += 12 + 3 * (k % 2)
+    doc.layer("Case_pairs", "\n".join(pairs))
+    # single letters of the last lines falling down the f's curve
+    fall = []
+    for k, ch in enumerate("sighs"):
+        fall.append(big(176 - k * 2.2, 118 + k * 9, 3.2, ch, GREY, extra=f' {GARAMOND}'))
+    doc.layer("Falling", "\n".join(fall))
+    doc.layer("Edge_Caption", edge_caption(POEM[20:], GREY))
     return doc
 
 
 if __name__ == "__main__":
-    reference()
-    crescent().save("frost-flowers_1_sketch-1.svg")
-    zpath().save("frost-flowers_1_sketch-2.svg")
-    ripples().save("frost-flowers_1_sketch-3.svg")
-    crescent(final=True).save("frost-flowers_2_final.svg")
+    reference()  # sketch 1: the student's own work, as is
+    staircase().save("frost-flowers_1_sketch-2.svg")
+    scatter().save("frost-flowers_1_sketch-3.svg")
+    staircase(final=True).save("frost-flowers_2_final.svg")
     print("ok")
