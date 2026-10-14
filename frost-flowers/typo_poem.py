@@ -1,12 +1,13 @@
 """frost flowers — typo poem (20 x 20 cm)
 
 Three sketches and one final composition, written as SVG, built from the
-experimental typography examples in the course deck:
+typographic factors taught in the course (case, typeface, size,
+weight, width, outline), in compositions of our own:
 
   sketch 1   the student's own reference artwork, kept as is (text runs re-set)
-  sketch 2   staircase of lines landing on the dot of a big i
-  sketch 3   f r o s t tumbling on a dark ground, lines broken around letters
-  final      sketch 2 completed: a line from the i's stem, a mirrored line
+  sketch 2   one line grows in size, weight and width along an S curve
+  sketch 3   case & typeface contrast: solid condensed F, outline italic f
+  final      sketch 2 refined
 
 usage: python3 typo_poem.py <font_dir> <reference.svg> <out_dir>
   reference.svg = the reference .ai converted with `pdftocairo -svg`
@@ -240,140 +241,173 @@ def circle_d(cx, cy, r):
 
 
 # ---------------------------------------------------------------------------
-# Experimental typography, after the typo-poem examples in the course deck:
-# generous white space, small classic text, one or two big letters, and a few
-# deliberate plays — a staircase of lines landing on a letter, a mirrored
-# line, words broken around letters, scale pairs, a vertical edge caption and
-# a small crossed-word marker in the corner.
+# Typographic factors applied directly to the letters (case, typeface, size,
+# weight, width, outline) — the techniques from the course, in compositions
+# of our own.
 # ---------------------------------------------------------------------------
+import numpy as np
+from PIL import Image, ImageDraw
+
 GARAMOND = "font-family=\"'EB Garamond', serif\""
-GREY = "#8c8c8c"
+STEPS = 8  # Archivo instances: width 62→125, weight 100→900
+_step = [ImageFont.truetype(f"{FONTDIR}/ArchivoStep{k}.ttf", 1000) for k in range(STEPS)]
+_garamond = ImageFont.truetype(FONTDIR + "/EBGaramond-Regular.ttf", 1000)
 
 
 def tw_g(s, size):
     return _garamond.getlength(s) * size / 1000
 
 
-_garamond = ImageFont.truetype(FONTDIR + "/EBGaramond-Regular.ttf", 1000)
-
-
-def edge_caption(lines, fill=INK):
-    """Small vertical caption running up the right edge, as in the examples."""
+def offset_pts(pts, d):
+    """Offset a polyline by d mm along its normal (positive = right of travel)."""
     out = []
-    for k, line in enumerate(lines):
-        x = 200 - M + 1.5 - (len(lines) - 1 - k) * 3.2
-        out.append(f'<text x="0" y="0" font-size="2.2" fill="{fill}" {GARAMOND} '
-                   f'transform="translate({f(x)} {200 - M}) rotate(-90)">{line}</text>')
-    return "\n".join(out)
+    for i, (x, y) in enumerate(pts):
+        (ax, ay), (bx, by) = pts[max(i - 1, 0)], pts[min(i + 1, len(pts) - 1)]
+        L = math.dist((ax, ay), (bx, by)) or 1
+        nx, ny = -(by - ay) / L, (bx - ax) / L
+        out.append((x + nx * d, y + ny * d))
+    return out
 
 
-def cross_marker(fill=INK, at=(22, 178)):
-    """Two tiny words crossing at one point (bottom left by default)."""
-    cx, cy, s, ls = at[0], at[1], 2.6, 0.5
+def sample(pts, n=120):
+    """Resample a Catmull-Rom curve through pts into n points."""
     out = []
-    for word, rot in (("frost", -28), ("flowers", 62)):
-        # both words share their "o": shift each so that letter sits on the crossing
-        pre = tw_g(word[:2], s) + 2 * ls + tw_g("o", s) / 2
-        out.append(f'<text x="{f(cx - pre)}" y="{f(cy + s * 0.25)}" font-size="{s}" fill="{fill}" {GARAMOND} '
-                   f'letter-spacing="{ls}" transform="rotate({rot} {cx} {cy})">{word}</text>')
-    return "\n".join(out)
+    for i in range(len(pts) - 1):
+        p0, p1, p2 = pts[max(i - 1, 0)], pts[i], pts[i + 1]
+        p3 = pts[min(i + 2, len(pts) - 1)]
+        for k in range(n // (len(pts) - 1)):
+            t = k / (n // (len(pts) - 1))
+            out.append(tuple(0.5 * ((2 * p1[j]) + (-p0[j] + p2[j]) * t
+                                    + (2 * p0[j] - 5 * p1[j] + 4 * p2[j] - p3[j]) * t * t
+                                    + (-p0[j] + 3 * p1[j] - 3 * p2[j] + p3[j]) * t ** 3) for j in (0, 1)))
+    out.append(pts[-1])
+    return out
+
+
+def gradient_on_path(doc, pts, text, s0, s1):
+    """Type on a path whose letters grow in size, weight and width as they go."""
+    pid = doc.uid("grad")
+    doc.defs.append(f'<path id="{pid}" d="{smooth(pts)}"/>')
+    spans, n = [], len(text)
+    for i, ch in enumerate(text):
+        t = i / (n - 1)
+        k = min(STEPS - 1, int(t * STEPS))
+        size = s0 * (s1 / s0) ** t
+        ch = "&#160;" if ch == " " else ch
+        spans.append(f'<tspan font-family="ArchivoStep{k}" font-size="{size:.2f}">{ch}</tspan>')
+    return f'<text fill="{INK}"><textPath href="#{pid}">{"".join(spans)}</textPath></text>'
 
 
 # ---------------------------------------------------------------------------
-# SKETCH 2 / FINAL — "staircase to i"
-# Lines 1-14 step down and to the right; the last one ends exactly on the dot
-# of a big Bodoni "i" (the line's full stop becomes the letter's dot).
-# Final adds: a hairline sentence running out from the i's stem (the "H t"
-# page), and one line set twice — upright and mirrored — like a reflection.
+# SKETCH 2 / FINAL — weight & width gradient on an S curve
+# One line of the poem travels an S curve and changes as it goes: from tiny,
+# hairline and condensed to huge, black and wide, until the page crops it.
+# The rest of the poem follows the same curve as a thin ribbon of small lines
+# whose ends stay ragged.
 # ---------------------------------------------------------------------------
-def staircase(final=False):
+def gradient(final=False):
     doc = Doc("frost flowers — final" if final else "frost flowers — sketch 2")
     doc.layer("Paper", f'<rect width="200" height="200" fill="{PAPER}"/>')
-    size, x0, y0, dx, dy = 2.9, 22, 30, 4.6, 5.0
-    t, last = [], None
-    for i, line in enumerate(POEM[:14]):
-        x, y = x0 + i * dx, y0 + i * dy + (6 if i == 13 else 0)  # a pause before the landing
-        txt = line.rstrip(".,")
-        t.append(f'<text x="{f(x)}" y="{f(y)}" font-size="{size}">{txt}</text>')
-        last = (x + tw_g(txt, size), y)
-    doc.layer("Staircase", "\n".join(t), f'{GARAMOND} fill="{INK}"')
+    spine = sample([(8, 46), (52, 30), (100, 58), (140, 104), (176, 128), (214, 136), (260, 140)], 180)
+    big_line = POEM[0] + " " + POEM[1]
+    doc.layer("Gradient_on_path", gradient_on_path(doc, spine, big_line, 2.6, 46 if final else 40))
 
-    # the big i: place it so its dot sits just after the last line, on its x-height
-    S = 56  # the dot becomes the last line's full stop, sitting on its baseline
-    dot_cx, dot_cy = last[0] + 0.067 * S + 0.8, last[1] - 0.067 * S
-    ix, iy = dot_cx - 0.237 * S, dot_cy + 0.6885 * S
-    doc.layer("Big_i", big(ix, iy, S, "i", INK), FACES["bodoni"][0])
-
-    e = []
+    rib = []
+    for k, line in enumerate(POEM[2:]):
+        # shifted copies of the curve (never fold); spacing opens up and each
+        # line starts further along, so the ribbon tapers into a wedge
+        dy = 8 + 3.4 * k ** 1.12
+        pts = [(x, y + dy) for x, y in spine]
+        pid = doc.uid("rib")
+        doc.defs.append(f'<path id="{pid}" d="M' + "L".join(f"{f(x)} {f(y)}" for x, y in pts) + '"/>')
+        rib.append(f'<text font-size="2.35"><textPath href="#{pid}" startOffset="{k * 4.5:.1f}">{line}</textPath></text>')
+    doc.layer("Ribbon_on_paths", "\n".join(rib), f'{GARAMOND} fill="{INK}"')
     if final:
-        # a single thin sentence leaves the foot of the stem and runs to the margin
-        run = POEM[14]
-        sx = ix + 0.30 * S + 3
-        rs = min(2.6, (200 - M - 10 - sx) / tw_g(run, 1))
-        e.append(f'<text x="{f(sx)}" y="{f(iy - 0.6)}" font-size="{rs:.2f}" {GARAMOND} fill="{INK}">{run}</text>')
-        # mirrored line: upright, then flipped about its baseline
-        my, ms, mx = 172, 6.2, 22
-        for k, line in enumerate(POEM[15:17]):
-            e.append(f'<text x="{mx}" y="{my - 16 + k * 3.6}" font-size="2.3" {GARAMOND} fill="{INK}">{line}</text>')
-        e.append(f'<text x="{mx}" y="{my}" font-size="{ms}" {GARAMOND} fill="{INK}">{POEM[17]}</text>')
-        e.append(f'<text x="{mx + 9}" y="{my}" font-size="{ms}" {GARAMOND} fill="{INK}" '
-                 f'transform="translate(0 {2 * my}) scale(1 -1)">{POEM[18]}</text>')
-        e.append(f'<text x="{mx}" y="{my + 14}" font-size="2.2" {GARAMOND} fill="{INK}">{POEM[19]}</text>')
-    doc.layer("Plays", "\n".join(e))
-    doc.layer("Edge_Caption", edge_caption(POEM[20:] if final else POEM[14:22:2]))
-    doc.layer("Marker", cross_marker(at=(22, 20) if final else (22, 178)))
+        doc.layer("Title", f'<text x="{200 - M}" y="{M + 4}" font-size="4" text-anchor="end" '
+                           f'font-family="ArchivoStep7">frost flowers</text>'
+                           f'<text x="{200 - M}" y="{M + 8.5}" font-size="2.2" text-anchor="end" '
+                           f'font-family="ArchivoStep1">weight · width · size</text>')
     return doc
 
 
 # ---------------------------------------------------------------------------
-# SKETCH 3 — "f r o s t" on a dark ground
-# A huge white f cropped at the top right. The letters r, o, s, t tumble
-# diagonally, shrinking; beside each, a few small grey lines of the poem are
-# broken open around the letter. Along the bottom, "flowers" is scattered in
-# lower/upper-case pairs (fF lL oO ...), as on the "w o r d" page.
+# SKETCH 3 — case & typeface contrast: F / f
+# A huge condensed uppercase F, solid and cropped, against a huge Bodoni
+# italic f drawn only as a hairline outline. The poem traces the f's spine on
+# parallel paths.
 # ---------------------------------------------------------------------------
-def scatter():
+def spine_of(ch, x, y, size, font_file):
+    """Centre line of a glyph's main stroke (top to bottom), in mm."""
+    PXM = 4
+    im = Image.new("L", (320 * PXM, 320 * PXM), 0)
+    fo = ImageFont.truetype(font_file, int(size * PXM))
+    ImageDraw.Draw(im).text(((x + 60) * PXM, (y + 60) * PXM), ch, font=fo, fill=255, anchor="ls")
+    m = np.array(im) > 127
+    pts, prev = [], None
+    for r in range(0, m.shape[0], 8):
+        cols = np.nonzero(m[r])[0]
+        if not len(cols):
+            continue
+        runs = np.split(cols, np.nonzero(np.diff(cols) > 1)[0] + 1)
+        mids = [(run[0] + run[-1]) / 2 for run in runs if (run[-1] - run[0]) < 30 * PXM]
+        if not mids:
+            continue
+        c = min(mids, key=lambda v: abs(v - prev)) if prev is not None else mids[0]
+        if prev is not None and abs(c - prev) > 12 * PXM:
+            continue
+        prev = c
+        pts.append((c / PXM - 60, r / PXM - 60))
+    return pts
+
+
+def glyph_contour_d(ch, x, y, size, font_file):
+    """Outer contour of a glyph as SVG path data in mm, clockwise on screen
+    (so type set on it stands upright outside the letter)."""
+    from fontTools.ttLib import TTFont
+    from fontTools.pens.recordingPen import RecordingPen
+    from fontTools.pens.reverseContourPen import ReverseContourPen
+    from fontTools.pens.svgPathPen import SVGPathPen
+    from fontTools.pens.transformPen import TransformPen
+    font = TTFont(font_file)
+    gs = font.getGlyphSet()
+    name = font.getBestCmap()[ord(ch)]
+    k = size / font["head"].unitsPerEm
+    rec = RecordingPen()
+    gs[name].draw(TransformPen(rec, (k, 0, 0, -k, x, y)))
+    # split into contours, keep the longest one (the outer outline)
+    contours, cur = [], []
+    for op, args in rec.value:
+        cur.append((op, args))
+        if op in ("closePath", "endPath"):
+            contours.append(cur); cur = []
+    def length(c):
+        pts = [a[-1] for op, a in c if a]
+        return sum(math.dist(pts[i], pts[i + 1]) for i in range(len(pts) - 1))
+    outer = max(contours, key=length)
+    one = RecordingPen(); one.value = outer
+    svg = SVGPathPen(None)
+    one.replay(ReverseContourPen(svg))  # the y-flip reversed it; reverse back
+    return svg.getCommands()
+
+
+def case_contrast():
     doc = Doc("frost flowers — sketch 3")
-    BG = "#1b1b1b"
-    doc.layer("Ground", f'<rect width="200" height="200" fill="{BG}"/>')
-    doc.layer("Big_f", big(118, 150, 210, "f", PAPER), FACES["playfair"][0])
-
-    letters = [("r", 34, 52, 15), ("o", 70, 92, 12), ("s", 52, 128, 10), ("t", 96, 150, 8)]
-    blocks = [POEM[0:4], POEM[4:8], POEM[8:12], POEM[12:16]]
-    t, g = [], []
-    for (ch, x, y, s), lines in zip(letters, blocks):
-        t.append(big(x, y, s, ch, PAPER))
-        gap = tw(ch, s, "playfair") + 3
-        for k, line in enumerate(lines):
-            ly = y - s * 0.55 + k * 3.4
-            words = line.split()
-            cut = max(1, len(words) // 2)
-            left, right = " ".join(words[:cut]), " ".join(words[cut:])
-            g.append(f'<text x="{f(x - 1.5)}" y="{f(ly)}" font-size="2.3" text-anchor="end">{left}</text>')
-            g.append(f'<text x="{f(x + gap)}" y="{f(ly)}" font-size="2.3">{right}</text>')
-    doc.layer("Tumbling_letters", "\n".join(t), FACES["playfair"][0])
-    doc.layer("Broken_lines", "\n".join(g), f'{GARAMOND} fill="{GREY}"')
-
-    # "flowers" in case pairs, drifting along the bottom
-    pairs, x = [], 14
-    for k, ch in enumerate("flowers"):
-        y = 186 - 3 * math.sin(k * 0.9)
-        pairs.append(big(x, y, 3.2, ch, GREY, extra=f' {GARAMOND}'))
-        pairs.append(big(x + 2.4, y + 1.2, 6.5, ch.upper(), PAPER, extra=f' {GARAMOND}'))
-        x += 12 + 3 * (k % 2)
-    doc.layer("Case_pairs", "\n".join(pairs))
-    # single letters of the last lines falling down the f's curve
-    fall = []
-    for k, ch in enumerate("sighs"):
-        fall.append(big(176 - k * 2.2, 118 + k * 9, 3.2, ch, GREY, extra=f' {GARAMOND}'))
-    doc.layer("Falling", "\n".join(fall))
-    doc.layer("Edge_Caption", edge_caption(POEM[20:], GREY))
+    doc.layer("Paper", f'<rect width="200" height="200" fill="{PAPER}"/>')
+    doc.layer("Upper_F", big(-26, 232, 250, "F", INK), FACES["archivo"][0])
+    # the italic f is drawn only by the poem, set on the letter's own contour
+    d = glyph_contour_d("f", 34, 232, 290, FONTDIR + "/BodoniModa-DisplayItalic.ttf")
+    doc.defs.append(f'<path id="fcontour" d="{d}"/>')
+    text = "   ".join(POEM)
+    doc.layer("f_written_by_the_poem",
+              f'<text font-size="2.6" fill="{INK}"><textPath href="#fcontour">{text}</textPath></text>',
+              GARAMOND)
+    doc.layer("Title", f'<text x="{200 - M}" y="{200 - M}" font-size="4" text-anchor="end" {GARAMOND}>frost flowers</text>')
     return doc
 
 
 if __name__ == "__main__":
     reference()  # sketch 1: the student's own work, as is
-    staircase().save("frost-flowers_1_sketch-2.svg")
-    scatter().save("frost-flowers_1_sketch-3.svg")
-    staircase(final=True).save("frost-flowers_2_final.svg")
+    gradient().save("frost-flowers_1_sketch-2.svg")
+    case_contrast().save("frost-flowers_1_sketch-3.svg")
+    gradient(final=True).save("frost-flowers_2_final.svg")
     print("ok")

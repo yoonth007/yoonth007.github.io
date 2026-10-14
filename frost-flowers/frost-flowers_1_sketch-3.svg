@@ -1,79 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="200mm" height="200mm" viewBox="0 0 200 200">
 <title>frost flowers — sketch 3</title>
 <defs>
-
+<path id="fcontour" d="M9.350000000000001 307.4Q23.995 307.4 34.725 301.5275Q45.455 295.655 53.14 285.4325Q60.825 275.21 65.9725 262.305Q71.12 249.4 74.455 235.335L110.99499999999999 79.17000000000002Q114.18499999999999 65.54000000000002 117.51999999999998 53.577500000000015Q120.85499999999999 41.61500000000001 125.1325 32.33500000000001Q129.41 23.055000000000007 135.20999999999998 17.762500000000017Q141.01 12.470000000000027 149.13 12.470000000000027Q160.73 12.470000000000027 168.0525 17.110000000000028Q175.375 21.75000000000003 178.7825 28.420000000000016Q182.19 35.09 182.19 41.18000000000001H182.48Q182.48 37.55500000000001 180.95749999999998 34.87250000000002Q179.435 32.190000000000026 177.0425 30.30500000000002Q174.64999999999998 28.420000000000016 171.75 27.55000000000001Q168.85 26.680000000000007 165.80499999999998 26.680000000000007Q161.01999999999998 26.680000000000007 157.105 28.782500000000013Q153.19 30.88500000000002 150.87 34.655000000000015Q148.55 38.42500000000001 148.55 43.35500000000002Q148.55 51.47500000000002 154.06 55.607500000000016Q159.57 59.74000000000001 165.80499999999998 59.74000000000001Q173.2 59.74000000000001 177.98499999999999 54.73750000000001Q182.76999999999998 49.735000000000014 182.76999999999998 41.18000000000001Q182.76999999999998 34.655 179.0725 27.840000000000003Q175.375 21.025000000000006 167.545 16.312500000000014Q159.71499999999997 11.600000000000023 147.535 11.600000000000023Q133.035 11.600000000000023 122.23249999999999 17.472500000000025Q111.42999999999999 23.345000000000027 103.8175 33.49500000000002Q96.205 43.64500000000001 91.0575 56.55000000000001Q85.91 69.45500000000001 82.72 83.66500000000002L46.47 239.83Q43.28 253.46 39.8 265.4225Q36.32 277.385 31.97 286.66499999999996Q27.62 295.945 21.747500000000002 301.23749999999995Q15.875 306.53 7.755000000000003 306.53Q-3.6999999999999957 306.53 -11.022499999999997 301.9625Q-18.345 297.395 -21.824999999999996 290.7975Q-25.304999999999993 284.2 -25.304999999999993 277.82H-25.595Q-25.595 282.895 -23.202499999999997 286.1575Q-20.809999999999995 289.42 -17.184999999999995 290.87Q-13.559999999999995 292.32 -9.79 292.32Q-4.859999999999999 292.32 -0.7999999999999989 290.36249999999995Q3.2600000000000016 288.405 5.652500000000002 284.635Q8.045000000000002 280.865 8.045000000000002 275.645Q8.045000000000002 267.38 2.897500000000001 263.32Q-2.25 259.26 -8.774999999999999 259.26Q-16.169999999999995 259.26 -21.027499999999996 264.19Q-25.884999999999998 269.12 -25.884999999999998 277.82Q-25.884999999999998 284.345 -22.187499999999996 291.16Q-18.489999999999995 297.975 -10.732499999999995 302.6875Q-2.9749999999999943 307.4 9.350000000000001 307.4Z"/>
 </defs>
-<g id="Ground" >
-<rect width="200" height="200" fill="#1b1b1b"/>
+<g id="Paper" >
+<rect width="200" height="200" fill="#ffffff"/>
 </g>
-<g id="Big_f" font-family="'Playfair Display', serif" font-style="italic" font-weight="700">
-<text x="118" y="150" font-size="210" fill="#ffffff">f</text>
+<g id="Upper_F" font-family="'Archivo Condensed', 'Archivo', sans-serif" font-weight="800">
+<text x="-26" y="232" font-size="250" fill="#1a1a1a">F</text>
 </g>
-<g id="Tumbling_letters" font-family="'Playfair Display', serif" font-style="italic" font-weight="700">
-<text x="34" y="52" font-size="15" fill="#ffffff">r</text>
-<text x="70" y="92" font-size="12" fill="#ffffff">o</text>
-<text x="52" y="128" font-size="10" fill="#ffffff">s</text>
-<text x="96" y="150" font-size="8" fill="#ffffff">t</text>
+<g id="f_written_by_the_poem" font-family="'EB Garamond', serif">
+<text font-size="2.6" fill="#1a1a1a"><textPath href="#fcontour">The dawn city bus   runs with its windows decked in some dazzling finery.   The harsher the dead of winter,   the more vividly the frost flowers bloom.   Those who rode this bus yesterday   maidens and bachelors, children and grown-ups,   hairdressers, salesmen, housemaids, the jobless   their breath and their sighs   met in secret overnight and brought forth   this flashing, breathtaking beauty.   As if I had wandered into some exhibition,   I move from seat to seat to look,   and once again I am drunk on a single petal,   on its delicate and cold beauty.   Whose desolate sigh was this?   What warm heart breathed out this breath of passion?   For no reason, carefully, with my breath and my finger,   I wipe away a single frost petal   and press my forehead to the glass.   A haggard face glimmers in the rattling window   friend, you walked the road beside me for so long,   and now I am not even allowed to visit you.</textPath></text>
 </g>
-<g id="Broken_lines" font-family="'EB Garamond', serif" fill="#8c8c8c">
-<text x="32.5" y="43.75" font-size="2.3" text-anchor="end">The dawn</text>
-<text x="44.05" y="43.75" font-size="2.3">city bus</text>
-<text x="32.5" y="47.15" font-size="2.3" text-anchor="end">runs with its windows</text>
-<text x="44.05" y="47.15" font-size="2.3">decked in some dazzling finery.</text>
-<text x="32.5" y="50.55" font-size="2.3" text-anchor="end">The harsher the</text>
-<text x="44.05" y="50.55" font-size="2.3">dead of winter,</text>
-<text x="32.5" y="53.95" font-size="2.3" text-anchor="end">the more vividly</text>
-<text x="44.05" y="53.95" font-size="2.3">the frost flowers bloom.</text>
-<text x="68.5" y="85.4" font-size="2.3" text-anchor="end">Those who rode</text>
-<text x="79.35" y="85.4" font-size="2.3">this bus yesterday</text>
-<text x="68.5" y="88.8" font-size="2.3" text-anchor="end">maidens and bachelors,</text>
-<text x="79.35" y="88.8" font-size="2.3">children and grown-ups,</text>
-<text x="68.5" y="92.2" font-size="2.3" text-anchor="end">hairdressers, salesmen,</text>
-<text x="79.35" y="92.2" font-size="2.3">housemaids, the jobless</text>
-<text x="68.5" y="95.6" font-size="2.3" text-anchor="end">their breath</text>
-<text x="79.35" y="95.6" font-size="2.3">and their sighs</text>
-<text x="50.5" y="122.5" font-size="2.3" text-anchor="end">met in secret</text>
-<text x="59.2" y="122.5" font-size="2.3">overnight and brought forth</text>
-<text x="50.5" y="125.9" font-size="2.3" text-anchor="end">this flashing,</text>
-<text x="59.2" y="125.9" font-size="2.3">breathtaking beauty.</text>
-<text x="50.5" y="129.3" font-size="2.3" text-anchor="end">As if I had</text>
-<text x="59.2" y="129.3" font-size="2.3">wandered into some exhibition,</text>
-<text x="50.5" y="132.7" font-size="2.3" text-anchor="end">I move from seat</text>
-<text x="59.2" y="132.7" font-size="2.3">to seat to look,</text>
-<text x="94.5" y="145.6" font-size="2.3" text-anchor="end">and once again I am</text>
-<text x="101.82" y="145.6" font-size="2.3">drunk on a single petal,</text>
-<text x="94.5" y="149" font-size="2.3" text-anchor="end">on its delicate</text>
-<text x="101.82" y="149" font-size="2.3">and cold beauty.</text>
-<text x="94.5" y="152.4" font-size="2.3" text-anchor="end">Whose desolate</text>
-<text x="101.82" y="152.4" font-size="2.3">sigh was this?</text>
-<text x="94.5" y="155.8" font-size="2.3" text-anchor="end">What warm heart breathed</text>
-<text x="101.82" y="155.8" font-size="2.3">out this breath of passion?</text>
-</g>
-<g id="Case_pairs" >
-<text x="14" y="186" font-size="3.2" fill="#8c8c8c" font-family="'EB Garamond', serif">f</text>
-<text x="16.4" y="187.2" font-size="6.5" fill="#ffffff" font-family="'EB Garamond', serif">F</text>
-<text x="26" y="183.65" font-size="3.2" fill="#8c8c8c" font-family="'EB Garamond', serif">l</text>
-<text x="28.4" y="184.85" font-size="6.5" fill="#ffffff" font-family="'EB Garamond', serif">L</text>
-<text x="41" y="183.08" font-size="3.2" fill="#8c8c8c" font-family="'EB Garamond', serif">o</text>
-<text x="43.4" y="184.28" font-size="6.5" fill="#ffffff" font-family="'EB Garamond', serif">O</text>
-<text x="53" y="184.72" font-size="3.2" fill="#8c8c8c" font-family="'EB Garamond', serif">w</text>
-<text x="55.4" y="185.92" font-size="6.5" fill="#ffffff" font-family="'EB Garamond', serif">W</text>
-<text x="68" y="187.33" font-size="3.2" fill="#8c8c8c" font-family="'EB Garamond', serif">e</text>
-<text x="70.4" y="188.53" font-size="6.5" fill="#ffffff" font-family="'EB Garamond', serif">E</text>
-<text x="80" y="188.93" font-size="3.2" fill="#8c8c8c" font-family="'EB Garamond', serif">r</text>
-<text x="82.4" y="190.13" font-size="6.5" fill="#ffffff" font-family="'EB Garamond', serif">R</text>
-<text x="95" y="188.32" font-size="3.2" fill="#8c8c8c" font-family="'EB Garamond', serif">s</text>
-<text x="97.4" y="189.52" font-size="6.5" fill="#ffffff" font-family="'EB Garamond', serif">S</text>
-</g>
-<g id="Falling" >
-<text x="176" y="118" font-size="3.2" fill="#8c8c8c" font-family="'EB Garamond', serif">s</text>
-<text x="173.8" y="127" font-size="3.2" fill="#8c8c8c" font-family="'EB Garamond', serif">i</text>
-<text x="171.6" y="136" font-size="3.2" fill="#8c8c8c" font-family="'EB Garamond', serif">g</text>
-<text x="169.4" y="145" font-size="3.2" fill="#8c8c8c" font-family="'EB Garamond', serif">h</text>
-<text x="167.2" y="154" font-size="3.2" fill="#8c8c8c" font-family="'EB Garamond', serif">s</text>
-</g>
-<g id="Edge_Caption" >
-<text x="0" y="0" font-size="2.2" fill="#8c8c8c" font-family="'EB Garamond', serif" transform="translate(186.3 188) rotate(-90)">friend, you walked the road beside me for so long,</text>
-<text x="0" y="0" font-size="2.2" fill="#8c8c8c" font-family="'EB Garamond', serif" transform="translate(189.5 188) rotate(-90)">and now I am not even allowed to visit you.</text>
+<g id="Title" >
+<text x="188" y="188" font-size="4" text-anchor="end" font-family="'EB Garamond', serif">frost flowers</text>
 </g>
 </svg>
