@@ -417,6 +417,64 @@ def emph(line, size, keys=(), used=None):
 # make a ragged fringe of tips; the last word of each line has broken off and
 # fallen below its tip. "flowers" lies sunk at the bottom of the page.
 # ---------------------------------------------------------------------------
+# ---------------------------------------------------------------- Text Wrap --
+from PIL import ImageFilter
+
+PXW = 4  # wrap mask resolution, px per mm
+
+
+def word_mask(txt, x, y, size, font_file, anchor="ls", pad=2.0):
+    """Mask of a big word (as placed on the page), grown by `pad` mm."""
+    im = Image.new("L", (200 * PXW, 200 * PXW), 0)
+    ImageDraw.Draw(im).text((x * PXW, y * PXW), txt, fill=255, anchor=anchor,
+                            font=ImageFont.truetype(font_file, int(size * PXW)))
+    k = int(pad * PXW) * 2 + 1
+    return np.array(im.filter(ImageFilter.MaxFilter(k))) > 127
+
+
+def spaced_mask(txt, x, y, size, font_file, spacing, pad=2.0):
+    """Mask of a letter-spaced word, letter by letter."""
+    fo = ImageFont.truetype(font_file, 1000)
+    m = np.zeros((200 * PXW, 200 * PXW), bool)
+    for ch in txt:
+        m |= word_mask(ch, x, y, size, font_file, pad=pad)
+        x += fo.getlength(ch) * size / 1000 + spacing
+    return m
+
+
+def box_mask(x0, y0, x1, y1):
+    m = np.zeros((200 * PXW, 200 * PXW), bool)
+    m[int(y0 * PXW):int(y1 * PXW), int(x0 * PXW):int(x1 * PXW)] = True
+    return m
+
+
+def wrap_paragraph(text, mask, x0, x1, y0, y1, size, lead, fill, min_w=6.0):
+    """Text Wrap: flow a paragraph into the free spans of each row around
+    `mask`, word by word, left to right and top to bottom."""
+    words, out, y = text.split(), [], y0
+    while words and y <= y1:
+        r0, r1 = int((y - size * 0.75) * PXW), int((y + size * 0.25) * PXW) + 1
+        band = mask[max(r0, 0):min(r1, 200 * PXW)].any(axis=0)
+        c, end = int(x0 * PXW), int(x1 * PXW)
+        while c < end and words:
+            while c < end and band[c]:
+                c += 1
+            start = c
+            while c < end and not band[c]:
+                c += 1
+            sx, ex = start / PXW, c / PXW
+            if ex - sx < min_w:
+                continue
+            seg = []
+            while words and w_r(" ".join(seg + [words[0]]), size) <= ex - sx:
+                seg.append(words.pop(0))
+            if seg:
+                out.append(T2(sx, y, size, " ".join(seg), fill=fill))
+        y += lead
+    return "\n".join(out)
+
+
+BLACK_FILE = FONTDIR + "/PlayfairDisplay-BlackItalic.ttf"
 ICICLE_KEYS = {"frost", "breath", "sigh"}
 FUNNEL_KEYS = {"flowers", "sighs", "petal"}
 
@@ -442,7 +500,11 @@ def icicles(final=False):
     doc.layer("Eave", f'<line x1="10" y1="{top - 2.5}" x2="190" y2="{top - 2.5}" stroke="{INK}" stroke-width="0.35"/>')
     doc.layer("Hanging_lines", "\n".join(hang))
     doc.layer("Fallen_words", "\n".join(drops))
-    doc.layer("Sunk", T2(-4, 204, 66, "flowers", HEAVY_I, fill="#161718"))
+    LS = 9  # letters pulled apart so the text can wrap between them
+    doc.layer("Sunk", T2(-4, 204, 60, "flowers", HEAVY_I, fill="#161718", extra=f' letter-spacing="{LS}"'))
+    # Text Wrap: the passage flows into the gaps between the letters
+    m = spaced_mask("flowers", -4, 204, 60, BLACK_FILE, LS)
+    doc.layer("Wrapped", wrap_paragraph(" ".join(POEM[14:20]), m, 6, 196, 175, 198, 2.4, 3.3, "#2b2d30", 4.0))
     if final:
         doc.layer("Title", T2(186, 192, 3.0, "frost flowers", SERIF_I, anchor="end", fill="#eeeeec"))
     return doc
@@ -483,9 +545,11 @@ def funnel(final=False):
                        fill=fade(0.55 + 0.03 * k)))
     doc.layer("Drip", "\n".join(drip))
     doc.layer("Sunk_you", T2(cx, 214, 120, "you", HEAVY_I, anchor="middle", fill="#161718"))
+    # Text Wrap: the poem's last lines flow around the drip and into the gaps of "you"
+    m = word_mask("you", cx, 214, 120, BLACK_FILE, anchor="ms") | box_mask(cx - 13, y, cx + 13, 152)
+    doc.layer("Wrapped", wrap_paragraph(" ".join(POEM[18:22] + POEM[15:16]), m, 6, 196, 160, 198, 2.4, 3.6, "#2b2d30", 4.0))
     if final:
-        doc.layer("Title", T2(14, 11, 3.0, "frost flowers", SERIF_I) +
-                  vertical(190, 120, 2.5, POEM[20] + " " + POEM[21], SERIF, "#3a3c3f"))
+        doc.layer("Title", T2(14, 11, 3.0, "frost flowers", SERIF_I))
     return doc
 
 
