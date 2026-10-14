@@ -19,16 +19,36 @@ import math, re, sys
 from PIL import ImageFont
 
 FONTDIR, REF_SVG, OUTDIR = sys.argv[1], sys.argv[2], sys.argv[3]
-_ital = ImageFont.truetype(FONTDIR + "/EBGaramond-Italic.ttf", 1000)
+
+# Type pairings: (svg font attributes, file used to measure text widths).
+# Each composition gets its own display face (big letters) and text face
+# (the poem on paths). Sketch 1 keeps the reference's Arno Pro.
+FACES = {
+    "arno": ("font-family=\"'Arno Pro', 'EB Garamond', serif\" font-style=\"italic\"",
+             "EBGaramond-Italic.ttf"),
+    "bodoni": ("font-family=\"'Bodoni Moda', serif\" font-style=\"italic\" font-weight=\"500\"",
+               "BodoniModa-DisplayItalic.ttf"),
+    "cormorant": ("font-family=\"'Cormorant Garamond', serif\" font-style=\"italic\" font-weight=\"500\"",
+                  "CormorantGaramond-MediumItalic.ttf"),
+    "archivo": ("font-family=\"'Archivo Condensed', 'Archivo', sans-serif\" font-weight=\"800\"",
+                "Archivo-CondensedExtraBold.ttf"),
+    "plexmono": ("font-family=\"'IBM Plex Mono', monospace\" font-style=\"italic\"",
+                 "IBMPlexMono-Italic.ttf"),
+    "playfair": ("font-family=\"'Playfair Display', serif\" font-style=\"italic\" font-weight=\"700\"",
+                 "PlayfairDisplay-BoldItalic.ttf"),
+    "caslon": ("font-family=\"'Libre Caslon Text', serif\" font-style=\"italic\"",
+               "LibreCaslonText-Italic.ttf"),
+}
+_metric = {k: ImageFont.truetype(FONTDIR + "/" + v[1], 1000) for k, v in FACES.items()}
+TEXT_FACE = "arno"  # face used by tw()/on_path() for the composition being built
 
 INK, PAPER, PANE = "#1a1a1a", "#ffffff", "#212121"
-# Arno Pro is the reference's typeface; EB Garamond is the open fallback.
-FONT = "font-family=\"'Arno Pro', 'EB Garamond', Garamond, serif\" font-style=\"italic\""
+FONT = FACES["arno"][0]  # Arno Pro is the reference's typeface; EB Garamond the open fallback
 
 
-def tw(s, size):
-    """Advance width of an italic string at a font size (same unit as size)."""
-    return _ital.getlength(s) * size / 1000
+def tw(s, size, face=None):
+    """Advance width of a string at a font size (same unit as size)."""
+    return _metric[face or TEXT_FACE].getlength(s) * size / 1000
 
 
 def f(v):
@@ -174,7 +194,7 @@ def reference():
         pts = pts[::3] + ([pts[-1]] if (len(pts) - 1) % 3 else [])
         (ax, ay), (bx, by) = pts[-2], pts[-1]
         L = math.dist((ax, ay), (bx, by)) or 1
-        need = max(0, tw(txt, 12) - plen(pts)) + 4
+        need = max(0, tw(txt, 12, "arno") - plen(pts)) + 4
         pts.append((bx + (bx - ax) / L * need, by + (by - ay) / L * need))
         pid = f"refpath{i + 1}"
         defs.append(f'<path id="{pid}" d="{smooth(pts)}"/>')
@@ -191,6 +211,8 @@ def reference():
 # SKETCH 2 — horizontal bands (the bus window seen side-on).
 # ---------------------------------------------------------------------------
 def bands():
+    global TEXT_FACE
+    TEXT_FACE = "cormorant"
     doc = Doc("frost flowers — sketch 2")
     doc.clip("bandA", '<rect x="0" y="0" width="200" height="76"/>')
     doc.clip("bandC", '<rect x="0" y="124" width="200" height="76"/>')
@@ -199,11 +221,11 @@ def bands():
               f'<rect y="124" width="200" height="76" fill="{PANE}"/>')
 
     # crop: "frost" sliced by the bottom of the top band, "you" by the page
-    t = [big(-4, 106, 150, "frost", PAPER, clip="bandA"),
-         big(4, 34, 5.5, "frost", PAPER),
-         big(104, 236, 150, "you", PAPER, clip="bandC"),
+    t = [big(-2, 98, 112, "frost", PAPER, clip="bandA"),
+         big(196, 9, 5, "frost", PAPER, extra=' text-anchor="end"'),
+         big(110, 222, 116, "you", PAPER, clip="bandC"),
          big(196, 120.5, 5.5, "flowers", INK, extra=' text-anchor="end"')]
-    doc.layer("Display_Type", "\n".join(t), FONT)
+    doc.layer("Display_Type", "\n".join(t), FACES["bodoni"][0])
 
     p = []
     mid = [POEM[0] + " " + POEM[1], POEM[2] + " " + POEM[3], POEM[4] + " " + POEM[5],
@@ -217,7 +239,7 @@ def bands():
         p.append(on_path(doc, wave(6, y + 4, 104, y - 4, 1.4, 1.1, i * 0.9), line, 2.9, PAPER))
     p.append(on_path(doc, wave(6, 187, 104, 181, 1.2, 1.0, 0.4), POEM[20], 2.9, PAPER))
     p.append(on_path(doc, wave(6, 194, 104, 188, 1.2, 1.0, 1.4), POEM[21][:-5], 2.9, PAPER))
-    doc.layer("Poem_on_paths", "\n".join(p), FONT)
+    doc.layer("Poem_on_paths", "\n".join(p), FACES["cormorant"][0])
     return doc
 
 
@@ -225,6 +247,8 @@ def bands():
 # SKETCH 3 — a diagonal plane; the word "petal" crosses it and inverts.
 # ---------------------------------------------------------------------------
 def diagonal():
+    global TEXT_FACE
+    TEXT_FACE = "plexmono"
     doc = Doc("frost flowers — sketch 3")
     plane = "M0 150L200 52V200H0Z"
     doc.clip("dark", f'<path d="{plane}"/>')
@@ -232,11 +256,11 @@ def diagonal():
     doc.layer("Planes", f'<rect width="200" height="200" fill="{PAPER}"/><path d="{plane}" fill="{PANE}"/>')
 
     ang = math.degrees(math.atan2(52 - 150, 200))  # slope of the edge
-    t = [f'<g clip-path="url(#light)">{big(14, 152, 88, "petal", INK, ang)}</g>',
-         f'<g clip-path="url(#dark)">{big(14, 152, 88, "petal", PAPER, ang)}</g>',
+    t = [f'<g clip-path="url(#light)">{big(10, 160, 84, "petal", INK, ang)}</g>',
+         f'<g clip-path="url(#dark)">{big(10, 160, 84, "petal", PAPER, ang)}</g>',
          big(196, 14, 5.5, "frost flowers", INK, extra=' text-anchor="end"'),
          big(196, 194, 40, "you.", PAPER, extra=' text-anchor="end"')]
-    doc.layer("Display_Type", "\n".join(t), FONT)
+    doc.layer("Display_Type", "\n".join(t), FACES["archivo"][0])
 
     ux, uy = math.cos(math.radians(ang)), math.sin(math.radians(ang))
     nx, ny = uy, -ux  # normal pointing up-left, into the white
@@ -248,16 +272,16 @@ def diagonal():
 
     p = []
     for i, line in enumerate(POEM[:10]):  # white corner, above the word, parallel to the edge
-        pts = lane(112 - i * 4.4, i)
+        pts = lane(100 - i * 4.0, i)
         if len(pts) > 3:
-            p.append(on_path(doc, pts, line, 2.6, INK, center=True))
+            p.append(on_path(doc, pts, line, 2.2, INK, center=True))
     for i, line in enumerate(POEM[10:20]):  # dark side
         pts = lane(-26 - i * 6.2, i)
         if len(pts) > 3:
             p.append(on_path(doc, pts, line, 3.0, PAPER, center=True))
     p.append(on_path(doc, wave(10, 190, 140, 184, 1.0, 1.0, 0.3), POEM[20], 2.6, PAPER))
     p.append(on_path(doc, wave(10, 196, 140, 191, 1.0, 1.0, 1.3), POEM[21][:-5], 2.6, PAPER))
-    doc.layer("Poem_on_paths", "\n".join(p), FONT)
+    doc.layer("Poem_on_paths", "\n".join(p), FACES["plexmono"][0])
     return doc
 
 
@@ -265,6 +289,8 @@ def diagonal():
 # FINAL — four window panes: f | l·o·w·e·r·s | the whole poem | y·o·u
 # ---------------------------------------------------------------------------
 def panes():
+    global TEXT_FACE
+    TEXT_FACE = "caslon"
     doc = Doc("frost flowers — final")
     A, B, C, D = (0, 52), (52, 84), (84, 150), (150, 200)
     for k, (a, b) in zip("ABCD", (A, B, C, D)):
@@ -273,14 +299,14 @@ def panes():
               f'<rect x="{A[0]}" width="{A[1] - A[0]}" height="200" fill="{PANE}"/>'
               f'<rect x="{C[0]}" width="{C[1] - C[0]}" height="200" fill="{PANE}"/>')
 
-    t = [big(-30, 168, 235, "f", PAPER, clip="clipA"), big(4, 40, 6.2, "frost", PAPER),
+    t = [big(-18, 150, 190, "f", PAPER, clip="clipA"), big(4, 194, 6.2, "frost", PAPER),
          big(44, 236, 215, "l", INK, clip="clipB")]
     for ch, x, y, s, r in (("o", 58, 44, 11, -14), ("w", 70, 58, 9.5, 12), ("e", 57, 72, 10, -8),
                            ("r", 68, 86, 8.5, 18), ("s", 56, 99, 9, -20)):
         t.append(big(x, y, s, ch, INK, r))
     t += [big(138, 88, 128, "y", INK, clip="clipD"), big(166, 128, 44, "o", INK, clip="clipD"),
           big(149, 190, 104, "u", INK, clip="clipD"), big(153.5, 9, 4, "frost flowers", INK)]
-    doc.layer("Display_Type", "\n".join(t), FONT)
+    doc.layer("Display_Type", "\n".join(t), FACES["playfair"][0])
 
     p = []
     for i, line in enumerate(POEM):
@@ -288,7 +314,7 @@ def panes():
         rise, amp, ph = (5.0 if i % 2 == 0 else 3.2), 1.1 + 0.5 * (i % 3), i * 1.3
         pts = wave(C[0] + 3.5, y + rise / 2, C[1] - 3.5, y - rise / 2, amp, 1.1, ph, 13)
         p.append(on_path(doc, pts, line, 2.55, PAPER, center=bool(i % 2)))
-    doc.layer("Poem_on_paths", "\n".join(p), FONT)
+    doc.layer("Poem_on_paths", "\n".join(p), FACES["caslon"][0])
     return doc
 
 

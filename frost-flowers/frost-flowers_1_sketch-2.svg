@@ -23,13 +23,13 @@
 <g id="Planes" >
 <rect width="200" height="200" fill="#ffffff"/><rect width="200" height="76" fill="#212121"/><rect y="124" width="200" height="76" fill="#212121"/>
 </g>
-<g id="Display_Type" font-family="'Arno Pro', 'EB Garamond', Garamond, serif" font-style="italic">
-<text x="-4" y="106" font-size="150" fill="#ffffff" clip-path="url(#bandA)">frost</text>
-<text x="4" y="34" font-size="5.5" fill="#ffffff">frost</text>
-<text x="104" y="236" font-size="150" fill="#ffffff" clip-path="url(#bandC)">you</text>
+<g id="Display_Type" font-family="'Bodoni Moda', serif" font-style="italic" font-weight="500">
+<text x="-2" y="98" font-size="112" fill="#ffffff" clip-path="url(#bandA)">frost</text>
+<text x="196" y="9" font-size="5" fill="#ffffff" text-anchor="end">frost</text>
+<text x="110" y="222" font-size="116" fill="#ffffff" clip-path="url(#bandC)">you</text>
 <text x="196" y="120.5" font-size="5.5" fill="#1a1a1a" text-anchor="end">flowers</text>
 </g>
-<g id="Poem_on_paths" font-family="'Arno Pro', 'EB Garamond', Garamond, serif" font-style="italic">
+<g id="Poem_on_paths" font-family="'Cormorant Garamond', serif" font-style="italic" font-weight="500">
 <text font-size="3.40" fill="#1a1a1a"><textPath href="#tp1" startOffset="0.00">The dawn city bus runs with its windows decked in some dazzling finery.</textPath></text>
 <text font-size="3.40" fill="#1a1a1a"><textPath href="#tp2" startOffset="0.00">The harsher the dead of winter, the more vividly the frost flowers bloom.</textPath></text>
 <text font-size="3.40" fill="#1a1a1a"><textPath href="#tp3" startOffset="0.00">Those who rode this bus yesterday maidens and bachelors, children and grown-ups,</textPath></text>

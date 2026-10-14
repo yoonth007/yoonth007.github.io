@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="200mm" height="200mm" viewBox="0 0 566.929 566.929">
 <defs>
 <g>
@@ -1429,7 +1430,7 @@
 <g fill="rgb(100%, 100%, 100%)" fill-opacity="1">
 <use xlink:href="#glyph-397-0" x="359.525274" y="21.775373"/>
 </g>
-<g id="Poem_on_paths" font-family="'Arno Pro', 'EB Garamond', Garamond, serif" font-style="italic">
+<g id="Poem_on_paths" font-family="'Arno Pro', 'EB Garamond', serif" font-style="italic">
 <text font-size="12" fill="#ffffff"><textPath href="#refpath2">The dawn city bus runs with its windows decked in some</textPath></text>
 <text font-size="12" fill="#ffffff"><textPath href="#refpath3">The harsher the dead of winter, those who rode</textPath></text>
 <text font-size="12" fill="#ffffff"><textPath href="#refpath4">their breath and their sighs met in secret</textPath></text>

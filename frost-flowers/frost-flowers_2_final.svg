@@ -31,9 +31,9 @@
 <g id="Planes" >
 <rect width="200" height="200" fill="#ffffff"/><rect x="0" width="52" height="200" fill="#212121"/><rect x="84" width="66" height="200" fill="#212121"/>
 </g>
-<g id="Display_Type" font-family="'Arno Pro', 'EB Garamond', Garamond, serif" font-style="italic">
-<text x="-30" y="168" font-size="235" fill="#ffffff" clip-path="url(#clipA)">f</text>
-<text x="4" y="40" font-size="6.2" fill="#ffffff">frost</text>
+<g id="Display_Type" font-family="'Playfair Display', serif" font-style="italic" font-weight="700">
+<text x="-18" y="150" font-size="190" fill="#ffffff" clip-path="url(#clipA)">f</text>
+<text x="4" y="194" font-size="6.2" fill="#ffffff">frost</text>
 <text x="44" y="236" font-size="215" fill="#1a1a1a" clip-path="url(#clipB)">l</text>
 <text x="58" y="44" font-size="11" fill="#1a1a1a" transform="rotate(-14 58 44)">o</text>
 <text x="70" y="58" font-size="9.5" fill="#1a1a1a" transform="rotate(12 70 58)">w</text>
@@ -45,28 +45,28 @@
 <text x="149" y="190" font-size="104" fill="#1a1a1a" clip-path="url(#clipD)">u</text>
 <text x="153.5" y="9" font-size="4" fill="#1a1a1a">frost flowers</text>
 </g>
-<g id="Poem_on_paths" font-family="'Arno Pro', 'EB Garamond', Garamond, serif" font-style="italic">
+<g id="Poem_on_paths" font-family="'Libre Caslon Text', serif" font-style="italic">
 <text font-size="2.55" fill="#ffffff"><textPath href="#tp1" startOffset="0.00">The dawn city bus</textPath></text>
-<text font-size="2.55" fill="#ffffff"><textPath href="#tp2" startOffset="4.51">runs with its windows decked in some dazzling finery.</textPath></text>
+<text font-size="2.35" fill="#ffffff"><textPath href="#tp2" startOffset="0.60">runs with its windows decked in some dazzling finery.</textPath></text>
 <text font-size="2.55" fill="#ffffff"><textPath href="#tp3" startOffset="0.00">The harsher the dead of winter,</textPath></text>
-<text font-size="2.55" fill="#ffffff"><textPath href="#tp4" startOffset="11.06">the more vividly the frost flowers bloom.</textPath></text>
+<text font-size="2.55" fill="#ffffff"><textPath href="#tp4" startOffset="6.08">the more vividly the frost flowers bloom.</textPath></text>
 <text font-size="2.55" fill="#ffffff"><textPath href="#tp5" startOffset="0.00">Those who rode this bus yesterday</textPath></text>
-<text font-size="2.55" fill="#ffffff"><textPath href="#tp6" startOffset="7.16">maidens and bachelors, children and grown-ups,</textPath></text>
+<text font-size="2.55" fill="#ffffff"><textPath href="#tp6" startOffset="1.23">maidens and bachelors, children and grown-ups,</textPath></text>
 <text font-size="2.55" fill="#ffffff"><textPath href="#tp7" startOffset="0.00">hairdressers, salesmen, housemaids, the jobless</textPath></text>
-<text font-size="2.55" fill="#ffffff"><textPath href="#tp8" startOffset="17.10">their breath and their sighs</textPath></text>
+<text font-size="2.55" fill="#ffffff"><textPath href="#tp8" startOffset="14.15">their breath and their sighs</textPath></text>
 <text font-size="2.55" fill="#ffffff"><textPath href="#tp9" startOffset="0.00">met in secret overnight and brought forth</textPath></text>
-<text font-size="2.55" fill="#ffffff"><textPath href="#tp10" startOffset="13.42">this flashing, breathtaking beauty.</textPath></text>
+<text font-size="2.55" fill="#ffffff"><textPath href="#tp10" startOffset="10.01">this flashing, breathtaking beauty.</textPath></text>
 <text font-size="2.55" fill="#ffffff"><textPath href="#tp11" startOffset="0.00">As if I had wandered into some exhibition,</textPath></text>
-<text font-size="2.55" fill="#ffffff"><textPath href="#tp12" startOffset="15.43">I move from seat to seat to look,</textPath></text>
+<text font-size="2.55" fill="#ffffff"><textPath href="#tp12" startOffset="11.44">I move from seat to seat to look,</textPath></text>
 <text font-size="2.55" fill="#ffffff"><textPath href="#tp13" startOffset="0.00">and once again I am drunk on a single petal,</textPath></text>
-<text font-size="2.55" fill="#ffffff"><textPath href="#tp14" startOffset="15.42">on its delicate and cold beauty.</textPath></text>
+<text font-size="2.55" fill="#ffffff"><textPath href="#tp14" startOffset="11.77">on its delicate and cold beauty.</textPath></text>
 <text font-size="2.55" fill="#ffffff"><textPath href="#tp15" startOffset="0.00">Whose desolate sigh was this?</textPath></text>
-<text font-size="2.55" fill="#ffffff"><textPath href="#tp16" startOffset="4.08">What warm heart breathed out this breath of passion?</textPath></text>
-<text font-size="2.55" fill="#ffffff"><textPath href="#tp17" startOffset="0.00">For no reason, carefully, with my breath and my finger,</textPath></text>
-<text font-size="2.55" fill="#ffffff"><textPath href="#tp18" startOffset="15.59">I wipe away a single frost petal</textPath></text>
+<text font-size="2.37" fill="#ffffff"><textPath href="#tp16" startOffset="0.59">What warm heart breathed out this breath of passion?</textPath></text>
+<text font-size="2.33" fill="#ffffff"><textPath href="#tp17" startOffset="0.00">For no reason, carefully, with my breath and my finger,</textPath></text>
+<text font-size="2.55" fill="#ffffff"><textPath href="#tp18" startOffset="11.86">I wipe away a single frost petal</textPath></text>
 <text font-size="2.55" fill="#ffffff"><textPath href="#tp19" startOffset="0.00">and press my forehead to the glass.</textPath></text>
-<text font-size="2.55" fill="#ffffff"><textPath href="#tp20" startOffset="7.01">A haggard face glimmers in the rattling window</textPath></text>
+<text font-size="2.55" fill="#ffffff"><textPath href="#tp20" startOffset="1.88">A haggard face glimmers in the rattling window</textPath></text>
 <text font-size="2.55" fill="#ffffff"><textPath href="#tp21" startOffset="0.00">friend, you walked the road beside me for so long,</textPath></text>
-<text font-size="2.55" fill="#ffffff"><textPath href="#tp22" startOffset="9.37">and now I am not even allowed to visit you.</textPath></text>
+<text font-size="2.55" fill="#ffffff"><textPath href="#tp22" startOffset="3.82">and now I am not even allowed to visit you.</textPath></text>
 </g>
 </svg>
