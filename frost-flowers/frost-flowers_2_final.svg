@@ -1,45 +1,42 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="200mm" height="200mm" viewBox="0 0 200 200">
 <title>frost flowers — final</title>
 <defs>
-
+<path id="slope" d="M22 124L150 138"/>
 </defs>
 <g id="Paper" >
 <rect width="200" height="200" fill="#ffffff"/>
 </g>
-<g id="Stepped" >
-<text x="184" y="20" font-size="3.3" fill="#1a1a1a" font-family="'EB Garamond', serif" text-anchor="end">The dawn city bus</text>
-<text x="178.4" y="25.4" font-size="3.3" fill="#1a1a1a" font-family="'EB Garamond', serif" text-anchor="end">runs with its windows decked in some dazzling finery.</text>
-<text x="172.8" y="30.8" font-size="3.3" fill="#1a1a1a" font-family="'EB Garamond', serif" text-anchor="end">The harsher the dead of winter</text>
-<text x="167.2" y="36.2" font-size="3.3" fill="#1a1a1a" font-family="'EB Garamond', serif" text-anchor="end">the more vividly the frost flowers bloom.</text>
-<text x="161.6" y="41.6" font-size="3.3" fill="#1a1a1a" font-family="'EB Garamond', serif" text-anchor="end">Those who rode this bus yesterday</text>
-<text x="156" y="47" font-size="3.3" fill="#1a1a1a" font-family="'EB Garamond', serif" text-anchor="end">maidens and bachelors, children and grown-ups</text>
-<text x="150.4" y="52.4" font-size="3.3" fill="#1a1a1a" font-family="'EB Garamond', serif" text-anchor="end">hairdressers, salesmen, housemaids, the jobless</text>
-<text x="144.8" y="57.8" font-size="3.3" fill="#1a1a1a" font-family="'EB Garamond', serif" text-anchor="end">their breath and their sighs</text>
+<g id="Falling_lines" >
+<text x="18" y="20" font-size="3.3" fill="#1a1a1a" font-family="'EB Garamond', serif">The dawn city bus</text>
+<text x="19.9" y="24.4" font-size="3.3" fill="#1a1a1a" font-family="'EB Garamond', serif" transform="rotate(0.90 19.9 24.4)">runs with its windows decked in some dazzling finery.</text>
+<text x="23.56" y="29.37" font-size="3.3" fill="#1a1a1a" font-family="'EB Garamond', serif" transform="rotate(1.80 23.56 29.37)">The harsher the dead of winter,</text>
+<text x="28.43" y="34.99" font-size="3.3" fill="#1a1a1a" font-family="'EB Garamond', serif" transform="rotate(2.70 28.43 34.99)">the more vividly the frost flowers bloom.</text>
+<text x="34.29" y="41.34" font-size="3.3" fill="#1a1a1a" font-family="'EB Garamond', serif" transform="rotate(3.60 34.29 41.34)">Those who rode this bus yesterday</text>
+<text x="41.02" y="48.51" font-size="3.3" fill="#1a1a1a" font-family="'EB Garamond', serif" transform="rotate(4.50 41.02 48.51)">maidens and bachelors, children and grown-ups,</text>
+<text x="48.54" y="56.62" font-size="3.3" fill="#1a1a1a" font-family="'EB Garamond', serif" transform="rotate(5.40 48.54 56.62)">hairdressers, salesmen, housemaids, the jobless</text>
+<text x="56.78" y="65.78" font-size="3.3" fill="#1a1a1a" font-family="'EB Garamond', serif" transform="rotate(6.30 56.78 65.78)">their breath and their sighs</text>
+<text x="65.7" y="76.13" font-size="3.3" fill="#1a1a1a" font-family="'EB Garamond', serif" transform="rotate(7.20 65.7 76.13)">met in secret overnight and brought forth</text>
+<text x="75.26" y="87.83" font-size="3.3" fill="#1a1a1a" font-family="'EB Garamond', serif" transform="rotate(8.10 75.26 87.83)">this flashing, breathtaking beauty.</text>
 </g>
-<g id="Letter_pair" >
-<text x="26" y="160" font-size="100" fill="#1a1a1a" font-family="'EB Garamond', serif">F</text>
-<text x="79.2" y="118" font-size="40" fill="#1a1a1a" font-family="'Bodoni Moda', serif" font-style="italic" font-weight="500">f</text>
-<text x="98.3" y="94" font-size="2.9" fill="#444" font-family="'EB Garamond', serif">I</text>
-<text x="98.3" y="98" font-size="2.9" fill="#444" font-family="'EB Garamond', serif">move</text>
-<text x="98.3" y="102" font-size="2.9" fill="#444" font-family="'EB Garamond', serif">from</text>
-<text x="98.3" y="106" font-size="2.9" fill="#444" font-family="'EB Garamond', serif">seat</text>
-<text x="98.3" y="110" font-size="2.9" fill="#444" font-family="'EB Garamond', serif">to</text>
-<text x="98.3" y="114" font-size="2.9" fill="#444" font-family="'EB Garamond', serif">seat</text>
-<text x="98.3" y="118" font-size="2.9" fill="#444" font-family="'EB Garamond', serif">to</text>
-<text x="98.3" y="122" font-size="2.9" fill="#444" font-family="'EB Garamond', serif">look</text>
-<line x1="78.2" y1="135" x2="184" y2="135" stroke="#1a1a1a" stroke-width="0.2"/>
-<text x="80.2" y="133.7" font-size="3.3" fill="#1a1a1a" font-family="'EB Garamond', serif" font-style="italic">I wipe away a single frost petal and press my forehead to the glass.</text>
+<g id="Loose_words" >
+<text x="176" y="26" font-size="3.7" fill="#1a1a1a" font-family="'EB Garamond', serif" font-style="italic" text-anchor="end">I</text>
+<text x="177.2" y="31" font-size="3.7" fill="#1a1a1a" font-family="'EB Garamond', serif" font-style="italic" text-anchor="end" transform="rotate(4.00 177.2 31)">wipe</text>
+<text x="178.4" y="37" font-size="3.7" fill="#1a1a1a" font-family="'EB Garamond', serif" font-style="italic" text-anchor="end" transform="rotate(8.00 178.4 37)">away</text>
+<text x="179.6" y="44.2" font-size="3.7" fill="#1a1a1a" font-family="'EB Garamond', serif" font-style="italic" text-anchor="end" transform="rotate(12.00 179.6 44.2)">a</text>
+<text x="180.8" y="52.84" font-size="3.7" fill="#1a1a1a" font-family="'EB Garamond', serif" font-style="italic" text-anchor="end" transform="rotate(16.00 180.8 52.84)">single</text>
+<text x="182" y="63.21" font-size="3.7" fill="#1a1a1a" font-family="'EB Garamond', serif" font-style="italic" text-anchor="end" transform="rotate(20.00 182 63.21)">frost</text>
+<text x="183.2" y="75.65" font-size="3.7" fill="#1a1a1a" font-family="'EB Garamond', serif" font-style="italic" text-anchor="end" transform="rotate(24.00 183.2 75.65)">petal</text>
 </g>
 <g id="Large_line" >
-<text x="26" y="180" font-size="7.6" fill="#1a1a1a" font-family="'EB Garamond', serif">Whose desolate sigh was this?</text>
+<text font-size="6.6" fill="#1a1a1a" font-family="'EB Garamond', serif"><textPath href="#slope">Whose desolate sigh was this?</textPath></text>
 </g>
-<g id="Rattle" >
-<text x="72.7" y="193.35" font-size="4.2" fill="#9a9a9a" font-family="'EB Garamond', serif">A haggard face glimmers in the rattling window</text><text x="72" y="193" font-size="4.2" fill="#1a1a1a" font-family="'EB Garamond', serif">A haggard face glimmers in the rattling window</text>
-</g>
-<g id="Aside" >
-<text x="184" y="166" font-size="2.9" fill="#555" font-family="'EB Garamond', serif" font-style="italic" text-anchor="end">What warm heart breathed out this breath of passion?</text>
+<g id="Sinking_F" >
+<text x="64" y="236" font-size="150" fill="#1a1a1a" font-family="'EB Garamond', serif">F</text><text x="26" y="182" font-size="46" fill="#1a1a1a" font-family="'Bodoni Moda', serif" font-style="italic" font-weight="500" transform="rotate(24.00 26 182)">f</text>
 </g>
 <g id="Caption" >
-<text x="0" y="0" font-size="2.6" fill="#1a1a1a" font-family="'EB Garamond', serif" transform="translate(11 186) rotate(-90)">friend, you walked the road beside me for so long, and now I am not even allowed to visit you.</text><line x1="13.2" y1="186" x2="13.2" y2="93.87" stroke="#1a1a1a" stroke-width="0.15"/>
+<text x="0" y="0" font-size="2.5" fill="#555" font-family="'EB Garamond', serif" transform="translate(9 22) rotate(90)">friend, you walked the road beside me for so long, and now I am not even allowed to visit you.</text>
+</g>
+<g id="Last" >
+<text x="150" y="168" font-size="3" fill="#555" font-family="'EB Garamond', serif" font-style="italic" text-anchor="middle" transform="rotate(6.00 150 168)">A haggard face glimmers in the rattling window</text><text x="186" y="194" font-size="3" fill="#1a1a1a" font-family="'EB Garamond', serif" font-style="italic" text-anchor="end">frost flowers</text>
 </g>
 </svg>

@@ -5,9 +5,9 @@ typographic factors taught in the course (case, typeface, size,
 weight, width, outline), in compositions of our own:
 
   sketch 1   the student's own reference artwork, kept as is (text runs re-set)
-  sketch 2   white page, few groups: stepped lines, big F + raised italic f,
-             one large line, a rattling line, a caption up the left edge
-  sketch 3   a heavy y with lines flush to its contour, arcs, tone, strike
+  sketch 2   descent: lines falling with widening gaps, loose words, a
+             large line sliding downhill, a big F sinking below the edge
+  sketch 3   descent: lines sliding down a heavy y that plunges off the page
   final      sketch 2 refined
 
 usage: python3 typo_poem.py <font_dir> <reference.svg> <out_dir>
@@ -343,50 +343,6 @@ def vertical(x, y, size, txt, attrs=SERIF, fill=INK):
             f'transform="translate({f(x)} {f(y)}) rotate(-90)">{txt}</text>')
 
 
-# ---------------------------------------------------------------------------
-# SKETCH 2 / FINAL — "F f"
-# ---------------------------------------------------------------------------
-def big_f(final=False):
-    doc = Doc("frost flowers — final" if final else "frost flowers — sketch 2")
-    doc.layer("Paper", f'<rect width="200" height="200" fill="{PAPER}"/>')
-    S = 3.3
-
-    # 1 · stepped group: right-aligned, stepping down to the left
-    g1 = [T2(184 - i * 5.6, 20 + i * 5.4, S, line.rstrip(","), anchor="end")
-          for i, line in enumerate(POEM[:8])]
-    doc.layer("Stepped", "\n".join(g1))
-
-    # 2 · big roman F, small raised italic f, a word column, a hairline line
-    Fx, Fy, Fs = 26, 160, 100
-    Fw = w_r("F", Fs)
-    fx, fy, fs = Fx + Fw + 2, Fy - Fs * 0.42, 40
-    g2 = [T2(Fx, Fy, Fs, "F"), T2(fx, fy, fs, "f", FACES["bodoni"][0])]
-    col_x = fx + _bod.getlength("f") * fs / 1000 + 5
-    for k, wd in enumerate(POEM[11].rstrip(",").split()):  # I move from seat to seat to look
-        g2.append(T2(col_x, fy - fs * 0.6 + k * 4.0, 2.9, wd, fill="#444"))
-    rule_y = Fy - Fs * 0.25
-    g2.append(f'<line x1="{f(Fx + Fw + 1)}" y1="{f(rule_y)}" x2="184" y2="{f(rule_y)}" stroke="{INK}" stroke-width="0.2"/>')
-    g2.append(T2(Fx + Fw + 3, rule_y - 1.3, S, POEM[17] + " " + POEM[18], SERIF_I))
-    doc.layer("Letter_pair", "\n".join(g2))
-
-    # 3 · one large line
-    doc.layer("Large_line", T2(26, 180, 7.6, POEM[14]))
-    # 4 · one small play: a line that rattles (set twice, a hair apart)
-    hx, hy = 72, 193
-    doc.layer("Rattle", T2(hx + 0.7, hy + 0.35, 4.2, POEM[19], fill="#9a9a9a") + T2(hx, hy, 4.2, POEM[19]))
-    if final:
-        doc.layer("Aside", T2(184, 166, 2.9, POEM[15], SERIF_I, anchor="end", fill="#555"))
-
-    # 5 · caption up the left edge, with its hairline
-    cap = "friend, you walked the road beside me for so long, and now I am not even allowed to visit you."
-    doc.layer("Caption", vertical(11, 186, 2.6, cap) +
-              f'<line x1="13.2" y1="186" x2="13.2" y2="{f(186 - w_r(cap, 2.6))}" stroke="{INK}" stroke-width="0.15"/>')
-    return doc
-
-
-# ---------------------------------------------------------------------------
-# SKETCH 3 — "y"
-# ---------------------------------------------------------------------------
 def heavy_mask(ch, x, y, size, px=4):
     im = Image.new("L", (200 * px, 200 * px), 0)
     ImageDraw.Draw(im).text((x * px, y * px), ch, fill=255, anchor="ls",
@@ -394,55 +350,103 @@ def heavy_mask(ch, x, y, size, px=4):
     return np.array(im) > 127, px
 
 
-def big_y():
+# ---------------------------------------------------------------------------
+# DESCENT — everything falls: line gaps widen as if accelerating, lines tilt
+# further as they drop, words come loose one by one, and the big letters sink
+# below the bottom edge.
+# ---------------------------------------------------------------------------
+def falling(n, start, gap0, accel=1.13):
+    """Positions for n items whose gaps grow each step (an accelerating fall)."""
+    ys, y, g = [], start, gap0
+    for _ in range(n):
+        ys.append(y)
+        y += g
+        g *= accel
+    return ys
+
+
+def tilt(x, y, deg):
+    return f' transform="rotate({deg:.2f} {f(x)} {f(y)})"' if deg else ""
+
+
+# ---------------------------------------------------------------------------
+# SKETCH 2 / FINAL — "F f sinking"
+# ---------------------------------------------------------------------------
+def descent(final=False):
+    doc = Doc("frost flowers — final" if final else "frost flowers — sketch 2")
+    doc.layer("Paper", f'<rect width="200" height="200" fill="{PAPER}"/>')
+    S = 3.3
+
+    # 1 · the opening lines fall along a curve: gaps widen, drift right, tilt
+    g1 = []
+    for k, (line, y) in enumerate(zip(POEM[:10], falling(10, 20, 4.4))):
+        x = 18 + 1.9 * k ** 1.55
+        g1.append(T2(x, y, S, line, extra=tilt(x, y, 0.9 * k)))
+    doc.layer("Falling_lines", "\n".join(g1))
+
+    # 2 · one line comes apart word by word down the right side
+    g2 = []
+    for k, (wd, y) in enumerate(zip(POEM[17].split(), falling(7, 26, 5.0, 1.2))):
+        x = 176 + 1.2 * k
+        g2.append(T2(x, y, S + 0.4, wd, SERIF_I, anchor="end", extra=tilt(x, y, 4 * k)))
+    doc.layer("Loose_words", "\n".join(g2))
+
+    # 3 · one large line sliding downhill
+    lx0, ly0, lx1, ly1 = 22, 124, 150, 138
+    doc.defs.append(f'<path id="slope" d="M{lx0} {ly0}L{lx1} {ly1}"/>')
+    doc.layer("Large_line", f'<text font-size="6.6" fill="{INK}" {SERIF}><textPath href="#slope">{POEM[14]}</textPath></text>')
+
+    # 4 · the big F sinks below the edge; the small italic f topples after it
+    Fx, Fs = 64, 150
+    doc.layer("Sinking_F", T2(Fx, 236, Fs, "F") +
+              T2(26, 182, 46, "f", FACES["bodoni"][0], extra=tilt(26, 182, 24)))
+
+    # 5 · caption reading downward along the left edge
+    cap = POEM[20] + " " + POEM[21]
+    doc.layer("Caption", f'<text x="0" y="0" font-size="2.5" fill="#555" {SERIF} '
+                         f'transform="translate(9 22) rotate(90)">{cap}</text>')
+    if final:
+        x, y = 150, 168
+        doc.layer("Last", T2(x, y, 3.0, POEM[19], SERIF_I, fill="#555", anchor="middle", extra=tilt(x, y, 6)) +
+                  T2(186, 194, 3.0, "frost flowers", SERIF_I, anchor="end"))
+    return doc
+
+
+# ---------------------------------------------------------------------------
+# SKETCH 3 — "y plunging"
+# ---------------------------------------------------------------------------
+def plunge():
     doc = Doc("frost flowers — sketch 3")
     doc.layer("Paper", f'<rect width="200" height="200" fill="{PAPER}"/>')
-    yx, yy, ys = 84, 146, 190
+    yx, yy, ys = 80, 150, 205
     doc.layer("Big_y", f'<text x="{yx}" y="{yy}" font-size="{ys}" fill="{INK}" font-family="ArchivoStep7">y</text>')
 
-    # 1 · lines set flush against the y's left contour
+    # 1 · lines slide down the y's arm: flush to its contour, gaps widening
     mask, px = heavy_mask("y", yx, yy, ys)
-    S, g1 = 3.2, []
-    for i, line in enumerate(POEM[0:4] + POEM[9:14]):
-        by = 66 + i * 6.0
+    S, g1 = 3.1, []
+    for line, by in zip(POEM[:9], falling(9, 52, 5.0, 1.09)):
         band = mask[int((by - S * 0.8) * px):int((by + 0.6) * px)].any(axis=0)
         cols = np.nonzero(band)[0]
         edge = (cols.min() / px if len(cols) else 186) - 3
         g1.append(T2(edge, by, S, line, anchor="end"))
-    doc.layer("Along_the_y", "\n".join(g1))
+    doc.layer("Down_the_arm", "\n".join(g1))
 
-    # 2 · two lines curving like a pair of parentheses
-    cx, cy, r = 34, 30, 17
-    doc.defs.append(f'<path id="arcTop" d="M{cx - r} {cy} A{r} {r} 0 0 1 {cx + r} {cy}"/>')
-    doc.defs.append(f'<path id="arcBot" d="M{cx - r - 3} {cy + 3} A{r + 3} {r + 3} 0 0 0 {cx + r + 3} {cy + 3}"/>')
-    top_s = min(2.9, math.pi * r * 0.95 / (_gi.getlength(POEM[16]) / 1000))
-    bot_txt = POEM[17] + " on the glass."
-    bot_s = min(2.9, math.pi * (r + 3) * 0.95 / w_r(bot_txt, 1))
-    doc.layer("Arcs",
-              f'<text font-size="{top_s:.2f}" {SERIF_I} fill="{INK}"><textPath href="#arcTop" startOffset="50%" text-anchor="middle">{POEM[16]}</textPath></text>'
-              f'<text font-size="{bot_s:.2f}" {SERIF} fill="#555"><textPath href="#arcBot" startOffset="50%" text-anchor="middle">{bot_txt}</textPath></text>')
+    # 2 · letters dropping one by one, further apart, turning as they fall
+    g2 = []
+    for k, (ch, y) in enumerate(zip("sighs", falling(5, 112, 8, 1.3))):
+        x = 34 + 2.5 * k
+        g2.append(T2(x, y, 6.5, ch, SERIF_I, extra=tilt(x, y, 14 * k)))
+    doc.layer("Dropping_letters", "\n".join(g2))
 
-    # 3 · a pale large word behind a small dark one
-    doc.layer("Tone", T2(98, 40, 32, "breath", SERIF_I, fill=LIGHT) + T2(128, 34, 5.2, "sigh", SERIF_I))
-
-    # 4 · the passengers, struck through
-    g4, sx, sy = [], 14, 148
-    group = [POEM[4], POEM[5], POEM[6]]
-    for k, line in enumerate(group):
-        y = sy + k * 5.2
-        g4.append(T2(sx, y, 3.0, line))
-        if k:
-            g4.append(f'<line x1="{sx}" y1="{f(y - 1.0)}" x2="{f(sx + w_r(line, 3.0))}" y2="{f(y - 1.0)}" '
-                      f'stroke="{INK}" stroke-width="0.25"/>')
-    g4.append(T2(sx, sy + 3 * 5.2 + 3, 3.0, POEM[7], SERIF_I))
-    doc.layer("Struck", "\n".join(g4))
-    doc.layer("Title", T2(186, 192, 3.0, "frost flowers", SERIF_I, anchor="end"))
+    # 3 · two lines at the very top, still level — before the fall
+    doc.layer("Before", T2(14, 16, 3.0, POEM[14], SERIF_I) + T2(14, 21, 3.0, POEM[15], SERIF_I, fill="#555"))
+    doc.layer("Title", T2(14, 192, 3.0, "frost flowers", SERIF_I))
     return doc
 
 
 if __name__ == "__main__":
     reference()  # sketch 1: the student's own work, as is
-    big_f().save("frost-flowers_1_sketch-2.svg")
-    big_y().save("frost-flowers_1_sketch-3.svg")
-    big_f(final=True).save("frost-flowers_2_final.svg")
+    descent().save("frost-flowers_1_sketch-2.svg")
+    plunge().save("frost-flowers_1_sketch-3.svg")
+    descent(final=True).save("frost-flowers_2_final.svg")
     print("ok")
