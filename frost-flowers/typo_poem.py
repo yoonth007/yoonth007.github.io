@@ -386,49 +386,21 @@ def tilt(x, y, deg):
 
 
 # ---------------------------------------------------------------------------
-# Typographic play inside the shapes: the poem's key words change typeface,
-# size and case; the sunk words are assembled letter by letter from
-# different faces.
+# Restrained typographic play inside the shapes: only two or three key words
+# per page step up into Bodoni italic; everything else stays plain.
 # ---------------------------------------------------------------------------
-KEYS = {"frost", "flowers", "breath", "sigh", "sighs", "petal", "glass", "window",
-        "beauty", "winter", "finery", "exhibition", "passion", "finger", "face", "road"}
-FACE_STYLES = [
-    ("font-family=\"'Bodoni Moda', serif\" font-style=\"italic\"", 2.1, False),
-    ("font-family=\"ArchivoStep7\"", 1.35, True),
-    ("font-family=\"'Bodoni Moda', serif\" font-style=\"italic\"", 1.7, False),
-    ("font-family=\"ArchivoStep2\"", 1.5, True),
-]
+BODONI_I = "font-family=\"'Bodoni Moda', serif\" font-style=\"italic\""
 
 
-def emph(line, size, k=0):
-    """Line markup with its key words set in a contrasting face, size and case."""
-    out, j = [], k
+def emph(line, size, keys=()):
+    """Line markup with just the given key words enlarged in Bodoni italic."""
+    out = []
     for w in line.split(" "):
-        core = w.strip(",.?—").lower()
-        if core in KEYS:
-            attrs, scale, upper = FACE_STYLES[j % len(FACE_STYLES)]
-            j += 1
-            out.append(f'<tspan {attrs} font-size="{size * scale:.2f}">{w.upper() if upper else w}</tspan>')
+        if w.strip(",.?—").lower() in keys:
+            out.append(f'<tspan {BODONI_I} font-size="{size * 1.9:.2f}">{w}</tspan>')
         else:
             out.append(w)
     return " ".join(out)
-
-
-MIXED = ["font-family=\"'Bodoni Moda', serif\" font-style=\"italic\"", "font-family=\"ArchivoStep7\"",
-         "font-family=\"'EB Garamond', serif\" font-style=\"italic\"", "font-family=\"ArchivoStep1\"",
-         "font-family=\"'Playfair Display', serif\" font-style=\"italic\" font-weight=\"700\"",
-         "font-family=\"'EB Garamond', serif\""]
-
-
-def mixed_word(x, y, size, word, fill, anchor="start"):
-    """A word built letter by letter from different faces, sizes and cases."""
-    spans = []
-    for i, ch in enumerate(word):
-        upper = i % 3 == 1
-        sc = (1.0, 0.82, 1.12, 0.9)[i % 4]
-        spans.append(f'<tspan {MIXED[i % len(MIXED)]} font-size="{size * sc:.2f}">{ch.upper() if upper else ch}</tspan>')
-    a = f' text-anchor="{anchor}"' if anchor != "start" else ""
-    return f'<text x="{f(x)}" y="{f(y)}" fill="{fill}"{a}>{"".join(spans)}</text>'
 
 
 # ---------------------------------------------------------------------------
@@ -437,6 +409,10 @@ def mixed_word(x, y, size, word, fill, anchor="start"):
 # make a ragged fringe of tips; the last word of each line has broken off and
 # fallen below its tip. "flowers" lies sunk at the bottom of the page.
 # ---------------------------------------------------------------------------
+ICICLE_KEYS = {"frost", "breath", "sigh"}
+FUNNEL_KEYS = {"flowers", "sighs", "petal"}
+
+
 def icicles(final=False):
     doc = Doc("frost flowers — final" if final else "frost flowers — sketch 2")
     doc.layer("Paper", dusk(doc))
@@ -448,16 +424,15 @@ def icicles(final=False):
         x = x0 + k * step
         ink = fade(0.15 + 0.6 * (k / 21))
         hang.append(f'<text x="0" y="0" font-size="{S}" fill="{ink}" {SERIF} '
-                    f'transform="translate({f(x)} {top}) rotate(90)">{emph(body, S, k)}</text>')
-        n_keys = sum(1 for w in body.split() if w.strip(",.?—").lower() in KEYS)
-        tip = top + w_r(body, S) + n_keys * S * 2.2
+                    f'transform="translate({f(x)} {top}) rotate(90)">{emph(body, S, ICICLE_KEYS)}</text>')
+        n_keys = sum(1 for w in body.split() if w.strip(",.?—").lower() in ICICLE_KEYS)
+        tip = top + w_r(body, S) + n_keys * S * 1.6
         gap = 5 + 9 * abs(math.sin(k * 1.7))  # each piece fell a different distance
-        style, scale, upper = FACE_STYLES[k % len(FACE_STYLES)]
-        drops.append(T2(x - 0.6, tip + gap, round(S * scale, 2), last.upper() if upper else last, style,
-                        fill=fade(0.45 + 0.4 * (k / 21)), extra=tilt(x - 0.6, tip + gap, 90 - 25 * math.sin(k * 0.9))))
+        drops.append(T2(x - 0.6, tip + gap, S + 0.3, last, SERIF_I, fill=fade(0.45 + 0.4 * (k / 21)),
+                        extra=tilt(x - 0.6, tip + gap, 90 - 25 * math.sin(k * 0.9))))
     doc.layer("Hanging_lines", "\n".join(hang))
     doc.layer("Fallen_words", "\n".join(drops))
-    doc.layer("Sunk", mixed_word(-2, 208, 70, "flowers", "#232527"))
+    doc.layer("Sunk", T2(-2, 208, 70, "flowers", BODONI_I, fill="#232527"))
     if final:
         doc.layer("Title", T2(186, 192, 3.0, "frost flowers", SERIF_I, anchor="end", fill="#eeeeec"))
     return doc
@@ -477,10 +452,10 @@ def funnel(final=False):
     for k, line in enumerate(POEM[:n]):
         t = k / (n - 1)
         size = 3.6 - 1.0 * t
-        width = 172 * (1 - t) + 26 * t  # every line held to the funnel's width
+        width = 150 * (1 - t) + 30 * t  # every line held to the funnel's width
         adjust = "spacing" if width >= w_r(line, size) else "spacingAndGlyphs"  # widen, or squeeze
         g.append(f'<text x="{f(cx - width / 2)}" y="{f(y)}" font-size="{size:.2f}" fill="{fade(0.1 + 0.5 * t)}" '
-                 f'textLength="{width:.2f}" lengthAdjust="{adjust}" {SERIF}>{emph(line, size, k)}</text>')
+                 f'textLength="{width:.2f}" lengthAdjust="{adjust}" {SERIF}>{emph(line, size, FUNNEL_KEYS)}</text>')
         y += 6.0 - 2.4 * t
     doc.layer("Funnel", "\n".join(g))
 
@@ -489,11 +464,10 @@ def funnel(final=False):
     for k, (wd, yy) in enumerate(zip(words, falling(len(words), y + 4, 3.2, 1.11))):
         if yy > 156:
             break
-        style, scale, upper = FACE_STYLES[k % len(FACE_STYLES)]
-        drip.append(T2(cx + 1.5 * math.sin(k * 1.3), yy, round(2.6 * scale, 2), wd.upper() if upper else wd,
-                       style, anchor="middle", fill=fade(0.55 + 0.03 * k)))
+        drip.append(T2(cx + 1.5 * math.sin(k * 1.3), yy, 2.8, wd, SERIF_I, anchor="middle",
+                       fill=fade(0.55 + 0.03 * k)))
     doc.layer("Drip", "\n".join(drip))
-    doc.layer("Sunk_you", mixed_word(cx, 222, 112, "you", "#1e2022", anchor="middle"))
+    doc.layer("Sunk_you", T2(cx, 222, 112, "you", BODONI_I, anchor="middle", fill="#1e2022"))
     if final:
         doc.layer("Title", T2(14, 11, 3.0, "frost flowers", SERIF_I) +
                   vertical(190, 120, 2.5, POEM[20] + " " + POEM[21], SERIF, "#3a3c3f"))
