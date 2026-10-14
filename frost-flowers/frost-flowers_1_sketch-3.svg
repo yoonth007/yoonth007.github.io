@@ -1,31 +1,31 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="200mm" height="200mm" viewBox="0 0 200 200">
 <title>frost flowers — sketch 3</title>
 <defs>
-
+<linearGradient id="dusk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#eeeeec"/><stop offset="0.45" stop-color="#e2e2e0"/><stop offset="1" stop-color="#9a9da1"/></linearGradient>
 </defs>
 <g id="Paper" >
-<rect width="200" height="200" fill="#ffffff"/>
+<rect width="200" height="200" fill="url(#dusk)"/>
 </g>
 <g id="Big_y" >
 <text x="80" y="150" font-size="205" fill="#1a1a1a" font-family="ArchivoStep7">y</text>
 </g>
 <g id="Down_the_arm" >
-<text x="81" y="52" font-size="3.1" fill="#1a1a1a" font-family="'EB Garamond', serif" text-anchor="end">The dawn city bus</text>
-<text x="83.25" y="57" font-size="3.1" fill="#1a1a1a" font-family="'EB Garamond', serif" text-anchor="end">runs with its windows decked in some dazzling finery.</text>
-<text x="86" y="62.45" font-size="3.1" fill="#1a1a1a" font-family="'EB Garamond', serif" text-anchor="end">The harsher the dead of winter,</text>
-<text x="88.75" y="68.39" font-size="3.1" fill="#1a1a1a" font-family="'EB Garamond', serif" text-anchor="end">the more vividly the frost flowers bloom.</text>
-<text x="92" y="74.87" font-size="3.1" fill="#1a1a1a" font-family="'EB Garamond', serif" text-anchor="end">Those who rode this bus yesterday</text>
-<text x="95.25" y="81.92" font-size="3.1" fill="#1a1a1a" font-family="'EB Garamond', serif" text-anchor="end">maidens and bachelors, children and grown-ups,</text>
-<text x="99" y="89.62" font-size="3.1" fill="#1a1a1a" font-family="'EB Garamond', serif" text-anchor="end">hairdressers, salesmen, housemaids, the jobless</text>
-<text x="103.25" y="98" font-size="3.1" fill="#1a1a1a" font-family="'EB Garamond', serif" text-anchor="end">their breath and their sighs</text>
-<text x="107.5" y="107.14" font-size="3.1" fill="#1a1a1a" font-family="'EB Garamond', serif" text-anchor="end">met in secret overnight and brought forth</text>
+<text x="81" y="52" font-size="3.1" fill="#1c1c1c" font-family="'EB Garamond', serif" text-anchor="end">The dawn city bus</text>
+<text x="83.25" y="57" font-size="3.1" fill="#262727" font-family="'EB Garamond', serif" text-anchor="end">runs with its windows decked in some dazzling finery.</text>
+<text x="86" y="62.45" font-size="3.1" fill="#303132" font-family="'EB Garamond', serif" text-anchor="end">The harsher the dead of winter,</text>
+<text x="88.75" y="68.39" font-size="3.1" fill="#3b3c3d" font-family="'EB Garamond', serif" text-anchor="end">the more vividly the frost flowers bloom.</text>
+<text x="92" y="74.87" font-size="3.1" fill="#454648" font-family="'EB Garamond', serif" text-anchor="end">Those who rode this bus yesterday</text>
+<text x="95.25" y="81.92" font-size="3.1" fill="#4f5154" font-family="'EB Garamond', serif" text-anchor="end">maidens and bachelors, children and grown-ups,</text>
+<text x="99" y="89.62" font-size="3.1" fill="#5a5c5f" font-family="'EB Garamond', serif" text-anchor="end">hairdressers, salesmen, housemaids, the jobless</text>
+<text x="103.25" y="98" font-size="3.1" fill="#64666a" font-family="'EB Garamond', serif" text-anchor="end">their breath and their sighs</text>
+<text x="107.5" y="107.14" font-size="3.1" fill="#6e7175" font-family="'EB Garamond', serif" text-anchor="end">met in secret overnight and brought forth</text>
 </g>
 <g id="Dropping_letters" >
-<text x="34" y="112" font-size="6.5" fill="#1a1a1a" font-family="'EB Garamond', serif" font-style="italic">s</text>
-<text x="36.5" y="120" font-size="6.5" fill="#1a1a1a" font-family="'EB Garamond', serif" font-style="italic" transform="rotate(14.00 36.5 120)">i</text>
-<text x="39" y="130.4" font-size="6.5" fill="#1a1a1a" font-family="'EB Garamond', serif" font-style="italic" transform="rotate(28.00 39 130.4)">g</text>
-<text x="41.5" y="143.92" font-size="6.5" fill="#1a1a1a" font-family="'EB Garamond', serif" font-style="italic" transform="rotate(42.00 41.5 143.92)">h</text>
-<text x="44" y="161.5" font-size="6.5" fill="#1a1a1a" font-family="'EB Garamond', serif" font-style="italic" transform="rotate(56.00 44 161.5)">s</text>
+<text x="34" y="112" font-size="6.5" fill="#353637" font-family="'EB Garamond', serif" font-style="italic">s</text>
+<text x="36.5" y="120" font-size="6.5" fill="#424446" font-family="'EB Garamond', serif" font-style="italic" transform="rotate(14.00 36.5 120)">i</text>
+<text x="39" y="130.4" font-size="6.5" fill="#505254" font-family="'EB Garamond', serif" font-style="italic" transform="rotate(28.00 39 130.4)">g</text>
+<text x="41.5" y="143.92" font-size="6.5" fill="#5e6063" font-family="'EB Garamond', serif" font-style="italic" transform="rotate(42.00 41.5 143.92)">h</text>
+<text x="44" y="161.5" font-size="6.5" fill="#6b6e72" font-family="'EB Garamond', serif" font-style="italic" transform="rotate(56.00 44 161.5)">s</text>
 </g>
 <g id="Before" >
 <text x="14" y="16" font-size="3" fill="#1a1a1a" font-family="'EB Garamond', serif" font-style="italic">Whose desolate sigh was this?</text><text x="14" y="21" font-size="3" fill="#555" font-family="'EB Garamond', serif" font-style="italic">What warm heart breathed out this breath of passion?</text>

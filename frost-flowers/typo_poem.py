@@ -365,6 +365,22 @@ def falling(n, start, gap0, accel=1.13):
     return ys
 
 
+# a slight gloom: the page dims toward the bottom, and falling type fades
+DUSK_TOP, DUSK_BOTTOM = "#eeeeec", "#9a9da1"
+
+
+def dusk(doc):
+    doc.defs.append(f'<linearGradient id="dusk" x1="0" y1="0" x2="0" y2="1">'
+                    f'<stop offset="0" stop-color="{DUSK_TOP}"/><stop offset="0.45" stop-color="#e2e2e0"/>'
+                    f'<stop offset="1" stop-color="{DUSK_BOTTOM}"/></linearGradient>')
+    return '<rect width="200" height="200" fill="url(#dusk)"/>'
+
+
+def fade(t):
+    """Ink that greys as it falls (t: 0 → 1)."""
+    return mix("#1c1c1c", "#6e7175", t)
+
+
 def tilt(x, y, deg):
     return f' transform="rotate({deg:.2f} {f(x)} {f(y)})"' if deg else ""
 
@@ -374,21 +390,21 @@ def tilt(x, y, deg):
 # ---------------------------------------------------------------------------
 def descent(final=False):
     doc = Doc("frost flowers — final" if final else "frost flowers — sketch 2")
-    doc.layer("Paper", f'<rect width="200" height="200" fill="{PAPER}"/>')
+    doc.layer("Paper", dusk(doc))
     S = 3.3
 
     # 1 · the opening lines fall along a curve: gaps widen, drift right, tilt
     g1 = []
     for k, (line, y) in enumerate(zip(POEM[:10], falling(10, 20, 4.4))):
         x = 18 + 1.9 * k ** 1.55
-        g1.append(T2(x, y, S, line, extra=tilt(x, y, 0.9 * k)))
+        g1.append(T2(x, y, S, line, fill=fade(k / 9), extra=tilt(x, y, 0.9 * k)))
     doc.layer("Falling_lines", "\n".join(g1))
 
     # 2 · one line comes apart word by word down the right side
     g2 = []
     for k, (wd, y) in enumerate(zip(POEM[17].split(), falling(7, 26, 5.0, 1.2))):
         x = 176 + 1.2 * k
-        g2.append(T2(x, y, S + 0.4, wd, SERIF_I, anchor="end", extra=tilt(x, y, 4 * k)))
+        g2.append(T2(x, y, S + 0.4, wd, SERIF_I, fill=fade(k / 6), anchor="end", extra=tilt(x, y, 4 * k)))
     doc.layer("Loose_words", "\n".join(g2))
 
     # 3 · one large line sliding downhill
@@ -407,7 +423,7 @@ def descent(final=False):
                          f'transform="translate(9 22) rotate(90)">{cap}</text>')
     if final:
         x, y = 150, 168
-        doc.layer("Last", T2(x, y, 3.0, POEM[19], SERIF_I, fill="#555", anchor="middle", extra=tilt(x, y, 6)) +
+        doc.layer("Last", T2(x, y, 3.0, POEM[19], SERIF_I, fill="#2e3033", anchor="middle", extra=tilt(x, y, 6)) +
                   T2(186, 194, 3.0, "frost flowers", SERIF_I, anchor="end"))
     return doc
 
@@ -417,25 +433,25 @@ def descent(final=False):
 # ---------------------------------------------------------------------------
 def plunge():
     doc = Doc("frost flowers — sketch 3")
-    doc.layer("Paper", f'<rect width="200" height="200" fill="{PAPER}"/>')
+    doc.layer("Paper", dusk(doc))
     yx, yy, ys = 80, 150, 205
     doc.layer("Big_y", f'<text x="{yx}" y="{yy}" font-size="{ys}" fill="{INK}" font-family="ArchivoStep7">y</text>')
 
     # 1 · lines slide down the y's arm: flush to its contour, gaps widening
     mask, px = heavy_mask("y", yx, yy, ys)
     S, g1 = 3.1, []
-    for line, by in zip(POEM[:9], falling(9, 52, 5.0, 1.09)):
+    for k, (line, by) in enumerate(zip(POEM[:9], falling(9, 52, 5.0, 1.09))):
         band = mask[int((by - S * 0.8) * px):int((by + 0.6) * px)].any(axis=0)
         cols = np.nonzero(band)[0]
         edge = (cols.min() / px if len(cols) else 186) - 3
-        g1.append(T2(edge, by, S, line, anchor="end"))
+        g1.append(T2(edge, by, S, line, fill=fade(k / 8), anchor="end"))
     doc.layer("Down_the_arm", "\n".join(g1))
 
     # 2 · letters dropping one by one, further apart, turning as they fall
     g2 = []
     for k, (ch, y) in enumerate(zip("sighs", falling(5, 112, 8, 1.3))):
         x = 34 + 2.5 * k
-        g2.append(T2(x, y, 6.5, ch, SERIF_I, extra=tilt(x, y, 14 * k)))
+        g2.append(T2(x, y, 6.5, ch, SERIF_I, fill=fade(0.3 + k / 6), extra=tilt(x, y, 14 * k)))
     doc.layer("Dropping_letters", "\n".join(g2))
 
     # 3 · two lines at the very top, still level — before the fall

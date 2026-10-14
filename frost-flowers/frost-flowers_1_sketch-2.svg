@@ -1,31 +1,32 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="200mm" height="200mm" viewBox="0 0 200 200">
 <title>frost flowers — sketch 2</title>
 <defs>
+<linearGradient id="dusk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#eeeeec"/><stop offset="0.45" stop-color="#e2e2e0"/><stop offset="1" stop-color="#9a9da1"/></linearGradient>
 <path id="slope" d="M22 124L150 138"/>
 </defs>
 <g id="Paper" >
-<rect width="200" height="200" fill="#ffffff"/>
+<rect width="200" height="200" fill="url(#dusk)"/>
 </g>
 <g id="Falling_lines" >
-<text x="18" y="20" font-size="3.3" fill="#1a1a1a" font-family="'EB Garamond', serif">The dawn city bus</text>
-<text x="19.9" y="24.4" font-size="3.3" fill="#1a1a1a" font-family="'EB Garamond', serif" transform="rotate(0.90 19.9 24.4)">runs with its windows decked in some dazzling finery.</text>
-<text x="23.56" y="29.37" font-size="3.3" fill="#1a1a1a" font-family="'EB Garamond', serif" transform="rotate(1.80 23.56 29.37)">The harsher the dead of winter,</text>
-<text x="28.43" y="34.99" font-size="3.3" fill="#1a1a1a" font-family="'EB Garamond', serif" transform="rotate(2.70 28.43 34.99)">the more vividly the frost flowers bloom.</text>
-<text x="34.29" y="41.34" font-size="3.3" fill="#1a1a1a" font-family="'EB Garamond', serif" transform="rotate(3.60 34.29 41.34)">Those who rode this bus yesterday</text>
-<text x="41.02" y="48.51" font-size="3.3" fill="#1a1a1a" font-family="'EB Garamond', serif" transform="rotate(4.50 41.02 48.51)">maidens and bachelors, children and grown-ups,</text>
-<text x="48.54" y="56.62" font-size="3.3" fill="#1a1a1a" font-family="'EB Garamond', serif" transform="rotate(5.40 48.54 56.62)">hairdressers, salesmen, housemaids, the jobless</text>
-<text x="56.78" y="65.78" font-size="3.3" fill="#1a1a1a" font-family="'EB Garamond', serif" transform="rotate(6.30 56.78 65.78)">their breath and their sighs</text>
-<text x="65.7" y="76.13" font-size="3.3" fill="#1a1a1a" font-family="'EB Garamond', serif" transform="rotate(7.20 65.7 76.13)">met in secret overnight and brought forth</text>
-<text x="75.26" y="87.83" font-size="3.3" fill="#1a1a1a" font-family="'EB Garamond', serif" transform="rotate(8.10 75.26 87.83)">this flashing, breathtaking beauty.</text>
+<text x="18" y="20" font-size="3.3" fill="#1c1c1c" font-family="'EB Garamond', serif">The dawn city bus</text>
+<text x="19.9" y="24.4" font-size="3.3" fill="#252526" font-family="'EB Garamond', serif" transform="rotate(0.90 19.9 24.4)">runs with its windows decked in some dazzling finery.</text>
+<text x="23.56" y="29.37" font-size="3.3" fill="#2e2f30" font-family="'EB Garamond', serif" transform="rotate(1.80 23.56 29.37)">The harsher the dead of winter,</text>
+<text x="28.43" y="34.99" font-size="3.3" fill="#37383a" font-family="'EB Garamond', serif" transform="rotate(2.70 28.43 34.99)">the more vividly the frost flowers bloom.</text>
+<text x="34.29" y="41.34" font-size="3.3" fill="#404244" font-family="'EB Garamond', serif" transform="rotate(3.60 34.29 41.34)">Those who rode this bus yesterday</text>
+<text x="41.02" y="48.51" font-size="3.3" fill="#4a4b4d" font-family="'EB Garamond', serif" transform="rotate(4.50 41.02 48.51)">maidens and bachelors, children and grown-ups,</text>
+<text x="48.54" y="56.62" font-size="3.3" fill="#535557" font-family="'EB Garamond', serif" transform="rotate(5.40 48.54 56.62)">hairdressers, salesmen, housemaids, the jobless</text>
+<text x="56.78" y="65.78" font-size="3.3" fill="#5c5e61" font-family="'EB Garamond', serif" transform="rotate(6.30 56.78 65.78)">their breath and their sighs</text>
+<text x="65.7" y="76.13" font-size="3.3" fill="#65686b" font-family="'EB Garamond', serif" transform="rotate(7.20 65.7 76.13)">met in secret overnight and brought forth</text>
+<text x="75.26" y="87.83" font-size="3.3" fill="#6e7175" font-family="'EB Garamond', serif" transform="rotate(8.10 75.26 87.83)">this flashing, breathtaking beauty.</text>
 </g>
 <g id="Loose_words" >
-<text x="176" y="26" font-size="3.7" fill="#1a1a1a" font-family="'EB Garamond', serif" font-style="italic" text-anchor="end">I</text>
-<text x="177.2" y="31" font-size="3.7" fill="#1a1a1a" font-family="'EB Garamond', serif" font-style="italic" text-anchor="end" transform="rotate(4.00 177.2 31)">wipe</text>
-<text x="178.4" y="37" font-size="3.7" fill="#1a1a1a" font-family="'EB Garamond', serif" font-style="italic" text-anchor="end" transform="rotate(8.00 178.4 37)">away</text>
-<text x="179.6" y="44.2" font-size="3.7" fill="#1a1a1a" font-family="'EB Garamond', serif" font-style="italic" text-anchor="end" transform="rotate(12.00 179.6 44.2)">a</text>
-<text x="180.8" y="52.84" font-size="3.7" fill="#1a1a1a" font-family="'EB Garamond', serif" font-style="italic" text-anchor="end" transform="rotate(16.00 180.8 52.84)">single</text>
-<text x="182" y="63.21" font-size="3.7" fill="#1a1a1a" font-family="'EB Garamond', serif" font-style="italic" text-anchor="end" transform="rotate(20.00 182 63.21)">frost</text>
-<text x="183.2" y="75.65" font-size="3.7" fill="#1a1a1a" font-family="'EB Garamond', serif" font-style="italic" text-anchor="end" transform="rotate(24.00 183.2 75.65)">petal</text>
+<text x="176" y="26" font-size="3.7" fill="#1c1c1c" font-family="'EB Garamond', serif" font-style="italic" text-anchor="end">I</text>
+<text x="177.2" y="31" font-size="3.7" fill="#2a2a2b" font-family="'EB Garamond', serif" font-style="italic" text-anchor="end" transform="rotate(4.00 177.2 31)">wipe</text>
+<text x="178.4" y="37" font-size="3.7" fill="#37383a" font-family="'EB Garamond', serif" font-style="italic" text-anchor="end" transform="rotate(8.00 178.4 37)">away</text>
+<text x="179.6" y="44.2" font-size="3.7" fill="#454648" font-family="'EB Garamond', serif" font-style="italic" text-anchor="end" transform="rotate(12.00 179.6 44.2)">a</text>
+<text x="180.8" y="52.84" font-size="3.7" fill="#535557" font-family="'EB Garamond', serif" font-style="italic" text-anchor="end" transform="rotate(16.00 180.8 52.84)">single</text>
+<text x="182" y="63.21" font-size="3.7" fill="#606366" font-family="'EB Garamond', serif" font-style="italic" text-anchor="end" transform="rotate(20.00 182 63.21)">frost</text>
+<text x="183.2" y="75.65" font-size="3.7" fill="#6e7175" font-family="'EB Garamond', serif" font-style="italic" text-anchor="end" transform="rotate(24.00 183.2 75.65)">petal</text>
 </g>
 <g id="Large_line" >
 <text font-size="6.6" fill="#1a1a1a" font-family="'EB Garamond', serif"><textPath href="#slope">Whose desolate sigh was this?</textPath></text>
