@@ -1,34 +1,41 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="200mm" height="200mm" viewBox="0 0 200 200">
-<title>frost flowers — sketch 2 (rhythm)</title>
+<title>frost flowers — sketch 2 (movement · rhythm)</title>
 <defs>
-
+<path id="tp1" d="M12.01 22.35C14.27 22.39 21.04 22.51 25.56 22.54C30.07 22.57 34.59 22.58 39.1 22.53C43.62 22.48 48.13 22.39 52.64 22.26C57.15 22.12 61.67 21.93 66.18 21.72C70.69 21.5 75.19 21.23 79.7 20.96C84.21 20.68 88.72 20.37 93.23 20.08C97.74 19.8 102.25 19.49 106.76 19.23C111.26 18.97 115.77 18.71 120.28 18.51C124.8 18.31 129.31 18.15 133.82 18.03C138.33 17.92 142.85 17.85 147.36 17.83C151.87 17.8 156.39 17.83 160.91 17.87C165.42 17.92 169.94 18.01 174.46 18.09C178.97 18.17 185.75 18.31 188.01 18.35"/>
+<path id="tp2" d="M30 172.5C32.03 172.53 38.11 172.64 42.16 172.69C46.22 172.73 50.27 172.78 54.32 172.78C58.37 172.78 62.43 172.76 66.48 172.7C70.53 172.64 74.58 172.54 78.63 172.42C82.68 172.29 86.73 172.12 90.78 171.94C94.83 171.76 98.88 171.54 102.93 171.33C106.98 171.12 111.02 170.88 115.07 170.67C119.12 170.46 123.17 170.24 127.22 170.06C131.27 169.88 135.32 169.71 139.37 169.58C143.42 169.46 147.47 169.36 151.52 169.3C155.57 169.24 159.63 169.22 163.68 169.22C167.73 169.22 171.78 169.27 175.84 169.31C179.89 169.36 185.97 169.47 188 169.5"/>
+<path id="tp3" d="M44.02 180.66C45.86 180.64 51.4 180.63 55.1 180.57C58.79 180.5 62.48 180.4 66.17 180.27C69.86 180.14 73.55 179.97 77.24 179.78C80.93 179.6 84.62 179.38 88.31 179.16C92 178.95 95.69 178.71 99.38 178.5C103.07 178.29 106.76 178.07 110.45 177.9C114.14 177.72 117.83 177.56 121.52 177.43C125.21 177.31 128.9 177.22 132.6 177.16C136.29 177.11 139.98 177.09 143.68 177.1C147.37 177.11 151.07 177.15 154.76 177.2C158.46 177.25 162.15 177.33 165.85 177.39C169.54 177.45 173.24 177.53 176.93 177.58C180.63 177.62 186.17 177.64 188.02 177.66"/>
+<path id="tp4" d="M58.02 188.12C59.68 188.04 64.68 187.81 68.01 187.62C71.34 187.43 74.67 187.21 78 187C81.33 186.78 84.66 186.54 87.99 186.33C91.32 186.12 94.65 185.91 97.99 185.74C101.32 185.56 104.65 185.4 107.98 185.29C111.31 185.17 114.65 185.08 117.98 185.03C121.31 184.98 124.65 184.97 127.98 184.98C131.32 184.99 134.66 185.04 137.99 185.09C141.33 185.14 144.66 185.22 148 185.28C151.34 185.35 154.67 185.42 158.01 185.46C161.35 185.5 164.68 185.54 168.02 185.53C171.35 185.53 174.69 185.5 178.02 185.43C181.35 185.36 186.35 185.17 188.02 185.12"/>
+<path id="tp5" d="M72 194.83C73.49 194.72 77.94 194.38 80.92 194.17C83.89 193.96 86.86 193.75 89.83 193.58C92.8 193.41 95.77 193.25 98.75 193.14C101.72 193.03 104.69 192.95 107.67 192.9C110.64 192.85 113.62 192.85 116.6 192.86C119.57 192.87 122.55 192.93 125.53 192.98C128.51 193.03 131.49 193.11 134.46 193.17C137.44 193.24 140.42 193.31 143.4 193.35C146.37 193.39 149.35 193.42 152.33 193.41C155.3 193.4 158.28 193.37 161.25 193.29C164.23 193.22 167.2 193.11 170.17 192.97C173.15 192.83 176.12 192.65 179.09 192.46C182.06 192.27 186.52 191.93 188 191.83"/>
 </defs>
-<g id="Paper" >
-<rect width="200" height="200" fill="#ffffff"/>
+<g id="Planes" >
+<rect width="200" height="200" fill="#ffffff"/><path d="M190 40L10 168V200H200V40Z" fill="#212121"/>
 </g>
-<g id="Lines" font-family="'Cormorant Garamond', serif" font-style="italic" font-weight="500">
-<text x="42" y="19.02" font-size="8.78" fill="#1a1a1a">frost flowers</text>
-<text x="42" y="40" font-size="3.9" fill="#1a1a1a">The dawn city bus</text>
-<text x="42" y="44.48" font-size="3.9" fill="#1a1a1a">runs with its windows decked in some dazzling finery.</text>
-<text x="42" y="48.97" font-size="3.9" fill="#1a1a1a">The harsher the dead of winter,</text>
-<text x="42" y="53.45" font-size="3.9" fill="#1a1a1a">the more vividly the frost flowers bloom.</text>
-<text x="42" y="57.94" font-size="3.9" fill="#1a1a1a">Those who rode this bus yesterday</text>
-<text x="42" y="62.42" font-size="3.9" fill="#1a1a1a">maidens and bachelors, children and grown-ups,</text>
-<text x="42" y="66.91" font-size="3.9" fill="#1a1a1a">hairdressers, salesmen, housemaids, the jobless</text>
-<text x="42" y="71.39" font-size="3.9" fill="#1a1a1a">their breath and their sighs</text>
-<text x="42" y="75.88" font-size="3.9" fill="#1a1a1a">met in secret overnight and brought forth</text>
-<text x="42" y="80.36" font-size="3.9" fill="#1a1a1a">this flashing, breathtaking beauty.</text>
-<text x="42" y="84.85" font-size="3.9" fill="#1a1a1a">As if I had wandered into some exhibition,</text>
-<text x="42" y="89.33" font-size="3.9" fill="#1a1a1a">I move from seat to seat to look,</text>
-<text x="42" y="93.82" font-size="3.9" fill="#1a1a1a">and once again I am drunk on a single petal,</text>
-<text x="42" y="98.3" font-size="3.9" fill="#1a1a1a">on its delicate and cold beauty.</text>
-<text x="42" y="126.58" font-size="5.85" fill="#1a1a1a">Whose desolate sigh was this?</text>
-<text x="42" y="135.35" font-size="5.85" fill="#1a1a1a">What warm heart breathed out this breath of passion?</text>
-<text x="42" y="144.12" font-size="5.85" fill="#1a1a1a">For no reason, carefully, with my breath and my finger,</text>
-<text x="42" y="152.9" font-size="5.85" fill="#1a1a1a">I wipe away a single frost petal</text>
-<text x="42" y="161.68" font-size="5.85" fill="#1a1a1a">and press my forehead to the glass.</text>
-<text x="42" y="170.45" font-size="5.85" fill="#e0322b">A haggard face glimmers in the rattling window</text>
-<text x="42" y="179.23" font-size="5.85" fill="#1a1a1a">friend, you walked the road beside me for so long,</text>
-<text x="42" y="188" font-size="5.85" fill="#1a1a1a">and now I am not even allowed to visit you.</text>
+<g id="Movement_on_paths" font-family="'Libre Caslon Text', serif" font-style="italic">
+<text font-size="3.90" fill="#1a1a1a"><textPath href="#tp1" startOffset="0.00">The dawn city bus  /  runs with its windows decked in some dazzling finery.</textPath></text>
+<text font-size="3.31" fill="#ffffff"><textPath href="#tp2" startOffset="0.00">Whose desolate sigh was this?  /  What warm heart breathed out this breath of passion?</textPath></text>
+<text font-size="3.31" fill="#ffffff"><textPath href="#tp3" startOffset="0.00">For no reason, carefully, with my breath and my finger,  /  I wipe away a single frost petal</textPath></text>
+<text font-size="3.26" fill="#ffffff"><textPath href="#tp4" startOffset="0.00">and press my forehead to the glass.  /  A haggard face glimmers in the rattling window</textPath></text>
+<text font-size="2.57" fill="#ffffff"><textPath href="#tp5" startOffset="0.00">friend, you walked the road beside me for so long,  /  and now I am not even allowed to visit you.</textPath></text>
+</g>
+<g id="Fall" font-family="'Libre Caslon Text', serif" font-style="italic">
+<text x="181.38" y="44" font-size="3.90" fill="#1a1a1a" text-anchor="end">The harsher the dead of winter,</text>
+<text x="175.19" y="48.4" font-size="3.90" fill="#1a1a1a" text-anchor="end">the more vividly the frost flowers bloom.</text>
+<text x="169" y="52.8" font-size="3.90" fill="#1a1a1a" text-anchor="end">Those who rode this bus yesterday</text>
+<text x="162.81" y="57.2" font-size="3.90" fill="#1a1a1a" text-anchor="end">maidens and bachelors, children and grown-ups,</text>
+<text x="156.62" y="61.6" font-size="3.90" fill="#1a1a1a" text-anchor="end">hairdressers, salesmen, housemaids, the jobless</text>
+<text x="150.44" y="66" font-size="3.90" fill="#1a1a1a" text-anchor="end">their breath and their sighs</text>
+<text x="144.25" y="70.4" font-size="3.90" fill="#1a1a1a" text-anchor="end">met in secret overnight and brought forth</text>
+<text x="125.97" y="83.4" font-size="4.97" fill="#1a1a1a" text-anchor="end">this flashing, breathtaking beauty.</text>
+<text x="115.84" y="90.6" font-size="4.97" fill="#1a1a1a" text-anchor="end">As if I had wandered into some exhibition,</text>
+<text x="105.72" y="97.8" font-size="4.97" fill="#1a1a1a" text-anchor="end">I move from seat to seat to look,</text>
+<text x="95.59" y="105" font-size="4.09" fill="#1a1a1a" text-anchor="end">and once again I am drunk on a single petal,</text>
+<text x="85.47" y="112.2" font-size="4.97" fill="#1a1a1a" text-anchor="end">on its delicate and cold beauty.</text>
+</g>
+<g id="Display" font-family="'Archivo Condensed', 'Archivo', sans-serif" font-weight="800">
+<text x="188" y="120" font-size="29.62" fill="#ffffff" text-anchor="end">frost</text>
+<text x="188" y="148" font-size="29.62" fill="#ffffff" text-anchor="end">flowers</text>
+</g>
+<g id="Focal_Point" >
+<circle cx="186" cy="160" r="2.925" fill="#e0322b"/>
 </g>
 </svg>
