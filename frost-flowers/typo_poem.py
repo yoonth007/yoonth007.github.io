@@ -1,16 +1,13 @@
 """frost flowers — typo poem (20 x 20 cm)
 
-Three sketches and one final composition, written as SVG. The visual
-language follows the reference artwork: black / white planes, huge italic
-letters cropped by the planes and the page edge, and the poem set as type on
-wavy paths.
+Three sketches and one final composition, written as SVG, built from the
+principles of visual grammar rather than from the poem's imagery:
 
-  sketch 1  the reference artwork itself, kept as is; only its broken text
-            runs are re-set with the correct words on the same paths
-  sketch 2  horizontal bands: "frost" cropped by a band, "you" cropped by
-            the page, the poem on waves between them
-  sketch 3  a diagonal plane; "petal" crosses it, inverting black/white
-  final     four window panes: f | l·owers | the whole poem | y·o·u
+  reference  the original reference artwork, kept as is (text runs re-set)
+  sketch 1   asymmetrical balance · emphasis · contrast
+  sketch 2   rhythm · repetition · movement
+  sketch 3   radial balance · harmony (form synchronised with a big "o")
+  final      sketch 3 refined: golden-section centre, crop, grid caption
 
 usage: python3 typo_poem.py <font_dir> <reference.svg> <out_dir>
   reference.svg = the reference .ai converted with `pdftocairo -svg`
@@ -143,7 +140,7 @@ def big(x, y, size, ch, fill, rot=0, clip=None, extra=""):
 
 
 # ---------------------------------------------------------------------------
-# SKETCH 1 — the reference, as is. Everything (planes, outlined f / y / l, the
+# REFERENCE — the reference, as is. Everything (planes, outlined f / y / l, the
 # R, o, w, e, o, u, "frost") is taken from the reference unchanged; only the
 # nine small text runs are re-set, on paths traced from their own glyphs.
 # ---------------------------------------------------------------------------
@@ -204,123 +201,180 @@ def reference():
     layer = f'<g id="Poem_on_paths" {FONT}>\n' + "\n".join(texts) + "\n</g>\n"
     s = s.replace("</svg>", layer + "</svg>")
     s = re.sub(r'<svg ([^>]*?)width="[^"]*" height="[^"]*"', r'<svg \1width="200mm" height="200mm"', s, count=1)
-    open(f"{OUTDIR}/frost-flowers_1_sketch-1.svg", "w").write(s)
+    open(f"{OUTDIR}/frost-flowers_0_reference.svg", "w").write(s)
 
 
 # ---------------------------------------------------------------------------
-# SKETCH 2 — horizontal bands (the bus window seen side-on).
+# The compositions below are driven by the principles of visual grammar
+# (balance, emphasis, contrast, harmony, unity, rhythm, proportion,
+# movement), not by the poem's imagery; the poem is the material.
+#
+# Shared system (unity):
+#   * grid: 12 mm margins, 6 columns of 26 mm with 4 mm gutters
+#   * proportion: every size comes from one modular scale, ratio 1.5
+#   * one accent colour, used once per page (emphasis by colour point)
 # ---------------------------------------------------------------------------
-def bands():
-    global TEXT_FACE
-    TEXT_FACE = "cormorant"
-    doc = Doc("frost flowers — sketch 2")
-    doc.clip("bandA", '<rect x="0" y="0" width="200" height="76"/>')
-    doc.clip("bandC", '<rect x="0" y="124" width="200" height="76"/>')
-    doc.layer("Planes", f'<rect width="200" height="200" fill="{PAPER}"/>'
-              f'<rect width="200" height="76" fill="{PANE}"/>'
-              f'<rect y="124" width="200" height="76" fill="{PANE}"/>')
+RED = "#e0322b"
+M, COL, GUT = 12, 26, 4
+SCALE = [round(2.6 * 1.5 ** k, 2) for k in range(11)]  # 2.6 3.9 5.85 8.78 13.16 19.74 ...
 
-    # crop: "frost" sliced by the bottom of the top band, "you" by the page
-    t = [big(-2, 98, 112, "frost", PAPER, clip="bandA"),
-         big(196, 9, 5, "frost", PAPER, extra=' text-anchor="end"'),
-         big(110, 222, 116, "you", PAPER, clip="bandC"),
-         big(196, 120.5, 5.5, "flowers", INK, extra=' text-anchor="end"')]
-    doc.layer("Display_Type", "\n".join(t), FACES["bodoni"][0])
 
-    p = []
-    mid = [POEM[0] + " " + POEM[1], POEM[2] + " " + POEM[3], POEM[4] + " " + POEM[5],
-           POEM[6] + " / " + POEM[7], POEM[8] + " " + POEM[9]]
-    for i, line in enumerate(mid):
-        y = 84 + i * 7.8
-        p.append(on_path(doc, wave(6, y + 1.5, 194, y - 1.5, 1.6, 1.3, i * 1.1), line, 3.4, INK))
-    low = POEM[10:17] + [POEM[17] + " / " + POEM[18], POEM[19]]
-    for i, line in enumerate(low):
-        y = 132 + i * 5.6
-        p.append(on_path(doc, wave(6, y + 4, 104, y - 4, 1.4, 1.1, i * 0.9), line, 2.9, PAPER))
-    p.append(on_path(doc, wave(6, 187, 104, 181, 1.2, 1.0, 0.4), POEM[20], 2.9, PAPER))
-    p.append(on_path(doc, wave(6, 194, 104, 188, 1.2, 1.0, 1.4), POEM[21][:-5], 2.9, PAPER))
-    doc.layer("Poem_on_paths", "\n".join(p), FACES["cormorant"][0])
-    return doc
+def colx(n):
+    """Left edge (mm) of grid column n (0-5)."""
+    return M + n * (COL + GUT)
+
+
+def arc_pts(x0, y0, x1, y1, bulge, n=16):
+    """A gentle arc from (x0, y0) to (x1, y1), bulging `bulge` mm upward."""
+    pts = []
+    for k in range(n):
+        t = k / (n - 1)
+        x, y = x0 + (x1 - x0) * t, y0 + (y1 - y0) * t
+        pts.append((x, y - bulge * 4 * t * (1 - t)))
+    return pts
+
+
+def circle_d(cx, cy, r):
+    """Closed circle path starting at the left, running clockwise (over the top)."""
+    return (f"M{f(cx - r)} {f(cy)}A{f(r)} {f(r)} 0 1 1 {f(cx + r)} {f(cy)}"
+            f"A{f(r)} {f(r)} 0 1 1 {f(cx - r)} {f(cy)}")
 
 
 # ---------------------------------------------------------------------------
-# SKETCH 3 — a diagonal plane; the word "petal" crosses it and inverts.
+# SKETCH 1 — asymmetrical BALANCE, EMPHASIS, CONTRAST
+# A huge cropped "g" (large, light-edged mass, lower left) is balanced by a
+# small but dense block of type (upper right). Contrast of scale (150 mm vs
+# 2.6 mm), of style (Didone vs monospace) and of value. One red point, isolated
+# in the white space at a third-line crossing, is the single focal point.
 # ---------------------------------------------------------------------------
-def diagonal():
+def balance():
     global TEXT_FACE
     TEXT_FACE = "plexmono"
-    doc = Doc("frost flowers — sketch 3")
-    plane = "M0 150L200 52V200H0Z"
-    doc.clip("dark", f'<path d="{plane}"/>')
-    doc.clip("light", '<path d="M0 0H200V52L0 150Z"/>')
-    doc.layer("Planes", f'<rect width="200" height="200" fill="{PAPER}"/><path d="{plane}" fill="{PANE}"/>')
+    doc = Doc("frost flowers — sketch 1 (balance · emphasis · contrast)")
+    doc.layer("Paper", f'<rect width="200" height="200" fill="{PAPER}"/>')
+    doc.layer("Mass", big(-24, 156, SCALE[10], "g", INK), FACES["bodoni"][0])
 
-    ang = math.degrees(math.atan2(52 - 150, 200))  # slope of the edge
-    t = [f'<g clip-path="url(#light)">{big(10, 160, 84, "petal", INK, ang)}</g>',
-         f'<g clip-path="url(#dark)">{big(10, 160, 84, "petal", PAPER, ang)}</g>',
-         big(196, 14, 5.5, "frost flowers", INK, extra=' text-anchor="end"'),
-         big(196, 194, 40, "you.", PAPER, extra=' text-anchor="end"')]
-    doc.layer("Display_Type", "\n".join(t), FACES["archivo"][0])
-
-    ux, uy = math.cos(math.radians(ang)), math.sin(math.radians(ang))
-    nx, ny = uy, -ux  # normal pointing up-left, into the white
-
-    def lane(o, i):
-        sx, sy = nx * o, 150 + ny * o
-        pts = wave(sx - ux * 40, sy - uy * 40, sx + ux * 260, sy + uy * 260, 1.5, 1.6, i * 1.2, 30)
-        return [q for q in pts if 2 <= q[0] <= 198 and 2 <= q[1] <= 198]
-
+    # counterweight: the whole poem, dense, on identical gentle arcs (repetition)
+    x0, x1, size, lead = colx(3), 200 - M, SCALE[0] * 0.98, 3.95
     p = []
-    for i, line in enumerate(POEM[:10]):  # white corner, above the word, parallel to the edge
-        pts = lane(100 - i * 4.0, i)
-        if len(pts) > 3:
-            p.append(on_path(doc, pts, line, 2.2, INK, center=True))
-    for i, line in enumerate(POEM[10:20]):  # dark side
-        pts = lane(-26 - i * 6.2, i)
-        if len(pts) > 3:
-            p.append(on_path(doc, pts, line, 3.0, PAPER, center=True))
-    p.append(on_path(doc, wave(10, 190, 140, 184, 1.0, 1.0, 0.3), POEM[20], 2.6, PAPER))
-    p.append(on_path(doc, wave(10, 196, 140, 191, 1.0, 1.0, 1.3), POEM[21][:-5], 2.6, PAPER))
-    doc.layer("Poem_on_paths", "\n".join(p), FACES["plexmono"][0])
+    for i, line in enumerate(POEM):
+        y = 22 + i * lead
+        p.append(on_path(doc, arc_pts(x0, y, x1, y, 1.2), line, size, INK))
+    doc.layer("Counterweight_on_paths", "\n".join(p), FACES["plexmono"][0])
+
+    # emphasis: one red point at the crossing of the lower and right third lines
+    doc.layer("Focal_Point", f'<circle cx="{f(200 * 2 / 3)}" cy="{f(200 * 2 / 3)}" r="{SCALE[3] / 2}" fill="{RED}"/>')
+    # small labels aligned to the same column edge as the block (alignment)
+    lab = [big(x0, 22 + 22 * lead + SCALE[2], SCALE[1], "frost flowers", INK)]
+    doc.layer("Labels", "\n".join(lab), FACES["bodoni"][0])
     return doc
 
 
 # ---------------------------------------------------------------------------
-# FINAL — four window panes: f | l·o·w·e·r·s | the whole poem | y·o·u
+# SKETCH 2 — RHYTHM, REPETITION, MOVEMENT
+# Poem lines become vertical bars. Left: dense, varied sizes (fast tempo).
+# Middle: a wide pause of white space. Right: one size, one interval, repeated
+# — and one red bar breaks the rule (visual climax). The bars on the right
+# run past the page edge (crop). The eye moves left to right, slows, stops.
 # ---------------------------------------------------------------------------
-def panes():
+def rhythm():
+    global TEXT_FACE
+    doc = Doc("frost flowers — sketch 2 (rhythm · repetition · movement)")
+    doc.layer("Paper", f'<rect width="200" height="200" fill="{PAPER}"/>')
+
+    def bar(x, y, size, txt, face, fill=INK):
+        return (f'<text x="0" y="0" font-size="{size}" fill="{fill}" {FACES[face][0]} '
+                f'transform="translate({f(x)} {f(y)}) rotate(-90)">{txt}</text>')
+
+    b, x = [], M
+    tempo = [SCALE[2], SCALE[0], SCALE[3], SCALE[0], SCALE[1], SCALE[4], SCALE[0],
+             SCALE[2], SCALE[1], SCALE[0], SCALE[3], SCALE[0], SCALE[1], SCALE[2]]
+    for i, size in enumerate(tempo):  # fast tempo: lines 1-14, mixed sizes, tight
+        face = "archivo" if size >= SCALE[2] else "cormorant"
+        x += size * 0.78
+        b.append(bar(x, 200 - M, size, POEM[i], face))
+        x += 0.9
+    dense_end = x
+
+    # regular tempo: lines 15-22, one size, one interval; one red bar
+    step = SCALE[3] * 0.95
+    xs = [200 - M - step * (7 - k) for k in range(8)]
+    for k, line in enumerate(POEM[14:]):
+        b.append(bar(xs[k], 196, SCALE[3], line, "archivo", RED if k == 5 else INK))
+    doc.layer("Bars", "\n".join(b))
+
+    # the pause holds only the title, small and isolated, on the baseline
+    mid = (dense_end + xs[0] - SCALE[3]) / 2
+    doc.layer("Title", big(mid, 200 - M, SCALE[1], "frost flowers", INK, extra=' text-anchor="middle"'),
+              FACES["cormorant"][0])
+    return doc
+
+
+# ---------------------------------------------------------------------------
+# SKETCH 3 / FINAL — radial BALANCE, HARMONY, UNITY, PROPORTION
+# The poem runs on concentric circles whose radii grow by the 1.5 ratio;
+# text size grows with them. A big "o" repeats the circle (form harmony);
+# inside it the type inverts to white. One red point marks the centre.
+# Final: the centre moves off-axis to the golden section for tension, the
+# outer rings crop against the page, and a small caption block aligns to grid.
+# ---------------------------------------------------------------------------
+def radial(final=False):
     global TEXT_FACE
     TEXT_FACE = "caslon"
-    doc = Doc("frost flowers — final")
-    A, B, C, D = (0, 52), (52, 84), (84, 150), (150, 200)
-    for k, (a, b) in zip("ABCD", (A, B, C, D)):
-        doc.clip(f"clip{k}", f'<rect x="{a}" y="0" width="{b - a}" height="200"/>')
-    doc.layer("Planes", f'<rect width="200" height="200" fill="{PAPER}"/>'
-              f'<rect x="{A[0]}" width="{A[1] - A[0]}" height="200" fill="{PANE}"/>'
-              f'<rect x="{C[0]}" width="{C[1] - C[0]}" height="200" fill="{PANE}"/>')
+    name = "final (radial balance · harmony · unity)" if final else "sketch 3 (radial balance · harmony)"
+    doc = Doc("frost flowers — " + name)
+    doc.layer("Paper", f'<rect width="200" height="200" fill="{PAPER}"/>')
+    cx, cy = (123.6, 106) if final else (100, 100)  # golden section vs. centre
 
-    t = [big(-18, 150, 190, "f", PAPER, clip="clipA"), big(4, 194, 6.2, "frost", PAPER),
-         big(44, 236, 215, "l", INK, clip="clipB")]
-    for ch, x, y, s, r in (("o", 58, 44, 11, -14), ("w", 70, 58, 9.5, 12), ("e", 57, 72, 10, -8),
-                           ("r", 68, 86, 8.5, 18), ("s", 56, 99, 9, -20)):
-        t.append(big(x, y, s, ch, INK, r))
-    t += [big(138, 88, 128, "y", INK, clip="clipD"), big(166, 128, 44, "o", INK, clip="clipD"),
-          big(149, 190, 104, "u", INK, clip="clipD"), big(153.5, 9, 4, "frost flowers", INK)]
-    doc.layer("Display_Type", "\n".join(t), FACES["playfair"][0])
+    # rings: primary radii on the 1.5 scale, a secondary ring between each pair
+    prim = [10, 15, 22.5, 33.75, 50.6, 75.9, 113.9]
+    radii, sizes = [], []
+    for k, r in enumerate(prim):
+        radii.append(r); sizes.append(SCALE[min(k // 2, 4)] * (1.0 if k < 6 else 1.2))
+        if k < len(prim) - 1:
+            radii.append(r * 1.225); sizes.append(sizes[-1])
+    text = "   ".join(POEM) + "   "
+    rings, pos = [], 0
+    for r, s in zip(radii, sizes):
+        cap = 2 * math.pi * r * 0.985
+        chunk = ""
+        while tw(chunk + text[pos % len(text)], s) < cap:
+            chunk += text[pos % len(text)]; pos += 1
+        pid = doc.uid("ring")
+        doc.defs.append(f'<path id="{pid}" d="{circle_d(cx, cy, r)}"/>')
+        rings.append((pid, s, chunk))
 
-    p = []
-    for i, line in enumerate(POEM):
-        y = 12.5 + i * 8.45
-        rise, amp, ph = (5.0 if i % 2 == 0 else 3.2), 1.1 + 0.5 * (i % 3), i * 1.3
-        pts = wave(C[0] + 3.5, y + rise / 2, C[1] - 3.5, y - rise / 2, amp, 1.1, ph, 13)
-        p.append(on_path(doc, pts, line, 2.55, PAPER, center=bool(i % 2)))
-    doc.layer("Poem_on_paths", "\n".join(p), FACES["caslon"][0])
+    def ring_layer(fill):
+        return "\n".join(f'<text font-size="{s:.2f}" fill="{fill}"><textPath href="#{pid}">{c}</textPath></text>'
+                         for pid, s, c in rings)
+
+    O = SCALE[9] * (2.0 if final else 1.8)
+    ox, oy = cx - O * 0.24, cy + O * 0.21  # optical centring of the italic o
+    o_glyph = f'<text x="{f(ox)}" y="{f(oy)}" font-size="{f(O)}" {FACES["playfair"][0]}>o</text>'
+    doc.defs.append(f'<clipPath id="inO">{o_glyph}</clipPath>')
+    ring_clip = ""
+    if final:  # keep a grid-aligned box clear for the caption
+        bw, bh = colx(2) + COL - M + 4, SCALE[2] + SCALE[1] + 12
+        doc.clip("free", f'<path clip-rule="evenodd" d="M0 0H200V200H0Z M{M - 4} {M - 4}h{f(bw)}v{f(bh)}h{f(-bw)}Z"/>')
+        ring_clip = ' clip-path="url(#free)"'
+    doc.layer("Rings", ring_layer(INK), FACES["caslon"][0] + ring_clip)
+    doc.layer("Big_o", o_glyph.replace("<text ", f'<text fill="{INK}" ', 1))
+    doc.layer("Rings_inverted", ring_layer(PAPER), f'{FACES["caslon"][0]} clip-path="url(#inO)"')
+    doc.layer("Focal_Point", f'<circle cx="{f(cx)}" cy="{f(cy)}" r="{SCALE[1] / 2}" fill="{RED}"/>')
+
+    if final:
+        cap = [big(M, M + SCALE[2], SCALE[2], "frost flowers", INK),
+               f'<line x1="{M}" y1="{M + SCALE[2] + 3}" x2="{colx(1) + COL}" y2="{M + SCALE[2] + 3}" '
+               f'stroke="{RED}" stroke-width="0.35"/>',
+               big(M, M + SCALE[2] + 3 + SCALE[1] + 1, SCALE[0], "a typo poem in concentric lines", INK)]
+        doc.layer("Caption", "\n".join(cap), FACES["playfair"][0])
     return doc
 
 
 if __name__ == "__main__":
     reference()
-    bands().save("frost-flowers_1_sketch-2.svg")
-    diagonal().save("frost-flowers_1_sketch-3.svg")
-    panes().save("frost-flowers_2_final.svg")
+    balance().save("frost-flowers_1_sketch-1.svg")
+    rhythm().save("frost-flowers_1_sketch-2.svg")
+    radial().save("frost-flowers_1_sketch-3.svg")
+    radial(final=True).save("frost-flowers_2_final.svg")
     print("ok")
