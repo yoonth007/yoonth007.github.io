@@ -5,9 +5,10 @@ typographic factors taught in the course (case, typeface, size,
 weight, width, outline), in compositions of our own:
 
   sketch 1   the student's own reference artwork, kept as is (text runs re-set)
-  sketch 2   "flow / ers" and "you": huge heavy words cropped into one mass
-  sketch 3   a huge bright "you" against a dark vertical "flowers"
-  final      sketch 2 refined; the poem's last two lines lit
+  sketch 2   white page, few groups: stepped lines, big F + raised italic f,
+             one large line, a rattling line, a caption up the left edge
+  sketch 3   a heavy y with lines flush to its contour, arcs, tone, strike
+  final      sketch 2 refined
 
 usage: python3 typo_poem.py <font_dir> <reference.svg> <out_dir>
   reference.svg = the reference .ai converted with `pdftocairo -svg`
@@ -311,93 +312,137 @@ def gradient_on_path(doc, pts, text, s0, s1):
 
 
 # ---------------------------------------------------------------------------
-# MASS — the key words of the poem, "flowers" and "you", set huge in a heavy
-# face, cropped by the page and overlapping into one dark block; the poem runs
-# across them on waves in a stronger, larger text face.
+# QUIET — white page, a handful of separate groups, each with one role:
+# a stepped group, a big letter pair, one large line, one small play, and a
+# caption. Few groups, generous space between them.
 # ---------------------------------------------------------------------------
-BLACK = "font-family=\"'PlayfairBlack', 'Playfair Display'\" font-style=\"italic\" font-weight=\"900\""
-TEXT = "font-family=\"'CaslonBold', 'Libre Caslon Text'\" font-style=\"italic\" font-weight=\"700\""
-_black = ImageFont.truetype(FONTDIR + "/PlayfairDisplay-BlackItalic.ttf", 1000)
-_text = ImageFont.truetype(FONTDIR + "/LibreCaslonText-BoldItalic.ttf", 1000)
-SHADE1, SHADE2, LINE = "#2a3036", "#363d45", "#aeb5bc"
+from PIL import Image, ImageDraw
+import numpy as np
+
+SERIF = "font-family=\"'EB Garamond', serif\""
+SERIF_I = "font-family=\"'EB Garamond', serif\" font-style=\"italic\""
+_gr = ImageFont.truetype(FONTDIR + "/EBGaramond-Regular.ttf", 1000)
+_gi = ImageFont.truetype(FONTDIR + "/EBGaramond-Italic.ttf", 1000)
+_bod = ImageFont.truetype(FONTDIR + "/BodoniModa-DisplayItalic.ttf", 1000)
+_heavy_file = FONTDIR + "/ArchivoStep7.ttf"
+LIGHT = "#d9d9d9"
 
 
-def tw_t(s, size):
-    return _text.getlength(s) * size / 1000
+def w_r(s, size):
+    return _gr.getlength(s) * size / 1000
 
 
-def word(x, y, size, txt, fill, ls=0, extra=""):
-    return (f'<text x="{f(x)}" y="{f(y)}" font-size="{size}" fill="{fill}" letter-spacing="{ls}" '
-            f'{BLACK}{extra}>{txt}</text>')
+def T2(x, y, size, txt, attrs=SERIF, fill=INK, anchor=None, extra=""):
+    a = f' text-anchor="{anchor}"' if anchor else ""
+    return f'<text x="{f(x)}" y="{f(y)}" font-size="{f(size)}" fill="{fill}" {attrs}{a}{extra}>{txt}</text>'
 
 
-def wave_line(doc, x0, y, x1, line, size, fill, amp=1.0, phase=0.0, center=False, shift=0.0):
-    pts = wave(x0, y + 0.8, x1, y - 0.8, amp, 1.2, phase, 16)
-    pid = doc.uid("wl")
-    doc.defs.append(f'<path id="{pid}" d="{smooth(pts)}"/>')
-    L = plen(pts)
-    s = min(size, size * L * 0.98 / tw_t(line, size))
-    off = (L - tw_t(line, s)) / 2 if center else min(shift, max(0.0, L - tw_t(line, s)))
-    return (f'<text font-size="{s:.2f}" fill="{fill}"><textPath href="#{pid}" '
-            f'startOffset="{off:.2f}">{line}</textPath></text>')
+def vertical(x, y, size, txt, attrs=SERIF, fill=INK):
+    """Text running up the page from (x, y)."""
+    return (f'<text x="0" y="0" font-size="{size}" fill="{fill}" {attrs} '
+            f'transform="translate({f(x)} {f(y)}) rotate(-90)">{txt}</text>')
 
 
 # ---------------------------------------------------------------------------
-# SKETCH 2 / FINAL — "flow / ers" + "you"
-# "flow" and "ers" in Playfair Black Italic, 150 mm, overlapping and cropped
-# on three sides: two dark tones fused into one mass. A bright "you" breaks
-# in from the lower right corner. The poem waves across the mass.
+# SKETCH 2 / FINAL — "F f"
 # ---------------------------------------------------------------------------
-def mass_flowers(final=False):
+def big_f(final=False):
     doc = Doc("frost flowers — final" if final else "frost flowers — sketch 2")
-    doc.layer("Ground", f'<rect width="200" height="200" fill="{NIGHT}"/>')
-    m = [word(-14, 112, 150, "flow", SHADE1, -4),
-         word(46, 214, 150, "ers", SHADE2, -4),
-         word(98, 204, 92, "you", FROST, -2)]
-    doc.layer("Mass", "\n".join(m))
+    doc.layer("Paper", f'<rect width="200" height="200" fill="{PAPER}"/>')
+    S = 3.3
 
-    p = []
-    for i, line in enumerate(POEM[:16]):
-        y = 16 + i * 6.6
-        p.append(wave_line(doc, 10, y, 192, line, 3.4, LINE, 1.0, i * 0.8, center=bool(i % 2)))
-    for k, line in enumerate(POEM[16:20]):
-        y = 130 + k * 6.6
-        p.append(wave_line(doc, 10, y, 96, line, 3.2, LINE, 0.9, k * 0.9))
-    lit = FROST if final else LINE
-    for k, line in enumerate(POEM[20:]):
-        y = 162 + k * 6.6
-        p.append(wave_line(doc, 10, y, 96, line, 3.2, lit, 0.9, k * 0.9 + 2))
-    doc.layer("Poem_on_paths", "\n".join(p), TEXT)
+    # 1 · stepped group: right-aligned, stepping down to the left
+    g1 = [T2(184 - i * 5.6, 20 + i * 5.4, S, line.rstrip(","), anchor="end")
+          for i, line in enumerate(POEM[:8])]
+    doc.layer("Stepped", "\n".join(g1))
+
+    # 2 · big roman F, small raised italic f, a word column, a hairline line
+    Fx, Fy, Fs = 26, 160, 100
+    Fw = w_r("F", Fs)
+    fx, fy, fs = Fx + Fw + 2, Fy - Fs * 0.42, 40
+    g2 = [T2(Fx, Fy, Fs, "F"), T2(fx, fy, fs, "f", FACES["bodoni"][0])]
+    col_x = fx + _bod.getlength("f") * fs / 1000 + 5
+    for k, wd in enumerate(POEM[11].rstrip(",").split()):  # I move from seat to seat to look
+        g2.append(T2(col_x, fy - fs * 0.6 + k * 4.0, 2.9, wd, fill="#444"))
+    rule_y = Fy - Fs * 0.25
+    g2.append(f'<line x1="{f(Fx + Fw + 1)}" y1="{f(rule_y)}" x2="184" y2="{f(rule_y)}" stroke="{INK}" stroke-width="0.2"/>')
+    g2.append(T2(Fx + Fw + 3, rule_y - 1.3, S, POEM[17] + " " + POEM[18], SERIF_I))
+    doc.layer("Letter_pair", "\n".join(g2))
+
+    # 3 · one large line
+    doc.layer("Large_line", T2(26, 180, 7.6, POEM[14]))
+    # 4 · one small play: a line that rattles (set twice, a hair apart)
+    hx, hy = 72, 193
+    doc.layer("Rattle", T2(hx + 0.7, hy + 0.35, 4.2, POEM[19], fill="#9a9a9a") + T2(hx, hy, 4.2, POEM[19]))
     if final:
-        doc.layer("Title", f'<text x="10" y="196" font-size="3.4" fill="{MIST}" {TEXT}>frost flowers</text>')
+        doc.layer("Aside", T2(184, 166, 2.9, POEM[15], SERIF_I, anchor="end", fill="#555"))
+
+    # 5 · caption up the left edge, with its hairline
+    cap = "friend, you walked the road beside me for so long, and now I am not even allowed to visit you."
+    doc.layer("Caption", vertical(11, 186, 2.6, cap) +
+              f'<line x1="13.2" y1="186" x2="13.2" y2="{f(186 - w_r(cap, 2.6))}" stroke="{INK}" stroke-width="0.15"/>')
     return doc
 
 
 # ---------------------------------------------------------------------------
-# SKETCH 3 — "you" against "flowers"
-# A huge bright "you" sunk into the bottom edge; behind it "flowers" runs up
-# the right edge in a dark tone, cropped top and bottom. The poem waves over
-# the upper half.
+# SKETCH 3 — "y"
 # ---------------------------------------------------------------------------
-def mass_you():
+def heavy_mask(ch, x, y, size, px=4):
+    im = Image.new("L", (200 * px, 200 * px), 0)
+    ImageDraw.Draw(im).text((x * px, y * px), ch, fill=255, anchor="ls",
+                            font=ImageFont.truetype(_heavy_file, int(size * px)))
+    return np.array(im) > 127, px
+
+
+def big_y():
     doc = Doc("frost flowers — sketch 3")
-    doc.layer("Ground", f'<rect width="200" height="200" fill="{NIGHT}"/>')
-    m = [f'<text x="0" y="0" font-size="118" fill="{SHADE2}" letter-spacing="-4" {BLACK} '
-         f'transform="translate(206 214) rotate(-90)">flowers</text>',
-         word(-10, 226, 200, "you", "#dfe3e6", -6)]
-    doc.layer("Mass", "\n".join(m))
-    p = []
-    for i, line in enumerate(POEM):  # starts ripple along a wave: no flush left edge
-        y = 11 + i * 4.85
-        p.append(wave_line(doc, 8, y, 156, line, 3.1, LINE, 0.8, i * 0.7,
-                           shift=22 + 20 * math.sin(i * 0.5)))
-    doc.layer("Poem_on_paths", "\n".join(p), TEXT)
+    doc.layer("Paper", f'<rect width="200" height="200" fill="{PAPER}"/>')
+    yx, yy, ys = 84, 146, 190
+    doc.layer("Big_y", f'<text x="{yx}" y="{yy}" font-size="{ys}" fill="{INK}" font-family="ArchivoStep7">y</text>')
+
+    # 1 · lines set flush against the y's left contour
+    mask, px = heavy_mask("y", yx, yy, ys)
+    S, g1 = 3.2, []
+    for i, line in enumerate(POEM[0:4] + POEM[9:14]):
+        by = 66 + i * 6.0
+        band = mask[int((by - S * 0.8) * px):int((by + 0.6) * px)].any(axis=0)
+        cols = np.nonzero(band)[0]
+        edge = (cols.min() / px if len(cols) else 186) - 3
+        g1.append(T2(edge, by, S, line, anchor="end"))
+    doc.layer("Along_the_y", "\n".join(g1))
+
+    # 2 · two lines curving like a pair of parentheses
+    cx, cy, r = 34, 30, 17
+    doc.defs.append(f'<path id="arcTop" d="M{cx - r} {cy} A{r} {r} 0 0 1 {cx + r} {cy}"/>')
+    doc.defs.append(f'<path id="arcBot" d="M{cx - r - 3} {cy + 3} A{r + 3} {r + 3} 0 0 0 {cx + r + 3} {cy + 3}"/>')
+    top_s = min(2.9, math.pi * r * 0.95 / (_gi.getlength(POEM[16]) / 1000))
+    bot_txt = POEM[17] + " on the glass."
+    bot_s = min(2.9, math.pi * (r + 3) * 0.95 / w_r(bot_txt, 1))
+    doc.layer("Arcs",
+              f'<text font-size="{top_s:.2f}" {SERIF_I} fill="{INK}"><textPath href="#arcTop" startOffset="50%" text-anchor="middle">{POEM[16]}</textPath></text>'
+              f'<text font-size="{bot_s:.2f}" {SERIF} fill="#555"><textPath href="#arcBot" startOffset="50%" text-anchor="middle">{bot_txt}</textPath></text>')
+
+    # 3 · a pale large word behind a small dark one
+    doc.layer("Tone", T2(98, 40, 32, "breath", SERIF_I, fill=LIGHT) + T2(128, 34, 5.2, "sigh", SERIF_I))
+
+    # 4 · the passengers, struck through
+    g4, sx, sy = [], 14, 148
+    group = [POEM[4], POEM[5], POEM[6]]
+    for k, line in enumerate(group):
+        y = sy + k * 5.2
+        g4.append(T2(sx, y, 3.0, line))
+        if k:
+            g4.append(f'<line x1="{sx}" y1="{f(y - 1.0)}" x2="{f(sx + w_r(line, 3.0))}" y2="{f(y - 1.0)}" '
+                      f'stroke="{INK}" stroke-width="0.25"/>')
+    g4.append(T2(sx, sy + 3 * 5.2 + 3, 3.0, POEM[7], SERIF_I))
+    doc.layer("Struck", "\n".join(g4))
+    doc.layer("Title", T2(186, 192, 3.0, "frost flowers", SERIF_I, anchor="end"))
     return doc
 
 
 if __name__ == "__main__":
     reference()  # sketch 1: the student's own work, as is
-    mass_flowers().save("frost-flowers_1_sketch-2.svg")
-    mass_you().save("frost-flowers_1_sketch-3.svg")
-    mass_flowers(final=True).save("frost-flowers_2_final.svg")
+    big_f().save("frost-flowers_1_sketch-2.svg")
+    big_y().save("frost-flowers_1_sketch-3.svg")
+    big_f(final=True).save("frost-flowers_2_final.svg")
     print("ok")
