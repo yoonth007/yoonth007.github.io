@@ -91,66 +91,6 @@ class Words:
             out += ch; w += cw; self.i += 1
 
 
-def type_ray(doc, out, words, rnd, x, y, ang, length, size, depth, colour, op, italic=False):
-    """One crystal arm set in type; side arms branch off at ~60 degrees."""
-    if length < 1.2 or size < 0.55:
-        return
-    ex, ey = x + math.cos(ang) * length, y + math.sin(ang) * length
-    pid = doc.uid("r")
-    doc.defs.append(f'<path id="{pid}" d="M{f(x)} {f(y)}L{f(ex)} {f(ey)}"/>')
-    txt = words.take(length, size, italic)
-    out.append(f'<text font-size="{size:.2f}" fill="{colour}" opacity="{op:.2f}"><textPath href="#{pid}">{txt}</textPath></text>')
-    if depth <= 0:
-        return
-    n = max(1, int(length / (size * 4.2)))
-    for k in range(1, n + 1):
-        t = k / (n + 1) + rnd.uniform(-0.04, 0.04)
-        bx, by = x + (ex - x) * t, y + (ey - y) * t
-        for s in (-1, 1):
-            if rnd.random() < 0.8:
-                bl = length * (1 - t) * rnd.uniform(0.35, 0.6)
-                type_ray(doc, out, words, rnd, bx, by, ang + s * math.radians(rnd.uniform(52, 66)),
-                         bl, size * 0.72, depth - 1, colour, op * 0.85, italic)
-
-
-def type_frost_flower(doc, out, words, rnd, cx, cy, r, size, colour, op, arms=None):
-    arms = arms or rnd.choice([5, 6, 6, 7, 8])
-    rot = rnd.uniform(0, 2 * math.pi)
-    for k in range(arms):
-        a = rot + k * 2 * math.pi / arms + rnd.uniform(-0.2, 0.2)
-        type_ray(doc, out, words, rnd, cx, cy, a, r * rnd.uniform(0.55, 1.1), size, 2, colour, op)
-
-
-def type_fern(doc, out, words, rnd, x, y, ang, length, size, colour, op):
-    """Feathery frost growing in from the window frame: a wandering spine of
-    type with short side arms of smaller type."""
-    step = 5.5
-    for i in range(int(length / step)):
-        ang += rnd.uniform(-0.16, 0.16)
-        rem = 1 - i * step / length
-        s = size * (0.55 + 0.45 * rem)
-        type_ray(doc, out, words, rnd, x, y, ang, step, s, 0, colour, op)
-        x, y = x + math.cos(ang) * step, y + math.sin(ang) * step
-        for side in (-1, 1):
-            if rnd.random() < 0.85:
-                type_ray(doc, out, words, rnd, x, y, ang + side * math.radians(rnd.uniform(48, 64)),
-                         (3 + 9 * rem) * rnd.uniform(0.6, 1.1), s * 0.75, 1 if rem > 0.55 else 0,
-                         colour, op * 0.85)
-
-
-def edge_frost(doc, out, words, rnd, colour, spacing=13):
-    """Seed ferns along all four edges, pointing inward; corners grow longest."""
-    seeds = []
-    for k in range(int(200 / spacing) + 1):
-        t = k * spacing + rnd.uniform(-3, 3)
-        seeds += [(t, 0, math.pi / 2), (t, 200, -math.pi / 2), (0, t, 0), (200, t, math.pi)]
-    for x, y, a in seeds:
-        corner = min(math.hypot(x - cx, y - cy) for cx in (0, 200) for cy in (0, 200))
-        length = 14 + 34 * max(0, 1 - corner / 90) + rnd.uniform(-4, 6)
-        type_fern(doc, out, words, rnd, x, y, a + rnd.uniform(-0.7, 0.7), length,
-                  rnd.uniform(1.25, 1.6), colour, rnd.uniform(0.45, 0.72))
-
-
 def clip_rect_minus(doc, cid, ell, holes=(), rect=(0, 0, 200, 200)):
     """Clip to the page minus an ellipse (the wiped petal) and clear rectangles."""
     x, y, w, h = rect
@@ -175,19 +115,20 @@ def window(final=False):
 
     doc.layer("Background", f'<rect width="200" height="200" fill="{BG}"/>')
 
-    # frost: yesterday's passengers' breath (lines 1-16) crystallised as type
+    # frosted glass: yesterday's passengers' breath (lines 1-16) set as plain,
+    # faint rows of type — denser toward the top and bottom of the window
     words = Words(POEM[:16], 3)
-    out = []
-    edge_frost(doc, out, words, rnd, FROST, 12 if final else 15)
-    # a few small blooms drifting toward the clearer middle of the glass
-    blooms = [(58, 50, 9), (150, 56, 8), (52, 156, 9), (150, 160, 10)]
-    if final:
-        blooms += [(96, 34, 5), (128, 176, 6), (32, 112, 5), (176, 96, 5)]
-    for cx, cy, r in blooms:
-        type_frost_flower(doc, out, words, rnd, cx, cy, r, 1.0, FROST, 0.5)
+    out, size, lead = [], 1.45, 3.1
+    y = 4.0
+    while y < 199:
+        edge = abs(y - 100) / 100
+        op = 0.06 + 0.32 * edge ** 1.6
+        out.append(f'<text x="4" y="{f(y)}" font-size="{size}" fill="{FROST}" opacity="{op:.2f}">'
+                   f'{words.take(192, size)}</text>')
+        y += lead
     holes = [(7, 5, 42, 17), (110, 178, 86, 21)] if final else [(7, 5, 38, 12), (114, 180, 82, 15)]
     clip_rect_minus(doc, "wipe", WIPE, holes)
-    doc.layer("Frost_Type", "\n".join(out), f'{ROMAN} clip-path="url(#wipe)"')
+    doc.layer("Frosted_Glass", "\n".join(out), f'{ROMAN} clip-path="url(#wipe)"')
 
     cx, cy, rx, ry = WIPE
     # the edge of the wiped petal: a single hairline (line element)
@@ -230,7 +171,7 @@ def window(final=False):
 
 # ---------------------------------------------------------------------------
 # SKETCH 2 — "met in secret overnight": passengers' words drift in from the
-# edges along lines and pile into one bloom of letters.
+# edges and pile into one loose cluster of letters.
 # ---------------------------------------------------------------------------
 def gathering():
     doc = Doc("frost flowers — sketch 2")
@@ -247,27 +188,21 @@ def gathering():
               ("hairdressers", (196, 132), 3.4, True), ("salesmen", (196, 104), 4.6, False),
               ("housemaids", (156, 196), 3.6, True), ("the jobless", (196, 176), 3.2, False),
               ("their breath", (54, 4), 3.0, True), ("and their sighs", (196, 8), 2.8, True)]
-    lines, words = [], []
+    words = []
     for w, (sx, sy), s, it in people:
         # curved route to the meeting point
         mx, my = (sx + C[0]) / 2 + rnd.uniform(-30, 30), (sy + C[1]) / 2 + rnd.uniform(-30, 30)
         pid = doc.uid("w")
         doc.defs.append(f'<path id="{pid}" d="M{f(sx)} {f(sy)}Q{f(mx)} {f(my)} {f(C[0])} {f(C[1])}"/>')
-        lines.append(f'<use href="#{pid}"/>')
         words.append(f'<text font-size="{s}" fill="{INK}" {ITAL if it else ROMAN}>'
                      f'<textPath href="#{pid}" startOffset="2">{w}</textPath></text>')
-    doc.layer("Routes", "\n".join(lines), f'fill="none" stroke="{INK}" stroke-width="0.12" opacity="0.45"')
     doc.layer("Passengers", "\n".join(words))
 
     # the bloom: letters of breath / sighs crowding the meeting point
     bloom, letters = [], "breathsighfrostflowers"
-    rot = rnd.uniform(0, math.pi / 3)
     for i in range(260):
         r = 2.5 + abs(rnd.gauss(0, 11)) + (rnd.random() < 0.12) * rnd.uniform(6, 18)
         a = rnd.uniform(0, 2 * math.pi)
-        # six-fold bias so the cloud reads as a crystal
-        if rnd.random() < 0.75:
-            a = rot + round((a - rot) / (math.pi / 3)) * (math.pi / 3) + rnd.gauss(0, 0.07 + 2 / (r + 6))
         x, y = C[0] + math.cos(a) * r, C[1] + math.sin(a) * r
         s = max(0.9, 4.0 - r * 0.11 + rnd.uniform(-0.6, 0.6))
         ch = letters[i % len(letters)]
@@ -285,28 +220,17 @@ def gathering():
 
 # ---------------------------------------------------------------------------
 # SKETCH 3 — "windows": four bus-window panes; big letters f / l·owers / y·o·u,
-# poem on wavy lines; frost now set in type, not drawn.
+# poem on wavy lines.
 # ---------------------------------------------------------------------------
 def panes():
     doc = Doc("frost flowers — sketch 3")
-    rnd = random.Random(9)
-    INK, PAPER, FD, FL = "#1a1a1a", "#ffffff", "#ffffff", "#8f9aa1"
+    INK, PAPER = "#1a1a1a", "#ffffff"
     A, B, C, D = (0, 52), (52, 84), (84, 150), (150, 200)
     for k, (a, b) in zip("ABCD", (A, B, C, D)):
         doc.defs.append(f'<clipPath id="clip{k}"><rect x="{a}" y="0" width="{b-a}" height="200"/></clipPath>')
     doc.layer("Background", f'<rect width="200" height="200" fill="{PAPER}"/>'
               f'<rect x="{A[0]}" width="{A[1]-A[0]}" height="200" fill="{INK}"/>'
               f'<rect x="{C[0]}" width="{C[1]-C[0]}" height="200" fill="{INK}"/>')
-
-    words = Words(POEM[:10], 1)
-    for k, col, seeds in (("A", FD, [(10, 186, 22, 1.4), (46, 150, 10, 1.0), (6, 120, 9, 0.9)]),
-                          ("B", FL, [(80, 10, 16, 1.2), (56, 70, 6, 0.8)]),
-                          ("C", FD, [(150, 196, 20, 1.2), (86, 4, 12, 1.0), (148, 4, 10, 0.9)]),
-                          ("D", FL, [(198, 150, 14, 1.1), (160, 196, 10, 1.0)])):
-        out = []
-        for cx, cy, r, s in seeds:
-            type_frost_flower(doc, out, words, rnd, cx, cy, r, s, col, 0.55)
-        doc.layer(f"Frost_{k}", "\n".join(out), f'{ROMAN} clip-path="url(#clip{k})"')
 
     big = [f'<g clip-path="url(#clipA)"><text x="-30" y="168" font-size="235" fill="{PAPER}">f</text>'
            f'<text x="4" y="40" font-size="6.2" fill="{PAPER}">frost</text></g>',
