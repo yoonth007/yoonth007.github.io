@@ -14,5 +14,5 @@
 <path id="stem_upper" d="M275 98 L365 98 L365 178 L275 178 Z" fill="#fafafa" stroke="#2b2b30" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
 <path id="cap" d="M225 286 L225 248 Q225 222 251 222 L389 222 Q415 222 415 248 L415 286 Z" fill="#fafafa" stroke="#2b2b30" stroke-width="2.8" stroke-linejoin="round" stroke-linecap="round"/>
 <path id="cap_ring" d="M225 286 L415 286 L415 292 L225 292 Z" fill="#ffffff" stroke="#2b2b30" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="round"/>
-<path id="pump_head" d="M190 54 L418 54 Q432 54 432 68 L432 98 L232 98 C226 98 224 85 214 85 L188 85 Q180 85 180 78 L180 62 Q180 54 190 54 Z" fill="#fafafa" stroke="#2b2b30" stroke-width="2.8" stroke-linejoin="round" stroke-linecap="round"/>
+<path id="pump_head" d="M235 54 L401 54 Q415 54 415 68 L415 98 L264 98 C258 98 256 85 248 85 L233 85 Q225 85 225 78 L225 62 Q225 54 235 54 Z" fill="#fafafa" stroke="#2b2b30" stroke-width="2.8" stroke-linejoin="round" stroke-linecap="round"/>
 </svg>
