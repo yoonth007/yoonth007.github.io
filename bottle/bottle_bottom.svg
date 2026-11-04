@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="880" viewBox="0 0 640 880">
+<g id="Bottle">
+<path id="outline" d="M197 261.18 L443 261.18 Q543 261.18 543 361.18 L543 518.82 Q543 618.82 443 618.82 L197 618.82 Q97 618.82 97 518.82 L97 361.18 Q97 261.18 197 261.18 Z" fill="none" stroke="#2b2b30" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/>
+<path id="arch_edge_0" d="M262 261.18 L262 377.49 Q262 393.49 246 393.49 L97 393.49" fill="none" stroke="#2b2b30" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+<path id="arch_edge_1" d="M378 261.18 L378 377.49 Q378 393.49 394 393.49 L543 393.49" fill="none" stroke="#2b2b30" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+<path id="arch_edge_2" d="M262 618.82 L262 502.51 Q262 486.51 246 486.51 L97 486.51" fill="none" stroke="#2b2b30" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+<path id="arch_edge_3" d="M378 618.82 L378 502.51 Q378 486.51 394 486.51 L543 486.51" fill="none" stroke="#2b2b30" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+<path id="foot_pad_0" d="M164.00 300.47 L201.00 300.47 Q219.00 300.47 219.00 318.47 L219.00 341.01 Q219.00 359.01 201.00 359.01 L164.00 359.01 Q146.00 359.01 146.00 341.01 L146.00 318.47 Q146.00 300.47 164.00 300.47 Z" fill="none" stroke="#2b2b30" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+<path id="foot_pad_1" d="M164.00 520.99 L201.00 520.99 Q219.00 520.99 219.00 538.99 L219.00 561.53 Q219.00 579.53 201.00 579.53 L164.00 579.53 Q146.00 579.53 146.00 561.53 L146.00 538.99 Q146.00 520.99 164.00 520.99 Z" fill="none" stroke="#2b2b30" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+<path id="foot_pad_2" d="M439.00 300.47 L476.00 300.47 Q494.00 300.47 494.00 318.47 L494.00 341.01 Q494.00 359.01 476.00 359.01 L439.00 359.01 Q421.00 359.01 421.00 341.01 L421.00 318.47 Q421.00 300.47 439.00 300.47 Z" fill="none" stroke="#2b2b30" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+<path id="foot_pad_3" d="M439.00 520.99 L476.00 520.99 Q494.00 520.99 494.00 538.99 L494.00 561.53 Q494.00 579.53 476.00 579.53 L439.00 579.53 Q421.00 579.53 421.00 561.53 L421.00 538.99 Q421.00 520.99 439.00 520.99 Z" fill="none" stroke="#2b2b30" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+</g>
+</svg>
