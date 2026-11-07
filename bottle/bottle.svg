@@ -4,6 +4,9 @@
 <path id="shoulder_parting_line" d="M 196 330 L 444 330" fill="none" stroke="#2b2b30" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
 <path id="foam_parting_line" d="M108.00 642.00 C120.00 626.00 145.00 616.00 172.50 615.20 C195.00 614.00 220.00 620.00 241.20 631.30 C260.00 618.00 290.00 611.00 320.00 611.00 C350.00 611.00 380.00 618.00 398.80 631.30 C420.00 620.00 445.00 614.00 467.50 615.20 C495.00 616.00 520.00 626.00 532.00 642.00" fill="none" stroke="#2b2b30" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
 </g>
+<g id="Label">
+<path id="label" d="M458.28 534.00 C458.28 551.16 440.09 565.07 417.65 565.07 C404.99 565.07 393.68 560.64 386.23 553.70 C385.58 553.10 384.97 552.48 384.38 551.84 C382.97 552.86 381.51 553.85 379.98 554.82 C361.84 566.26 335.65 573.44 306.52 573.44 C251.74 573.44 207.33 548.03 207.33 516.68 C207.33 504.95 213.55 494.05 224.20 485.00 C210.92 477.13 202.55 465.59 202.55 452.74 C202.55 428.98 231.17 409.72 266.48 409.72 C290.06 409.72 310.66 418.31 321.75 431.09 C333.97 426.22 347.90 423.46 362.68 423.46 C411.19 423.46 450.52 453.16 450.52 489.79 C450.52 497.40 448.82 504.71 445.69 511.52 C453.45 517.17 458.28 525.16 458.28 534.00 Z" fill="none" stroke="#2b2b30" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+</g>
 <g id="Pump">
 <path id="stem_lower" d="M 283 178 L 357 178 L 357 222 L 283 222 Z" fill="none" stroke="#2b2b30" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
 <path id="stem_upper" d="M 275 98 L 365 98 L 365 178 L 275 178 Z" fill="none" stroke="#2b2b30" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
